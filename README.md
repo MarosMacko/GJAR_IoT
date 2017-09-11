@@ -1,4 +1,4 @@
-## GJAR IoT Project 2017/18
+# GJAR IoT Project 2017/18
 
 ### Page in construction
 
@@ -6,6 +6,7 @@
 
 ### Markdown setup
 
+For reference, see [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 ```markdown
 Syntax highlighted code block
