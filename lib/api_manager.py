@@ -14,7 +14,7 @@ def call(version, request, data):
             # m = importlib.import_module("APIv" + version)
             m = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(m)
-            apis[version] = m.api
+            apis[version] = m.api()
         else:
             abort(404)
     return apis[version].call(request, data)

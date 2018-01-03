@@ -30,5 +30,8 @@ class api():
                 }
     def __init__(self,):
         pass
-    def call(self, request):
-        return jsonify({"module": __name__})
+    def call(self, req, data):
+        r = {"module": __name__, "available": req in self.schemes, "data": data}
+        if req in self.schemes:
+            r["is_valid"] = is_valid(self.schemes[req], data)
+        return jsonify(r)
