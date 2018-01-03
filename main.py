@@ -13,6 +13,6 @@ def index():
     return "Welcome!"
 
 
-@app.route("/api/v<float:version>/<request>")
-def api_call(version, request):
-    return api_manager.call(version, request)
+@app.route("/api/v<float:version>/<req>", methods=["POST"])
+def api_call(version, req):
+    return api_manager.call(version, req.lower(), request.json)

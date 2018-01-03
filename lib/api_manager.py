@@ -6,11 +6,11 @@ from flask import jsonify, abort
 apis = {}
 
 
-def call(version, request):
+def call(version, request, data):
     if version not in apis:
         if os.path.isfile("lib/APIv" + str(version) + ".py"):
             m = importlib.import_module("lib.APIv" + str(version), "")
             apis[version] = m.api
         else:
             abort(404)
-    return apis[version].call(request)
+    return apis[version].call(request, data)
