@@ -26,6 +26,16 @@ class api():
                 "view": {
                     "room": 0,
                     "time-from": "", # [01]
+                    "time-to": "", # [01]
+                    "data": [""]
+                },
+                "auth": {
+                    "user": "",
+                    "password": ""
+                },
+                "command": {
+                    "token": "",
+                    "command": ""
                 }
                 }
     def __init__(self,):
