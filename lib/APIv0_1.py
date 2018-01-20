@@ -43,5 +43,5 @@ class api():
     def call(self, req, data):
         r = {"module": __name__, "available": req in self.schemes, "data": data}
         if req in self.schemes:
-            r["is_valid"] = is_valid(self.schemes[req], data)
+            r["is_valid"] = is_valid(self.schemes[req], data, True)
         return jsonify(r)
