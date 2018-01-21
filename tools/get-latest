@@ -1,0 +1,7 @@
+#!/bin/bash
+
+apis=$(ls "$(dirname $0)/../lib" | egrep "APIv[0-9_]+\.py")
+lat=$(echo "$apis" | sort | tail -n1)
+lat=${lat#APIv}
+lat=${lat%.py}
+echo "$lat"
