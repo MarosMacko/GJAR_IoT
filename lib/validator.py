@@ -15,7 +15,7 @@ def is_valid(scheme, data, strict=False):
         if not sch.intersection(dat).issubset(sch):
             return False
     elif type(scheme) in (list, tuple):
-        # scheme must contain 1 element
+        # scheme depth must be 1
         t = type(scheme[0])
         if t in (dict, list, tuple):
             for d in data:
