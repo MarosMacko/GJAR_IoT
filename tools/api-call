@@ -52,7 +52,7 @@ if [ -r $dfile ]
 then
 data=$(cat $dfile)
 else
-echo -e "\033[0;31mNo such file.\033[0m"
+echo -e "${clred}No such file.${clreset}"
 exit 1
 fi
 fi
