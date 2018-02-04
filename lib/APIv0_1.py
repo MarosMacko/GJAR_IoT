@@ -1,8 +1,8 @@
 from flask import jsonify
 
 from lib.validator import is_valid
-from helper import *
-from .. import db
+from lib.helper import *
+import db
 
 class api():
     schemes = { "connect": {"id": 0},
@@ -43,16 +43,16 @@ class api():
     def call(self, req, data):
         if req in self.schemes and hasattr(self, "api_" + req):
             if is_valid(self.schemes[req], data, True):
-                return getattr(self, "api_" + req)(self, data)
+                return getattr(self, "api_" + req)(data)
             else:
                 return jsonify(API_fatal("Invalid request"))
         else:
             return jsonify(API_fatal("Unknown request"))
 
     def api_connect(self, data):
-        if data.id == 0:
+        if data["id"] == 0:
             return jsonify(API_error("New device. This API currently does not support creating new devices."))
-        return jsonify(API_response(id=data.id))
+        return jsonify(API_response(id=data["id"]))
 
     def api_data(self, data):
         return jsonify(API_response(msg="THX"))
