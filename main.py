@@ -19,3 +19,6 @@ def api_call(version, req):
         return api_manager.call(version, req.lower(), request.get_json())
     else:
         return abort(400)
+
+if __name__ == '__main__':
+    app.run()
