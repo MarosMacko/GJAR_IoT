@@ -10,11 +10,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Welcome!"
+    with open("/var/www/static/index.html", "rb") as f:
+        return f.read()
 
 
 @app.route("/api/v<version>/<req>", methods=["POST"])
 def api_call(version, req):
+    #return "Routing " + version + " req " + req
     if request.is_json:
         return api_manager.call(version, req.lower(), request.get_json())
     else:
