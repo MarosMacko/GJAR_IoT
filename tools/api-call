@@ -41,6 +41,7 @@ done
 if [ -z ${query+x} ]
 then
 echo -e "Missing query. Use ${clred}-q=query${clreset} argument."
+echo -e "Use $(basename $0) --help"
 exit 1
 fi
 
