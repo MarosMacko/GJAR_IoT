@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import os
-from flask import Flask, request, abort
+from flask import Flask, request, abort, send_from_directory
 
 from lib import api_manager
 
@@ -13,6 +13,9 @@ def index():
     with open("/var/www/static/index.html", "rb") as f:
         return f.read()
 
+@app.route("/static/<path:path>")
+def static(path):
+    return send_from_directory("/var/www/static/", path)
 
 @app.route("/api/v<version>/<req>", methods=["POST"])
 def api_call(version, req):
