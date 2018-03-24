@@ -1,4 +1,4 @@
-import sqlite3
+from flask.ext.mysql import MySQL
 
 from flask import g
 
@@ -12,3 +12,9 @@ def get_db():
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = connect_db()
     return g.sqlite_db
+
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()

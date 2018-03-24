@@ -5,7 +5,6 @@ from flask import jsonify, abort
 
 apis = {}
 
-
 def call(version, request, data):
     if version not in apis:
         print("lib/APIv" + version + ".py", "./lib")

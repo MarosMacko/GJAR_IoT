@@ -1,8 +1,7 @@
-from flask import jsonify
+from flask import jsonify, g
 
 from lib.validator import is_valid
 from lib.helper import *
-import db
 
 class api():
     schemes = { "connect": {"id": 0},
