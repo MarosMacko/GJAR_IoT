@@ -40,5 +40,5 @@ def api_call(version, req):
 
 if __name__ == '__main__':
     with app.app_context():
-        mysql.connect().cursor().execute("insert into logs values ({}, null, {})".format(time.strftime("%Y-%m-%d %H:%M:%S"), "Starting server."))
+        mysql.connect().cursor().execute("insert into logs values ('{}', null, '{}');".format(time.strftime("%Y-%m-%d %H:%M:%S"), "Starting server."))
     app.run()
