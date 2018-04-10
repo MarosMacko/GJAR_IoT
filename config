@@ -1,7 +1,7 @@
 # server
 host="0.0.0.0"
-port=80
+port=8888
 
 # database
-type="sqlite"
-file="gjar-iot.db"
+type="mysql"
+file=""
