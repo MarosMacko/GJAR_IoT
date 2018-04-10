@@ -1,3 +1,4 @@
+import time
 from flask import jsonify, g
 
 from lib.validator import is_valid
@@ -42,8 +43,6 @@ class api():
     def __init__(self,):
         pass
     def call(self, req, data):
-        c = db.get_db().cursor()
-        c.execute("INSERT INTO iot.logs VALUES ('{}', null, '{}');".format(time.strftime("%Y-%m-%d %H:%M:%S"), "Request {}: {}".format(req, data)))
         if req in self.schemes and hasattr(self, "api_" + req):
             if is_valid(self.schemes[req], data, True):
                 return getattr(self, "api_" + req)(data)
@@ -53,6 +52,10 @@ class api():
             return jsonify(API_fatal("Unknown request"))
 
     def api_connect(self, data):
+        con = db.get_db()
+        c = con.cursor()
+        c.execute("INSERT INTO logs VALUES ('{}', null, 'TEST');".format(time.strftime("%Y-%m-%d %H:%M:%S")))
+        con.commit()
         if data["id"] == 0:
             return jsonify(API_error("New device. This API currently does not support creating new devices."))
         return jsonify(API_response(id=data["id"]))

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os, time
+from getpass import getpass
 from flask import Flask, request, abort, send_from_directory, g
 
 from lib import api_manager
@@ -10,7 +11,7 @@ app = Flask(__name__, static_url_path='/static', static_folder='/var/www/static'
 
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'iot'
-app.config['MYSQL_DATABASE_PASSWORD'] = input("Enter database password: ")
+app.config['MYSQL_DATABASE_PASSWORD'] = getpass("Enter database password: ")
 app.config['MYSQL_DATABASE_DB'] = 'iot'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
