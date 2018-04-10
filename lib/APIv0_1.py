@@ -43,7 +43,7 @@ class api():
         pass
     def call(self, req, data):
         c = db.get_db().cursor()
-        c.execute("INSERT INTO iot.logs VALUES ({}, null, {});".format(time.strftime("%Y-%m-%d %H:%M:%S"), "Request {}: {}".format(req, data)))
+        c.execute("INSERT INTO iot.logs VALUES ('{}', null, '{}');".format(time.strftime("%Y-%m-%d %H:%M:%S"), "Request {}: {}".format(req, data)))
         if req in self.schemes and hasattr(self, "api_" + req):
             if is_valid(self.schemes[req], data, True):
                 return getattr(self, "api_" + req)(data)
