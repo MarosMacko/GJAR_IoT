@@ -49,7 +49,7 @@ os_timer_t timLDR;
 // Funkcia, kt sa spusti ked nastane timer pre DHT22
 void getDHT22Data(void *pArg)
 {
-  sCMD.HUM = true;      // nastavi flag pre citanie Humanity
+  sCMD.HUM = true;      // nastavi flag pre citanie vlhkosti
 }
 //----------------------------------------------------------------
 //funkcia, kt sa spusti ked nastane timer pre LDR
