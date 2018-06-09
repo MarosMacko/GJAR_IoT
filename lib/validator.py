@@ -2,20 +2,24 @@ from collections import Iterable
 
 class Item:
     __slots__ = ("name", "dtype", "contents")
+    # dtype = list => type(contents) = type
+    # dtype = dict => type(contents) = Scheme
     def __init__(self, name, dtype, contents=None):
         self.name = name
         self.dtype = dtype
         self.contents = contents
+    def __repr__(self):
+        return "Item({}, {}, {})".format(self.name, self.dtype.__name__, self.contents)
 
 class InvalidArgTypeException(Exception):
-    def __init__(self, arg, etype, atype):
-        if type(etype) is type:
-            t = etype.__name__
-        elif isinstance(etype, Iterable):
-            t = " or ".join((i.__name__ for i in etype))
+    def __init__(self, arg, expected_type, actual_type):
+        if type(expected_type) is type:
+            t = expected_type.__name__
+        elif isinstance(expected_type, Iterable):
+            t = " or ".join((i.__name__ for i in expected_type))
         else:
-            raise InvalidArgTypeException("etype", (type, Iterable), type(etype))
-        super().__init__(self, "Argument {} must be of type {}, or subtype; {} was given instead.".format(repr(arg), t, atype.__name__))
+            raise InvalidArgTypeException("expected_type", (type, Iterable), type(expected_type))
+        super().__init__(self, "Argument {} must be of type {}, or subtype; {} was given instead.".format(repr(arg), t, actual_type.__name__))
 
 class Scheme:
     __slots__ = ("required", "optional")
@@ -44,33 +48,45 @@ class Scheme:
         else:
             raise InvalidArgTypeException("item", (Item, Scheme), type(item))
 
-
-# legacy
-def is_valid(scheme, data, strict=False):
-    """Validate data structure in compliance with the scheme."""
-    if type(scheme) == dict:
-        for s in scheme:
-            if s in data:
-                if type(scheme[s]) == type(data[s]):
-                    if type(scheme[s]) in (dict, list, tuple) and not is_valid(scheme[s], data[s], strict):
-                        return False
-                else:
-                    return False
-            elif strict:
-                return False
-        sch = set(scheme) # !!!
-        dat = set(data)
-        if not sch.intersection(dat).issubset(sch):
-            return False
-    elif type(scheme) in (list, tuple):
-        # scheme depth must be 1
-        t = type(scheme[0])
-        if t in (dict, list, tuple):
-            for d in data:
-                if t != type(d) or not is_valid(t, d, strict):
-                    return False
+    def get_by_name(self, item, req):
+        if req:
+            for i in self.required:
+                if i.name == item:
+                    return i
         else:
-            for d in data:
-                if t != type(d):
-                    return False
+            for i in self.optional:
+                if i.name == item:
+                    return i
+        return None
+
+    def __repr__(self):
+        return "Scheme(required={}, optional={})".format(self.required, self.optional)
+
+def _is_valid_type(item, data):
+    if not item.dtype == type(data):
+            return False
+    if item.dtype == list:
+        for j in data:
+            if not item.contents == type(j):
+                return False
+    elif item.dtype == dict:
+        if not is_valid(item.contents, data):
+            return False
+    return True
+
+def is_valid(scheme, data):
+    checked = set()
+    for i in scheme.required:
+        if not i.name in data:
+            return False
+        if not _is_valid_type(i, data[i.name]):
+            return False
+        checked.update(i.name)
+    for i in data:#.keys():
+        if not i in checked:
+            item = scheme.get_by_name(i, False)
+            if not item:
+                return False
+            if not _is_valid_type(item, data[i]):
+                return False
     return True
