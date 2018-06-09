@@ -1,3 +1,11 @@
+################################################################
+##                                                            ##
+##                           LEGACY                           ##
+##                                                            ##
+##                      REWRITTEN AT BOTTOM                   ##
+##                                                            ##
+################################################################
+
 import time
 from flask import jsonify, g
 
@@ -71,3 +79,15 @@ class api():
     def api_alive(self, data):
         return jsonify(API_response(command="PONG"))
 
+
+################################################################
+##                                                            ##
+##                           LEGACY                           ##
+##                                                            ##
+##                       REWRITTEN BELOW                      ##
+##                                                            ##
+################################################################
+
+class api():
+    def call(self, *args):
+        return jsonify(API_fatal("Legacy API version."))
