@@ -19,13 +19,12 @@ class api():
         self.schemes["alive"] = Scheme([Item("token", str)])
 
         self.schemes["view"] = Scheme([Item("room", int)])
-        with self.schemes["view"] as s:
-            s.add(Item("time", dict, Scheme(None, [
-                Item("time", str),
-                Item("time-from", str),
-                Item("time-to", str)
-            ])), False)
-            s.add(Item("data", list, str))
+        self.schemes["view"].add(Item("time", dict, Scheme(None, [
+            Item("time", str),
+            Item("time-from", str),
+            Item("time-to", str)
+        ])), False)
+        self.schemes["view"].add(Item("data", list, str))
 
         self.schemes["auth"] = Scheme([Item("user", str), Item("password", str)])
         self.schemes["command"] = Scheme([Item("token", str), Item("command", str)])
