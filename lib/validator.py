@@ -81,8 +81,9 @@ def is_valid(scheme, data):
             return False
         if not _is_valid_type(i, data[i.name]):
             return False
-        checked.update(i.name)
+        checked.update(set((i.name,)))
     for i in data:#.keys():
+        print(i, checked, i in checked)
         if not i in checked:
             item = scheme.get_by_name(i, False)
             if not item:
