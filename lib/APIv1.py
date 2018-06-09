@@ -31,7 +31,7 @@ class api():
 
     def call(self, req, data):
         if req in self.schemes and hasattr(self, "api_" + req):
-            if is_valid(self.schemes[req], data, True):
+            if is_valid(self.schemes[req], data):
                 return getattr(self, "api_" + req)(data)
             else:
                 return jsonify(API_fatal("Invalid request."))
