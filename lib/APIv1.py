@@ -39,16 +39,15 @@ class api():
             return jsonify(API_fatal("Unknown request."))
 
     def api_connect(self, data):
-        con = db.get_db()
-        c = con.cursor()
-        c.execute("INSERT INTO logs VALUES ('{}', null, 'TEST');".format(time.strftime("%Y-%m-%d %H:%M:%S")))
-        con.commit()
+        db.insert_raw("logs", "'{}', null, 'Connection attempt: {}'".format(time.strftime("%Y-%m-%d %H:%M:%S"), data["id"]))
 
         if data["id"] == 0:
+            # TODO: Register a DEV in waiting
             return jsonify(API_error("New device. This API currently does not support creating new devices."))
         return jsonify(API_response(id=data["id"]))
 
     def api_data(self, data):
+        # TODO: Check if DEV is authenticated and record data
         return jsonify(API_response(msg="THX."))
 
     def api_error(self, data):
@@ -57,5 +56,6 @@ class api():
         return jsonify(API_response(msg="I hear ya."))
 
     def api_alive(self, data):
+        # TODO: Check the database to see if there are any pending command to be sent to the device.
         return jsonify(API_response(command="PONG"))
 
