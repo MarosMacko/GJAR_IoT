@@ -1,3 +1,4 @@
+import time
 from flaskext.mysql import MySQL
 
 from flask import g, current_app as app
@@ -30,3 +31,29 @@ def insert_raw(table, values):
     c = con.cursor()
     c.execute("INSERT INTO f{table} VALUES ({});".format(values))
     con.commit()
+
+def select(table, col, where=None):
+    con = get_db()
+    c = con.cursor()
+    q = "SELECT "
+    if isinstance(col, str):
+        q += col
+    else:
+        q += ",".join(col)
+    q += " FROM " + table
+    if where:
+        q += " WHERE " + where
+    q += ";"
+    c.execute(q)
+    return c.fetchall()
+
+def query(q):
+    con = get_db()
+    c = con.cursor()
+    c.execute(q)
+    con.commit()
+    return c.fetchall()
+
+
+def format_time():
+    return time.strftime("%Y-%m-%d %H:%M:%S")
