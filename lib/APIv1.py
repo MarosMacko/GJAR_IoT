@@ -81,7 +81,7 @@ class api():
             d += data["humidity"]
         else:
             d += "null"
-        db.insert_raw("data", f"{dev_id}, {room_number}, {t}, {d}")
+        db.insert_raw("data", "{}, {}, {}, {}".format(dev_id, room_number, t, d))
         return jsonify(API_message())
 
     def api_error(self, data):

@@ -23,13 +23,13 @@ def insert(table, values):
     raise Exception("Untested function.")
     con = get_db()
     c = con.cursor()
-    c.execute("INSERT INTO f{table} VALUES ({});".format(",".join([repr(v) for v in values])))
+    c.execute("INSERT INTO {} VALUES ({});".format(table, ",".join([repr(v) for v in values])))
     con.commit()
 
 def insert_raw(table, values):
     con = get_db()
     c = con.cursor()
-    c.execute("INSERT INTO f{table} VALUES ({});".format(values))
+    c.execute("INSERT INTO {} VALUES ({});".format(table, values))
     con.commit()
 
 def select(table, col, where=None):
