@@ -104,8 +104,11 @@ class api():
                 if len(cmd) == 2 and cmd[1].isdigit():
                     for i in range(len(self.candidates)):
                         if self.candidates[i][0] == cmd[1]:
-                            q = "UPDATE devices SET token={} WHERE dev_id={};".format(self.candidates[i][1], self.candidates[i][0])
-                            return jsonify(API_response(response=db.query(q)))
+                            if db.select("devices", "*", "dev_id={}".format(cmd[1])):
+                                db.query("update devices set token='{}' where dev_id={};".format(self.candidates[i][1], cmd[1]))
+                            else:
+                                db.insert_raw("devices", "{}, {}, null, null".format(self.candidates[i][0], self.candidates[i][1]))
+                            return jsonify(API_response())
                     return jsonify(API_error("No such candidate dev_id."))
                 else:
                     return jsonify(API_fatal("Invalid query."))
