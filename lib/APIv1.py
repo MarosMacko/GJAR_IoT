@@ -103,7 +103,7 @@ class api():
             elif cmd[0] == "approve":
                 if len(cmd) == 3 and cmd[1].isdigit() and cmd[2].isdigit():
                     for i in range(len(self.candidates)):
-                        if self.candidates[i][0] == cmd[1]:
+                        if self.candidates[i][0] == int(cmd[1]):
                             if db.select("devices", "*", "dev_id={}".format(cmd[1])):
                                 db.query("update devices set token='{}' where dev_id={};".format(self.candidates[i][1], cmd[1]))
                             else:
@@ -121,8 +121,11 @@ class api():
 
     def get_last(self):
         d = db.select("devices", "dev_id")
-        return max(d, key=lambda x: x[0])[0]
+        if d:
+            return max(d, key=lambda x: x[0])[0]
+        else:
+            return 0
 
     def create_token(self):
-        return sha256((db.format_time() + str(randint(0,100)) + self.__name__).encode()).hexdigest()
+        return sha256((db.format_time() + str(randint(0,100)) + repr(self)).encode()).hexdigest()
 
