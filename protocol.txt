@@ -1,0 +1,48 @@
+SCHEME: connect
+	 REQUIRED
+		 id : int
+	 OPTIONAL
+		 token : str
+SCHEME: data
+	 REQUIRED
+		 token : str
+	 OPTIONAL
+		 data : object
+			 REQUIRED
+				 time : str
+			 OPTIONAL
+				 temperature : float
+				 humidity : float
+				 noise : int
+SCHEME: error
+	 REQUIRED
+		 id : int
+		 level : str
+	 OPTIONAL
+		 token : str
+		 error : str
+SCHEME: alive
+	 REQUIRED
+		 token : str
+	 OPTIONAL
+SCHEME: view
+	 REQUIRED
+		 room : int
+	 OPTIONAL
+		 time : object
+			 REQUIRED
+			 OPTIONAL
+				 time : str
+				 time-from : str
+				 time-to : str
+		 data : list of str
+SCHEME: auth
+	 REQUIRED
+		 user : str
+		 password : str
+	 OPTIONAL
+SCHEME: command
+	 REQUIRED
+		 token : str
+		 command : str
+	 OPTIONAL
