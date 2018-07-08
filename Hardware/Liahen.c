@@ -1,3 +1,5 @@
+//This file is an example from another private project. This file serves only further educational purpose for our team
+
 #include <SimpleDHT.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal_I2C.h>
