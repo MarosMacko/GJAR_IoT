@@ -5,6 +5,7 @@ from getpass import getpass
 from flask import Flask, request, abort, send_from_directory, g
 
 from lib import api_manager
+from webhook import webhook
 
 
 app = Flask(__name__, static_url_path='/static', static_folder='/var/www/static')
@@ -35,4 +36,5 @@ def api_call(version, req):
         return abort(400)
 
 if __name__ == '__main__':
+    webhook("Starting server...")
     app.run()
