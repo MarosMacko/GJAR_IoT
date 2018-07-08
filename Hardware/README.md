@@ -1,4 +1,4 @@
-** Gymnázium Jána Adama Raymana, Prešov **
+*Gymnázium Jána Adama Raymana, Prešov*
 
 # GJAR IoT Project
 ## Hardware Nodes
