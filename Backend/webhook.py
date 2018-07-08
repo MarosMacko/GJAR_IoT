@@ -16,7 +16,7 @@ def webhook(msg):
         print("No webhook data.")
         return
     if host:
-        obj = {"content": "Server at {}: {}".format(host, msg)}
+        obj = {"content": "Server at **{}**: {}".format(host, msg)}
     else:
-        obj = {"content": "Unidentified server: {}".format(msg)}
+        obj = {"content": "**Unidentified server**: {}".format(msg)}
     post(url, json=obj)

@@ -35,6 +35,7 @@ def api_call(version, req):
     else:
         return abort(400)
 
+webhook("Loading and starting server.")
+
 if __name__ == '__main__':
-    webhook("Starting server...")
     app.run()
