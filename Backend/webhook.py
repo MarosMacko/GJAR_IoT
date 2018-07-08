@@ -9,7 +9,7 @@ host = ""
 
 if isfile("webhook.json"):
     with open("webhook.json", "r") as f:
-        data = _json.decode(f.read())
+        data = _dec.decode(f.read())
     url = data["url"]
     host = data["host"]
 
