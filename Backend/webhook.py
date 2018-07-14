@@ -5,8 +5,8 @@ from requests import post
 url = ""
 host = ""
 
-if isfile("webhook.json"):
-    with open("webhook.json", "r") as f:
+if isfile("/GJAR_IoT/Backend/webhook.json"):
+    with open("/GJAR_IoT/Backend/webhook.json", "r") as f:
         data = json.loads(f.read())
     url = data["url"]
     host = data["host"]
