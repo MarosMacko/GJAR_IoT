@@ -5,3 +5,4 @@ __pycache__/
 .vscode/
 logs/
 Backend/webhook.json
+Backend/config.yml

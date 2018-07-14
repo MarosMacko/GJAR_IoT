@@ -2,6 +2,6 @@
 
 import sys
 
-sys.path.append("/var/www/gjar-iot-server")
+sys.path.append("/GJAR_IoT/Backend")
 
 from main import app as application
