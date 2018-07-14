@@ -1,0 +1,9 @@
+# Configuration for the GJAR IoT Project Backend Server
+# This file is an example. Update it in your local copy with the appropriate data.
+
+database:
+  user: USERNAME
+  password: PASSWORD
+  db: DATABASE
+  host: HOST
+
