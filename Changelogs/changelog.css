@@ -1,0 +1,10 @@
+body { font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 14px; }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+div ul { padding-left: 10px; list-style: none; }
+li::before {padding-right: 10px; }
+
+li.type-add::before     { content: "\2795"; }
+li.type-remove::before  { content: "\26D4"; }
+li.type-tweak::before   { content: "\1F527"; }
+li.type-bugfix::before  { content: "\1F4A3"; }
