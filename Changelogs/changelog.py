@@ -24,7 +24,14 @@ if not args.verbose:
 date = time.strftime("%Y-%m-%d")
 
 change = namedtuple("change", ("type", "value"))
-log = namedtuple("log", ("author", "changes"))
+#log = namedtuple("log", ("author", "changes"))
+class log():
+    __slots__ = ("author", "changes")
+    def __init__(self, author, changes):
+        self.author = author
+        self.changes = changes
+    def __repr__(self):
+        return "log(author={}, changes={})".format(repr(self.author), repr(self.changes))
 
 class Loader():
     allowed_types = {"add", "remove", "tweak", "bugfix"}
@@ -33,7 +40,12 @@ class Loader():
         self.logs = {}
 
     def load_old(self, data):
-        self.logs = yaml.load(data)
+        # self.logs = yaml.load(data)
+        y = yaml.safe_load(data)
+        for d in y:
+            self.logs[d] = []
+            for item in y[d]:
+                self.load_log(item, False)
 
     def find_by_author(self, name):
         for item in self.logs[date]:
@@ -41,11 +53,10 @@ class Loader():
                 return item
         return None
 
-    def load_log(self, data):
-        y = yaml.load(data)
-        author = y["author"]
+    def load_log(self, data, count=True):
+        author = data["author"]
         changes = []
-        for entry in y["changes"]:
+        for entry in data["changes"]:
             for ch in [change(type=k, value=v) for k, v in entry.items()]:
                 if ch.type in self.allowed_types:
                     changes.append(ch)
@@ -58,11 +69,18 @@ class Loader():
             l.changes += changes
         else:
             self.logs[date].append(log(author=author, changes=changes))
-        self.counter += 1
+        if count:
+            self.counter += 1
+
+    def tranform_logs(self):
+        r = {}
+        for d in sorted(self.logs.keys()):
+            r[d] = [{"author": item.author, "changes": [{ch.type: ch.value} for ch in item.changes]} for item in self.logs[d]]
+        return r
 
     def save_yaml(self, path):
         data = "# Automatically generated changelog archive. Not to be modified manually.\n"
-        data += yaml.dump(self.logs)
+        data += yaml.safe_dump(self.tranform_logs(), default_flow_style=False)
         if not args.no_changes:
             with open(os.path.join(path, "changelog.yml"), "w") as f:
                 f.write(data)
@@ -71,7 +89,7 @@ class Loader():
             verbose("Would save changelog.yml")
 
     def save(self, path):
-        verbose("Adding {} new changelogs.".format(self.counter))
+        print("Adding {} new changelogs.".format(self.counter))
         self.save_yaml(path)
         doc, tag, text = Doc().tagtext()
         doc.asis('<!DOCTYPE html>')
@@ -127,7 +145,7 @@ for f in os.listdir(loc):
         with open(os.path.join(loc, f), "r") as lf:
             verbose("Reading file {}.".format(f))
             try:
-                loader.load_log(lf.read())
+                loader.load_log(yaml.safe_load(lf.read()))
             except Exception:
                 print("Error when reading file {}. Skipping.".format(f), end="\t")
                 print(sys.exc_info()[1])

@@ -1,6 +1,6 @@
 # Automatically generated changelog archive. Not to be modified manually.
 '2018-07-15':
-- !!python/object/new:__main__.log
-  - "Samuel Nov\u0102\u02C7k"
-  - - !!python/object/new:__main__.change [add, Basic frontend with link to changelogs.]
-    - !!python/object/new:__main__.change [add, Automatic changelog system.]
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - add: Automatic changelog system.
+  - add: Basic frontend with link to changelogs.
