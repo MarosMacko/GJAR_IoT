@@ -35,6 +35,12 @@ class Loader():
     def load_old(self, data):
         self.logs = yaml.load(data)
 
+    def find_by_author(self, name):
+        for item in self.logs[date]:
+            if item.author == name:
+                return item
+        return None
+
     def load_log(self, data):
         y = yaml.load(data)
         author = y["author"]
@@ -47,7 +53,11 @@ class Loader():
                     raise Exception("Invalid change type.")
         if date not in self.logs:
             self.logs[date] = []
-        self.logs[date].append(log(author=author, changes=tuple(changes)))
+        l = self.find_by_author(author)
+        if l:
+            l.changes += changes
+        else:
+            self.logs[date].append(log(author=author, changes=changes))
         self.counter += 1
 
     def save_yaml(self, path):
