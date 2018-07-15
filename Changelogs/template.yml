@@ -1,6 +1,6 @@
 author: Name
 changes:
-  - add: Added kittens.
-  - del: /Terminated/ puppies.
-  - bug: Deleted Herobrine.
-  - add: Resurrected puppies
+  - add: Added features.
+  - remove: Removed stuff.
+  - bugfix: Fixed bugs.
+  - tweak: Changes stuff, aka neither of above.
