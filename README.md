@@ -4,6 +4,8 @@
 
 This repository contains an extra-curricular project done at **GJAR** where students try to create their very own **Internet of Things** network in the school.
 
+[Web interface](https://iot.gjar-po.sk)
+
 ## Workflow
 
 Prerequisite:
