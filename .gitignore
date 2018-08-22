@@ -6,3 +6,5 @@ __pycache__/
 logs/
 Backend/webhook.json
 Backend/config.yml
+Frontend/changelog.html
+
