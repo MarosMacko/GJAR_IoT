@@ -4,3 +4,11 @@
   changes:
   - add: Automatic changelog system.
   - add: Basic frontend with link to changelogs.
+'2018-08-31':
+- author: Miroslav Repka
+  changes:
+  - add: Hardware using JSON protocol.
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - tweak: Simplified API imports.
+  - bugfix: Fixed changelog.py

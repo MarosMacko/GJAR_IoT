@@ -45,15 +45,15 @@ class Loader():
         for d in y:
             self.logs[d] = []
             for item in y[d]:
-                self.load_log(item, False)
+                self.load_log(item, d, False)
 
-    def find_by_author(self, name):
-        for item in self.logs[date]:
+    def find_by_author(self, name, logdate=date):
+        for item in self.logs[logdate]:
             if item.author == name:
                 return item
         return None
 
-    def load_log(self, data, count=True):
+    def load_log(self, data, logdate=date, count=True):
         author = data["author"]
         changes = []
         for entry in data["changes"]:
@@ -62,13 +62,13 @@ class Loader():
                     changes.append(ch)
                 else:
                     raise Exception("Invalid change type.")
-        if date not in self.logs:
-            self.logs[date] = []
-        l = self.find_by_author(author)
+        if logdate not in self.logs:
+            self.logs[logdate] = []
+        l = self.find_by_author(author, logdate)
         if l:
             l.changes += changes
         else:
-            self.logs[date].append(log(author=author, changes=changes))
+            self.logs[logdate].append(log(author=author, changes=changes))
         if count:
             self.counter += 1
 
