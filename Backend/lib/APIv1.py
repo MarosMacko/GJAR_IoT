@@ -3,8 +3,8 @@ from random import randint
 from hashlib import sha256
 from flask import jsonify, g
 
-from lib.validator import *
-from lib.helper import *
+from .validator import *
+from .helper import *
 
 import db
 
