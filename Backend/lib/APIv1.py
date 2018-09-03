@@ -9,6 +9,7 @@ from .helper import *
 import db
 
 class api():
+    """API version 1"""
     def __init__(self,):
         self.schemes = {}
         self.schemes["connect"] = Scheme([Item("id", int)], [Item("token", str)])
@@ -34,7 +35,8 @@ class api():
         self.last_id = 0
         self.candidates = []
 
-    def call(self, req, data):
+    def call(self, req:str, data:dict):
+        """Perform an API call. Use this for all calls, it will direct them to the right methods."""
         if req in self.schemes and hasattr(self, "api_" + req):
             if is_valid(self.schemes[req], data):
                 return getattr(self, "api_" + req)(data)

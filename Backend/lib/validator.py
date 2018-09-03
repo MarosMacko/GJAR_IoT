@@ -1,4 +1,4 @@
-from collections import Iterable
+from collections.abc import Iterable
 
 class Item:
     __slots__ = ("name", "dtype", "contents")
@@ -22,6 +22,7 @@ class InvalidArgTypeException(Exception):
         super().__init__(self, "Argument {} must be of type {}, or subtype; {} was given instead.".format(repr(arg), t, actual_type.__name__))
 
 class Scheme:
+    """Scheme of object structure and types of items inside."""
     __slots__ = ("required", "optional")
     def __init__(self, required=None, optional=None):
         self.required = []
@@ -75,6 +76,7 @@ def _is_valid_type(item, data):
     return True
 
 def is_valid(scheme, data):
+    """Validate structure according to the scheme."""
     checked = set()
     for i in scheme.required:
         if not i.name in data:
