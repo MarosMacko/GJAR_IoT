@@ -1,12 +1,12 @@
 import time
 from random import randint
 from hashlib import sha256
-from flask import jsonify, g
+from flask import jsonify, g, abort
 
 from .validator import *
 from .helper import *
 
-import db
+import db1 as db
 
 class api():
     def __init__(self,):
@@ -27,6 +27,7 @@ class api():
             Item("time-to", str)
         ])), False)
         self.schemes["view"].add(Item("data", list, str))
+        self.allowed_view_req_data = ("temperature", "humidity",)# "noise")
 
         self.schemes["auth"] = Scheme([Item("user", str), Item("password", str)])
         self.schemes["command"] = Scheme([Item("token", str), Item("command", str)])
@@ -48,7 +49,8 @@ class api():
             s = db.select("devices", "*", "dev_id={} and token='{}'".format(data["id"], data["token"]))
             print(s)
             if len(s) == 1:
-                db.insert_raw("logs", "'{}', {}, '{}';".format(db.format_time(), data["id"], "Successfull reconnected."))
+                db.insert_raw("logs", "'{}', {}, '{}';".format(db.format_time(), data["id"], "Successfully reconnected."))
+                return jsonify(API_response())
             else:
                 return jsonify(API_error("Invalid token."))
         else:
@@ -81,8 +83,8 @@ class api():
             d += data["humidity"]
         else:
             d += "null"
-        db.insert_raw("data", "{}, {}, {}, {}".format(dev_id, room_number, t, d))
-        return jsonify(API_message())
+        db.insert_raw("data", "{}, {}, '{}', {}".format(dev_id, room_number, t, d))
+        return jsonify(API_response())
 
     def api_error(self, data):
         print("DEVICE has encountered an error. Printing data:")
@@ -107,7 +109,7 @@ class api():
                             if db.select("devices", "*", "dev_id={}".format(cmd[1])):
                                 db.query("update devices set token='{}' where dev_id={};".format(self.candidates[i][1], cmd[1]))
                             else:
-                                db.insert_raw("devices", "{}, {}, {}, null".format(self.candidates[i][0], self.candidates[i][1]), cmd[2])
+                                db.insert_raw("devices", "{}, {}, {}, null".format(self.candidates[i][0], self.candidates[i][1], cmd[2]))
                             return jsonify(API_response())
                     return jsonify(API_error("No such candidate dev_id."))
                 else:
@@ -118,6 +120,43 @@ class api():
 
         else:
             return jsonify(API_error("Unable to authenticate."))
+
+    def api_view(self, data):
+        room = data["room"]
+        try:
+            requested_data = data["data"]
+            assert not [i for i in requested_data if not i in self.allowed_view_req_data] # Check if there aren't any unallowed items
+            requested_data.insert(0, "time")
+        except KeyError:
+            requested_data = ("time",) + self.allowed_view_req_data
+        except AssertionError:
+            return abort(400)
+
+        try:
+            time = data["time"]
+            try:
+                exact = time["time"]
+                return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room={}".format(exact, room)))
+            except KeyError:
+                try:
+                    fro = time["time-from"]
+                    to = time["time-to"]
+                    return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time between cast('{}' as DATETIME) and cast('{}' as DATETIME) and room={}".format(fro, to, room)))
+                except KeyError:
+                    return abort(400)
+        except KeyError:
+            d = db.select("data", "time", "room = {}".format(room))
+            if d:
+                time = max(d, key=lambda x: time.strptime(x[0], "%Y-%m-%d %H:%M:%S"))[0]
+            else:
+                return self._view_format(room, ("time",), d)
+            return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room={}".format(time, room)))
+
+    def _view_format(self, room, requested, data):
+        if not data:
+            return jsonify(API_response(room=room, data=[], msg="No data."))
+        return jsonify(API_response(room=room, data=[ {requested[col]: line[col] for col in range(len(requested))} for line in data]))
+                
 
     def get_last(self):
         d = db.select("devices", "dev_id")
