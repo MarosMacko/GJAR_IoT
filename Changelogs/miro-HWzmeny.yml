@@ -1,0 +1,6 @@
+author: Miroslav Repka
+changes:
+  - add: The code can now send json messages.
+  - remove: Eeprom was removed from the code.
+  - bugfix: Fixed bugs.
+  - tweak: Changes stuff, aka neither of above.
