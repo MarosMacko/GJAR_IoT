@@ -7,3 +7,4 @@ database:
   db: DATABASE
   host: HOST
 
+base-dir: BASE-DIR
