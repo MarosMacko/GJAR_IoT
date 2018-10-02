@@ -133,24 +133,24 @@ class api():
             return abort(400)
 
         try:
-            time = data["time"]
+            field_time = data["time"]
             try:
-                exact = time["time"]
+                exact = field_time["time"]
                 return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(exact, room)))
             except KeyError:
                 try:
-                    fro = time["time-from"]
-                    to = time["time-to"]
+                    fro = field_time["time-from"]
+                    to = field_time["time-to"]
                     return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time between cast('{}' as DATETIME) and cast('{}' as DATETIME) and room_number={}".format(fro, to, room)))
                 except KeyError:
                     return abort(400)
         except KeyError:
-            d = db.select("data", "time", "room = {}".format(room))
+            d = db.select("data", "time", "room_number = {}".format(room))
             if d:
-                time = max(d, key=lambda x: time.strptime(x[0], "%Y-%m-%d %H:%M:%S"))[0]
+                field_time = max(d, key=lambda x: time.strptime(x[0], "%Y-%m-%d %H:%M:%S"))[0]
             else:
                 return self._view_format(room, ("time",), d)
-            return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(time, room)))
+            return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(field_time, room)))
 
     def _view_format(self, room, requested, data):
         if not data:
