@@ -147,7 +147,7 @@ class api():
         except KeyError:
             d = db.select("data", "time", "room_number = {}".format(room))
             if d:
-                field_time = max(d, key=lambda x: time.strptime(x[0], "%Y-%m-%d %H:%M:%S"))[0]
+                field_time = max(d, key=lambda x: x[0])[0]
             else:
                 return self._view_format(room, ("time",), d)
             return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(field_time, room)))
@@ -155,7 +155,7 @@ class api():
     def _view_format(self, room, requested, data):
         if not data:
             return jsonify(API_response(room=room, data=[], msg="No data."))
-        return jsonify(API_response(room=room, data=[ {requested[col]: line[col] for col in range(len(requested))} for line in data]))
+        return jsonify(API_response(room=room, data=[ {requested[col]: str(line[col]) for col in range(len(requested))} for line in data]))
                 
 
     def get_last(self):
