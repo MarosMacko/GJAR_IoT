@@ -1,0 +1,456 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Offside', cursive;
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+}
+/*zaciatok headeru*/
+.header {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    background-color: #302d2b;
+}
+.h_gjar {
+    float: left;
+    margin-left: 25px;
+    color: #fff;
+    line-height: 60px;
+    font-size: 45px;
+}
+.h_button {
+    float: right;
+    margin: 10px 20px;
+    line-height: 30px;
+    background-color: rgb(145,140,140, 0.3);
+    color: #fff;
+    font-size: 20px;
+    padding: 5px 10px;
+    transition: 0.7s;
+    border: solid #fff 1px;
+    border-radius: 25px;
+}
+.h_button:hover {
+    border: rgb(145,140,140, 0.3) solid 1px;
+    color: black;
+    background-color: #fff;
+    cursor: pointer;
+}
+/*button for mobile*/
+.wrap {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 9px;
+    width: 40px;
+    height: 42px;
+}
+.icon {
+    width: 40px;
+    height: 6px;
+    background: #fff;
+    margin: 6px 0;
+}
+/*koniec headeru*/
+/*hlavny nahladovy obrazok*/
+.uvod_obr {
+    background-image: url("img3.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}
+/*gjar iot nazov*/
+.iot {
+    position: absolute;
+    float: right;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    right: 5%;
+    text-shadow: 2px 2px 4px #fff;
+}
+.iot > p:nth-child(1) {
+    font-size: 7.25em;
+}
+.iot > p:nth-child(2) {
+    font-size: 4em;
+}
+.iot > p:nth-child(3) {
+    font-size: 8.5em;
+}
+/*scroll button*/
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -25px;
+  display: block;
+  width: 48px;
+  height: 48px;
+  border: 2px solid #FFF;
+  background-size: 14px auto;
+  border-radius: 50%;
+  z-index: 2;
+  -webkit-animation: bounce 2s infinite 2s;
+  animation: bounce 2s infinite 2s;
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+  transform: scale(1);
+}
+.scroll-down:before {
+    position: absolute;
+    top: calc(50% - 12px);
+    right: calc(50% - 8px);
+    transform: rotate(-45deg);
+    display: block;
+    width: 15px;
+    height: 15px;
+    content: "";
+    border: 2px solid white;
+    border-width: 0px 0 2px 2px;
+}
+.scroll-down:hover{
+    cursor: pointer;
+}
+@keyframes bounce {
+    0%,
+    100%,
+    20%,
+    50%,
+    80% {
+    -webkit-transform: translateY(0);
+    /*-ms-transform: translateY(0);*/
+    transform: translateY(0);
+    }
+    40% {
+    -webkit-transform: translateY(-10px);
+    /*-ms-transform: translateY(-10px);*/
+    transform: translateY(-10px);
+    }
+    60% {
+    -webkit-transform: translateY(-5px);
+    /*-ms-transform: translateY(-5px);*/
+    transform: translateY(-5px);
+  }
+}
+/*scroll down button end*/
+.project_info {
+    height: 50%;
+    width: 50%;
+    float: right;
+    background-color: #EBEBEB;
+}
+.project_info h1 {
+    text-align: center;
+    font-size: 55px;
+    padding: 5% 0;
+}
+.project_info p {
+    text-align: center;
+    line-height: 1.6;
+    padding: 0 10%;
+}
+.grafy_ukazka {
+    width: 50%;
+    float: left;
+    height: 50%;
+    padding: 5%;
+    background-color: #EBEBEB;
+}
+/*----------------------about us------------------------------*/
+.about_us {
+    width: 100%;
+    height: auto;
+    padding-top: 3%;
+    background-color: #EBEBEB;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    overflow: inherit;
+}
+
+.text {
+    text-align: center;
+    padding: 0 5% 10% 5%;
+}
+.column > img {
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+    margin: 0 0 10% 25%;
+    border: solid 3px #302d2b;
+}
+
+
+
+
+
+
+
+/*scroll to top tracidlo ktore sa objavy pri scrolnuti dole o x px*/
+#scrollToTop {
+    width: auto;
+    height: auto;
+    display: none;
+    position: fixed;
+    bottom: 3%;
+    right: 2%;
+    background-color: #302d2b;
+    color: #EBEBEB;
+    text-align: center;
+    padding: 15px;
+    transition: 1s all;
+    cursor: pointer;
+    animation: fadein 2s;
+    -webkit-animation: fadein 2s;
+    border: solid 1px #EBEBEB;
+}
+#scrollToTop:hover {
+    color: #302d2b;
+    background-color: #EBEBEB;
+    border: solid 1px #302d2b;
+}
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+/*@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}*/
+/*koniec top tlacidla*/
+/*----------------------------------------click me div--------------------------------*/
+.click_me {
+    height: auto;
+    background-color: #302d2b;
+    padding-bottom: 7%;
+}
+.click_me > p {
+    padding: 5%;
+    text-align: center;
+    color: #EBEBEB;
+    font-size: 2em;
+}
+.click_btn {
+    background-color: #EBEBEB;
+    text-align: center;
+    padding: 15px;
+    color: #302d2b;
+    font-size: 2em;
+    box-shadow: 10px 10px 10px black;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    width: 400px;
+    transition: 1s;
+}
+.click_btn:hover {
+    cursor: pointer;
+}
+
+/*------------------------------------------------footer----------------------------------*/
+.footer {
+    height: 150px;
+    line-height: 150px;
+    background-color: #EBEBEB;
+    text-align: center;
+}
+
+/*------------------------------------------------mobile bar-------------------------------------------*/
+.mobile_bar {
+    position: absolute;
+    width: 70%;
+    /*right: -70%;*/
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: oreen;
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------scroll bar-----------------------------*/
+/*
+body::-webkit-scrollbar {
+    width: 0.7em;
+}
+ 
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: #595959;
+  outline: 1px solid slategrey;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1100px) {
+    .click_btn {
+        width: 300px;
+    }
+    .about_us {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    }
+    .column > img {
+        width: 55%;
+        margin-left: 17.5;
+    }
+    .text {
+        margin: 0 5%;
+    }
+    .iot {
+        transform: translate(-50%, -50%);
+        left: 50%;
+        text-align: center;
+    }
+    .project_info {
+        width: 100%;
+        height: auto;
+    }
+    .grafy_ukazka {
+        width: 100%;
+        height: auto;
+    }
+    .iot > p:nth-child(1) {
+    font-size: 3.75em;
+    }
+    .iot > p:nth-child(2) {
+    font-size: 2.5em;
+    }
+    .iot > p:nth-child(3) {
+    font-size: 4.5em;
+    }
+
+}
+@media (max-height: 450px) {
+    .iot > p:nth-child(1) {
+    font-size: 2.25em;
+    }
+    .iot > p:nth-child(2) {
+    font-size: 1.25em;
+    }
+    .iot > p:nth-child(3) {
+    font-size: 3.25em;
+    }
+
+}
+@media  (max-width: 500px) {
+    .mobile_bar {
+        display: inline-block;
+    }
+    .about_us {
+    grid-template-columns: repeat(1, minmax(250px, 1fr));
+    grid-template-rows: repeat(4, 1fr);
+    }
+    .column > img {
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 5%;
+    }
+    .iot > p:nth-child(1) {
+    font-size: 2.25em;
+    }
+    .iot > p:nth-child(2) {
+    font-size: 1.75em;
+    }
+    .iot > p:nth-child(3) {
+    font-size: 3.25em;
+    }
+    .uvod_obr {
+    height: 50%;
+    }
+    .iot {
+        top: 30%;
+    }
+    .scroll-down {
+        display: none;
+    }
+    .h_button {
+        display: none;
+    }
+    .graf1 {
+        padding: 0;
+        width: 95%;
+        margin: 2.5%;
+    }
+    .wrap {
+        display: inline-block;
+    }
+    .text {
+        font-size: 1em;
+        padding: 1%;
+        height: auto;
+    }
+    .click_me > p {
+        font-size: 1.5em;
+    }
+    .click_btn {
+        font-size: 1.5em;
+        width: 200px;
+    }
+    .project_info h1 {
+        font-size: 45px;
+    }
+}
