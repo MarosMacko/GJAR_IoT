@@ -19,6 +19,8 @@ app.config['MYSQL_DATABASE_PASSWORD'] = conf["database"]["password"]
 app.config['MYSQL_DATABASE_DB'] = conf["database"]["db"]
 app.config['MYSQL_DATABASE_HOST'] = conf["database"]["host"]
 
+os.chdir(conf["base-dir"])
+
 webhook("Loading Flask application. Should be running as a daemon. Yayy!")
 
 @app.route("/v<version>/<req>", methods=["POST"])

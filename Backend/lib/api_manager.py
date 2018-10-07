@@ -12,7 +12,7 @@ def call(version, request, data):
         path = "lib/{}.py".format(name)
         print("Loading", path)
         if os.path.isfile(path):
-            module = importlib.import_module("." + name, ".lib")
+            module = importlib.import_module("lib." + name, "lib")
             apis[version] = module.api()
         else:
             abort(404)

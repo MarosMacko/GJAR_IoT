@@ -5,7 +5,7 @@
 ##                      REWRITTEN AT BOTTOM                   ##
 ##                                                            ##
 ################################################################
-
+"""
 import time
 from flask import jsonify, g
 
@@ -79,7 +79,7 @@ class api():
     def api_alive(self, data):
         return jsonify(API_response(command="PONG"))
 
-
+"""
 ################################################################
 ##                                                            ##
 ##                           LEGACY                           ##
@@ -87,6 +87,8 @@ class api():
 ##                       REWRITTEN BELOW                      ##
 ##                                                            ##
 ################################################################
+
+from flask import jsonify, g
 
 class api():
     def call(self, *args):
