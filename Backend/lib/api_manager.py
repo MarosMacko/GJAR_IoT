@@ -6,7 +6,7 @@ from flask import jsonify, abort
 apis = {}
 
 def call(version, request, data):
-    """Find the appropriate API and call the requested method."""
+    """Find and load the appropriate API and call the requested method."""
     if version not in apis:
         name = "APIv{}".format(version)
         path = "lib/{}.py".format(name)

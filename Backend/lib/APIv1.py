@@ -47,6 +47,7 @@ class api():
             return jsonify(API_fatal("Unknown request."))
 
     def api_connect(self, data):
+        """API call for nodes to connect to the system."""
         if "token" in data:
             s = db.select("devices", "*", "dev_id={} and token='{}'".format(data["id"], data["token"]))
             print(s)
@@ -67,6 +68,7 @@ class api():
                 return jsonify(API_error("Unable to identify. Initiate a new connection."))
 
     def api_data(self, data):
+        """API call for nodes to input data."""
         d = db.select("devices", "*", "token='{}'".format(data["token"]))
         if len(d) == 1:
             d = d[0]
@@ -89,15 +91,18 @@ class api():
         return jsonify(API_response())
 
     def api_error(self, data):
+        """API call for nodes to log errors."""
         print("DEVICE has encountered an error. Printing data:")
         print(data)
         return jsonify(API_response(msg="I hear ya."))
 
     def api_alive(self, data):
+        """API call for node heartbeat and commands."""
         # TODO: Check the database to see if there are any pending command to be sent to the device.
         return jsonify(API_response(command="PONG"))
 
     def api_command(self, data):
+        """API call for administration."""
         if len(db.select("users", "*", "token='{}'".format(data["token"]))) == 1:
             cmd = data["command"].split(" ")
             if not cmd:
@@ -124,6 +129,7 @@ class api():
             return jsonify(API_error("Unable to authenticate."))
 
     def api_view(self, data):
+        """API call for client (user) to view the data."""
         room = data["room"]
         try:
             requested_data = data["data"]
@@ -155,12 +161,14 @@ class api():
             return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(field_time, room)))
 
     def _view_format(self, room, requested, data):
+        """Format data for api_view."""
         if not data:
             return jsonify(API_response(room=room, data=[], msg="No data."))
         return jsonify(API_response(room=room, data=[ {requested[col]: str(line[col]) for col in range(len(requested))} for line in data]))
                 
 
     def get_last(self):
+        """Get last device id."""
         d = db.select("devices", "dev_id")
         if d:
             return max(d, key=lambda x: x[0])[0]
@@ -168,5 +176,6 @@ class api():
             return 0
 
     def create_token(self):
+        """Generate an identification token"""
         return sha256((db.format_time() + str(randint(0,100)) + repr(self)).encode()).hexdigest()
 
