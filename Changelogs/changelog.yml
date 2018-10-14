@@ -12,3 +12,8 @@
   changes:
   - tweak: Simplified API imports.
   - bugfix: Fixed changelog.py
+'2018-10-02':
+- author: Miroslav Repka
+  changes:
+  - add: The code can now send json messages.
+  - remove: Eeprom was removed from the code.

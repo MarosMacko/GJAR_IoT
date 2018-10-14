@@ -1,0 +1,5 @@
+author: Samuel Novák
+changes:
+  - add: Added view API call.
+  - bugfix: Fixed API loading.
+  - bugfix: Fixed datetime handling.
