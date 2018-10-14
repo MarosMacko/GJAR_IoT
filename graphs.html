@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+<link rel="stylesheet" type="text/css" href="assets/css/styl.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Offside">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<title>IoT Gjar</title>
+</head>
+    <body>
+        <div id="scrollToTop" onclick="scrollToProject('topScroll')">Top</div>
+        <div class="header g_header active" id="topScroll">
+       
+        <a href="https://www.gjar-po.sk/"><div class="h_gjar">GJAR</div></a>
+        
+        <a href="index.html"><div class="h_button">
+             Move back      
+        </div></a>
+        <!--tlacidlo pre mobilne telefony-->
+        <div class="wrap" onclick="openNav()">
+            <div class="icon"></div>
+            <div class="icon"></div>
+            <div class="icon"></div>
+        </div>
+        
+    </div>
+    <div id="m_menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">HOME</a>
+    </div>
+    <div class="table_rooms" style="position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%">
+        <table class="table_h">
+            <tr>
+             <th>GJAR</th>
+             <td>room1</td>
+             <td>room2</td>
+             <td>room3</td>
+             <td>room4</td>
+             <td>room5</td>
+             <td>room6</td>
+             <td>room7</td>
+             <td>room8</td>
+             </tr>
+             <tr>
+             <th>Temperature</th>
+             <td id="room1_temp"></td>
+             <td id="room2_temp"></td>
+             <td id="room3_temp"></td>
+             <td id="room4_temp"></td>
+             <td id="room5_temp"></td>
+             <td id="room6_temp"></td>
+             <td id="room7_temp"></td>
+             <td id="room8_temp"></td>
+             </tr>
+             <tr>
+             <th >Humidity</th>
+             <td id="room1_humidity"></td>
+             <td id="room2_humidity"></td>
+             <td id="room3_humidity"></td>
+             <td id="room4_humidity"></td>
+             <td id="room5_humidity"></td>
+             <td id="room6_humidity"></td>
+             <td id="room7_humidity"></td>
+             <td id="room8_humidity"></td>
+             </tr>
+             <tr>
+             <th>Noise</th>
+             <td id="room1_light"></td>
+             <td id="room2_light"></td>
+             <td id="room3_light"></td>
+             <td id="room4_light"></td>
+             <td id="room5_light"></td>
+             <td id="room6_light"></td>
+             <td id="room7_light"></td>
+             <td id="room8_light"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="assets/js/script_g.js"></script>
+    </body>
+</html>
