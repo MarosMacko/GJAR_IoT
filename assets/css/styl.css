@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Offside', cursive;
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+}
+/*zaciatok headeru*/
+.active {
+    background-color: #302d2b;
+    z-index: 2;
+}
+.header {
+    position: fixed;
+    transition: 0.5s;
+    width: 100%;
+    height: 60px;
+    /*background-color: #302d2b;*/
+}
+.g_header {
+    background-color: #302d2b;
+}
+.h_gjar {
+    float: left;
+    margin-left: 25px;
+    color: #fff;
+    line-height: 60px;
+    font-size: 45px;
+}
+.h_button {
+    float: right;
+    margin: 10px 20px;
+    line-height: 30px;
+    background-color: rgb(145,140,140, 0.6);
+    color: #fff;
+    font-size: 20px;
+    padding: 5px 10px;
+    transition: 0.7s;
+    border: solid #fff 1px;
+    border-radius: 25px;
+}
+.h_button:hover {
+    border: rgb(145,140,140, 0.3) solid 1px;
+    color: black;
+    background-color: #fff;
+    cursor: pointer;
+}
+/*koniec headeru*/
+/*hlavny nahladovy obrazok*/
+.uvod_obr {
+    background-image: url("img3.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 65%;
+    width: 100%;
+}
+/*gjar iot nazov*/
+.iot {
+    text-shadow: 2px 2px 4px #fff;
+    text-align: center;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 35%;
+    left: 50%
+}
+.iot > p:nth-child(1) {
+    font-size:4.25em;
+}
+.iot > p:nth-child(2) {
+    font-size: 3.25em;
+}
+.iot > p:nth-child(3) {
+    font-size: 4.25em;
+}
+/*------------------------------------------project info----------------------------------------------*/
+.project_info {
+    height: 50%;
+    width: 50%;
+    float: right;
+    background-color: #EBEBEB;
+}
+.project_info h1 {
+    text-align: center;
+    font-size: 55px;
+    padding: 5% 0;
+}
+.project_info p {
+    text-align: center;
+    line-height: 1.6;
+    padding: 0 10%;
+}
+.grafy_ukazka {
+    width: 50%;
+    float: left;
+    height: 50%;
+    padding: 5%;
+    background-color: #EBEBEB;
+}
+/*----------------------about us------------------------------*/
+.about_us {
+    width: 100%;
+    height: auto;
+    padding-top: 3%;
+    background-color: #EBEBEB;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    overflow: inherit;
+}
+
+.text {
+    text-align: center;
+    padding: 0 5% 10% 5%;
+}
+.column > img {
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+    margin: 0 0 10% 25%;
+    border: solid 3px #302d2b;
+}
+
+
+
+
+
+
+
+/*scroll to top tracidlo ktore sa objavy pri scrolnuti dole o x px*/
+#scrollToTop {
+    width: auto;
+    height: auto;
+    display: none;
+    position: fixed;
+    bottom: 3%;
+    right: 2%;
+    background-color: #302d2b;
+    color: #EBEBEB;
+    text-align: center;
+    padding: 15px;
+    transition: 1s all;
+    cursor: pointer;
+    animation: fadein 2s;
+    -webkit-animation: fadein 2s;
+    border: solid 1px #EBEBEB;
+}
+#scrollToTop:hover {
+    color: #302d2b;
+    background-color: #EBEBEB;
+    border: solid 1px #302d2b;
+}
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+/*koniec top tlacidla*/
+/*----------------------------------------click me div--------------------------------*/
+.click_me {
+    height: auto;
+    background-color: #302d2b;
+    padding-bottom: 7%;
+}
+.click_me > p {
+    padding: 5%;
+    text-align: center;
+    color: #EBEBEB;
+    font-size: 2em;
+}
+.click_btn {
+    background-color: #EBEBEB;
+    text-align: center;
+    padding: 15px;
+    color: #302d2b;
+    font-size: 2em;
+    box-shadow: 10px 10px 10px black;
+    transform: translateX(-50%);
+    margin-left: 50%;
+    width: 400px;
+    transition: 1s;
+}
+.click_btn:hover {
+    cursor: pointer;
+}
+/*------------------------------------------------footer----------------------------------*/
+.footer {
+    height: 150px;
+    line-height: 150px;
+    background-color: #EBEBEB;
+    text-align: center;
+}
+
+/*------------------------------------------------mobile bar-------------------------------------------*/
+/*button for mobile*/
+.wrap {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 9px;
+    width: 40px;
+    height: 42px;
+}
+.icon {
+    width: 40px;
+    height: 6px;
+    background: #fff;
+    margin: 6px 0;
+}
+/*-------------------------------corner menu--------------------*/
+#m_menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    background-color: #595959;
+    overflow-x: hidden;
+    padding-top: 15px;
+    transition: 0.2s;
+    text-align: center;
+}
+#m_menu > a:nth-child(2) {
+    margin: 53px 40px 150px 32px;
+    padding: 8px 2px;
+    width: auto;
+    text-decoration: none;
+    font-size: 22px;
+    color: #fff;
+    display: block;
+    background-color: #302d2b;
+    
+}
+#m_menu .closebtn {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-size: 45px;
+    color: #fff;
+    text-decoration: none;
+}
+
+/*-----------------------------------------------------*/
+.table_h {
+    border-collapse: collapse;
+    border: 2px solid black;
+    text-align: center;
+}
+td {
+    border: 2px solid black;
+    padding: 10px;
+}
+th {
+    border: 2px solid black;
+    padding: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1100px) {
+    .click_btn {
+        width: 300px;
+    }
+    .about_us {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    }
+    .column > img {
+        width: 45%;
+        margin-left: 27.5%;
+    }
+    .text {
+        margin: 0 5%;
+    }
+    .project_info {
+        width: 100%;
+        height: auto;
+    }
+    .grafy_ukazka {
+        width: 100%;
+        height: auto;
+    }
+    .iot > p:nth-child(1) {
+        font-size:3.25em;
+    }
+    .iot > p:nth-child(2) {
+        font-size: 2.75em;
+    }
+    .iot > p:nth-child(3) {
+        font-size: 3.25em;
+    }
+}
+@media (max-height: 450px) {
+
+    .iot > p {
+        display: inline;
+        word-spacing: 25px;
+    }
+    .iot {
+        width: 100%;
+    }
+    .header {
+        position: absolute;
+        background-color: #302d2b;
+    }
+}
+@media  (max-width: 500px) {
+    .iot {
+        top: 30%;
+    }
+    .iot > p:nth-child(1) {
+        font-size:2.25em;
+    }
+    .iot > p:nth-child(2) {
+         font-size: 2.25em;
+    }
+    .iot > p:nth-child(3) {
+        font-size: 2.25em;
+    }
+    .mobile_bar {
+        display: inline-block;
+    }
+    .about_us {
+    grid-template-columns: repeat(1, minmax(250px, 1fr));
+    grid-template-rows: repeat(4, 1fr);
+    }
+    .column > img {
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 5%;
+    }
+    .uvod_obr {
+    height: 50%;
+    }
+    .scroll-down {
+        display: none;
+    }
+    .h_button {
+        display: none;
+    }
+    .graf1 {
+        padding: 0;
+        width: 95%;
+        margin: 2.5%;
+    }
+    .wrap {
+        display: inline-block;
+    }
+    .text {
+        font-size: 1em;
+        padding: 1%;
+        height: auto;
+    }
+    .click_me > p {
+        font-size: 1.5em;
+    }
+    .click_btn {
+        font-size: 1.5em;
+        width: 200px;
+    }
+    .project_info h1 {
+        font-size: 45px;
+    }
+    .header {
+        position: absolute;
+        background-color: #302d2b;
+    }
+}
