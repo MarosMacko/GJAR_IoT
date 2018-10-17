@@ -1,6 +1,7 @@
-from collections import Iterable
+from collections.abc import Iterable
 
 class Item:
+    """An Item for the Scheme."""
     __slots__ = ("name", "dtype", "contents")
     # dtype = list => type(contents) = type
     # dtype = dict => type(contents) = Scheme
@@ -22,6 +23,9 @@ class InvalidArgTypeException(Exception):
         super().__init__(self, "Argument {} must be of type {}, or subtype; {} was given instead.".format(repr(arg), t, actual_type.__name__))
 
 class Scheme:
+    """Scheme of object structure and types of items inside.
+    
+    Arguments: list of required Items, list of optional Items."""
     __slots__ = ("required", "optional")
     def __init__(self, required=None, optional=None):
         self.required = []
@@ -40,6 +44,7 @@ class Scheme:
                 raise InvalidArgTypeException("optional", Iterable, type(required))
 
     def add(self, item, req=False):
+        """Add an item into the Scheme, specify if it will be required (defaults to False = not required)."""
         if isinstance(item, (Item, Scheme)):
             if req:
                 self.required.append(item)
@@ -49,6 +54,7 @@ class Scheme:
             raise InvalidArgTypeException("item", (Item, Scheme), type(item))
 
     def get_by_name(self, item, req):
+        """Get item by name."""
         if req:
             for i in self.required:
                 if i.name == item:
@@ -75,6 +81,7 @@ def _is_valid_type(item, data):
     return True
 
 def is_valid(scheme, data):
+    """Validate structure according to the scheme."""
     checked = set()
     for i in scheme.required:
         if not i.name in data:

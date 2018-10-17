@@ -11,7 +11,8 @@ if isfile("/GJAR_IoT/Backend/webhook.json"):
     url = data["url"]
     host = data["host"]
 
-def webhook(msg):
+def webhook(msg:str):
+    """Send a message to the webhook, if configured."""
     if not url:
         print("No webhook data.")
         return
