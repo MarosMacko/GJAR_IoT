@@ -27,7 +27,7 @@ class api():
             Item("time-to", str)
         ])), False)
         self.schemes["view"].add(Item("data", list, str))
-        self.allowed_view_req_data = ("temperature", "humidity",)# "noise")
+        self.allowed_view_req_data = ("temperature", "humidity", "brightness")
 
         self.schemes["auth"] = Scheme([Item("user", str), Item("password", str)])
         self.schemes["command"] = Scheme([Item("token", str), Item("command", str)])
