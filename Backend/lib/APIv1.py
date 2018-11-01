@@ -15,7 +15,7 @@ class api():
         self.schemes["connect"] = Scheme([Item("id", int)], [Item("token", str)])
 
         self.schemes["data"] = Scheme([Item("token", str)])
-        d = Scheme([Item("time", str)], [Item("temperature", float), Item("humidity", float), Item("noise", int)])
+        d = Scheme([], [Item("temperature", float), Item("humidity", float), Item("brightness", int)])
         self.schemes["data"].add(Item("data", dict, d))
 
         self.schemes["error"] = Scheme([Item("id", int), Item("level", str)], [Item("token", str), Item("error", str)])
@@ -28,7 +28,7 @@ class api():
             Item("time-to", str)
         ])), False)
         self.schemes["view"].add(Item("data", list, str))
-        self.allowed_view_req_data = ("temperature", "humidity",)# "noise")
+        self.allowed_view_req_data = ("temperature", "humidity", "brightness")
 
         self.schemes["auth"] = Scheme([Item("user", str), Item("password", str)])
         self.schemes["command"] = Scheme([Item("token", str), Item("command", str)])
@@ -85,6 +85,10 @@ class api():
             d += "null, "
         if "humidity" in data:
             d += data["humidity"]
+        else:
+            d += "null, "
+        if "brightness" in data:
+            d += data["brightness"]
         else:
             d += "null"
         db.insert_raw("data", "{}, {}, '{}', {}".format(dev_id, room_number, t, d))
