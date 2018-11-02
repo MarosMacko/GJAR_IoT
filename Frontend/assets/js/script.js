@@ -2,7 +2,16 @@
 
 
 
+
+
 /***************************************scroll function**************************************/
+
+$("#scrollToTop").click(function() {
+    $('html, body').animate({
+        scrollTop: parseInt(0)
+    }, 500);
+});
+/*
 var destination;
 
 function scrollToProject(e) {
@@ -12,7 +21,7 @@ function scrollToProject(e) {
         top: destination,
     });
 }
-
+*/
 window.onscroll = function () {
     scrollToTopButtonDisplay()
 };
@@ -40,34 +49,39 @@ function closeNav() {
 
 //main chart ukazka
 
-var myChart = document.getElementById('myChart').getContext('2d');
-
+function grafukazka () {
+    var myChart = document.getElementById('myChart').getContext('2d');
 Chart.defaults.global.defaultFontColor = 'black';
-
 var barChart = new Chart(myChart, {
     type: 'line',
     data: {
         labels: ['1am', '2am', '3am', '4am', '5am', '6am'],
         datasets: [{
-            label: 'Temperature',
-            data: [1, 13, 15, 18, 24, 22, 30, ],
+            label: 'Teplota',
+            data: [7, 13, 15, 18, 24, 22, 30, ],
             fill: false,
             borderWidth: 4,
             borderColor: 'rgb(20, 89, 197)',
         }, {
-            label: 'Humidity',
+            label: 'Vlhkost',
             data: [60, 70, 50, 40, 60, 10, 20],
             fill: false,
             borderWidth: 4,
             borderColor: 'orange',
+        },{
+            label: 'Svietivost',
+            data: [22, 35, 27, 14, 12, 45, 60, ],
+            fill: false,
+            borderWidth: 4,
+            borderColor: 'lightgreen',
         }],
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         title: {
             display: true,
-            text: 'Temperature and Humidity',
+            text: 'Teplota, Vlhkosť a Svietivosť',
             fontSize: 25,
         },
         legend: {
@@ -85,3 +99,8 @@ var barChart = new Chart(myChart, {
         },
     }
 });
+}
+
+grafukazka();
+
+
