@@ -1,3 +1,10 @@
+"""
+Module: protocol_spec.py
+
+This module loads an API (version specified as argument) and analyzes its validator Scheme,
+creating a protocol specification from it.
+"""
+
 import sys, os, ast
 sys.path.append("..")
 from lib.validator import *

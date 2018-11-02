@@ -11,8 +11,3 @@ Code in this folder (`GJAR_IoT/Hardware/*`) is the source for our Internet of Th
 - ESP8266HTTPClient
 - ArduinoJson
 - SimpleDHT
-- DallasTemperature
-- LiquidCrystal_I2C.h
-- DS3231
-- EEPROM
-- MsTimer2
