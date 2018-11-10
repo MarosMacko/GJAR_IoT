@@ -1,0 +1,6 @@
+author: Miro
+changes:
+  - add: Added rounding numbers and new token decoding.
+  - remove: Nothing removed.
+  - bugfix: Fixed bugs.
+  - tweak: Nothing.
