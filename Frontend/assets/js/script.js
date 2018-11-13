@@ -101,6 +101,14 @@ var barChart = new Chart(myChart, {
 });
 }
 
+window.addEventListener('mouseup', function(event) {
+    
+    var menu = document.getElementById("m_menu");
+    
+    if(event.target != menu && event.target.parentNode != menu) {
+        document.getElementById("m_menu").style.width = "0";
+    }
+})
 grafukazka();
 
 
