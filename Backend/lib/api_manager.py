@@ -6,13 +6,14 @@ from flask import jsonify, abort
 apis = {}
 
 def call(version, request, data):
+    """Find and load the appropriate API and call the requested method."""
     if version not in apis:
-        print("Loading lib/APIv" + version + ".py", "./lib")
-        if os.path.isfile("lib/APIv" + version + ".py"):
-            spec = importlib.util.spec_from_file_location("APIv" + version, "lib/APIv" + version + ".py")
-            m = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(m)
-            apis[version] = m.api()
+        name = "APIv{}".format(version)
+        path = "lib/{}.py".format(name)
+        print("Loading", path)
+        if os.path.isfile(path):
+            module = importlib.import_module("lib." + name, "lib")
+            apis[version] = module.api()
         else:
             abort(404)
     return apis[version].call(request, data)

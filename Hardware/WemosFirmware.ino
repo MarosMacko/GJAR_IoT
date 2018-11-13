@@ -1,55 +1,53 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
-#include <SimpleDHT.h> //kniznica k DHT
+#include <SimpleDHT.h> //library to DHT sensor
 
 // WiFi Parameters
-const char* ssid = "...";
-const char* password = "...";
+const char* ssid = "Trpak";  //wifi ssid
+const char* password = "naseauto"; //wifi password
 
-#define redLED 12
-#define greenLED 16
-#define GND 14
+#define redLED 12 //pins to bicolorled
+#define greenLED 16 //pins to bicolorled
+#define GND 14 //pins to bicolorled
 
-int pinDHT22 = 2;   //DHT pin je D4
-SimpleDHT22 dht22; // typ DHT je DHT22
+int pinDHT22 = 2;   //DHT pin  D4
+SimpleDHT22 dht22; // type DHT22
 
-#define INTERVAL    3 // pocet docastnych hodnot na priemerovanie
-#define dispAVG_INTERVAL  3 // po kolkych meraniach sa posiela priemer teploty
-#define sensors_INTERVAL 10000 //cas pokial senzory nameraju nove hodnoty
-#define EEPROM_size 512 //velkost EEPROMu
-#define EEPROM_INTERVAL 3 //pocet zalohovanych merani
+#define INTERVAL    3 //amount of temporary values
+#define dispAVG_INTERVAL  3 // amount of measurements
+#define sensors_INTERVAL 10000 //time to new measurement
 
-float DHTtemperature = 0;  //vynulovanie zaciatocnej meranej teploty
-float DHThumidity = 0;     //vynulovanie zaciatocnej meranej vlhkosti
-int err = SimpleDHTErrSuccess;  // sprava ak meranie bude chybne
+float DHTtemperature = 0;  //temperature
+float DHThumidity = 0;     //humidity
+int err = SimpleDHTErrSuccess;  // message when something goes wrong with DHT
 
-int sensorValue;  //citana hodnota z LDR
+int sensorValue;  //value from LDR 
 
-float tmpT[INTERVAL];  // docastna hodnota, z kt. sa bude pocitat priemer
-float avgT;            // priemerna teplota;
-int iTmp = 0;         //index docasnej hodnoty
-int dispAVG = -2;      //zobrazi priemerne hodnoty ked disAVG bude rovne nule
+float tmpT[INTERVAL];  // array of temporary values 
+float avgT;            // average temp
+int iTmp = 0;         //index of temporary values
+int dispAVG = -2;      //average values will be printed to serial monitor
 
-float tmpH[INTERVAL];  // docastna hodnota, z kt. sa bude pocitat priemer
-float avgH;           // priemerna vlhkost;
+float tmpH[INTERVAL];  // array of temporary values
+float avgH;           // temporary humidity
 
-int brightness = 0;  //vynulovanie pociatocneho napatia
-int avgB;            //priemerne napatie
-int tmpB[INTERVAL];  //docastna hodnota, z kt. sa bude pocitat priemer
+int brightness = 0;  //brightness
+int avgB;            //average brightness
+int tmpB[INTERVAL];  //array of temporary brightness
 
-os_timer_t timJSONalive;
+os_timer_t timJSONalive; //timer for JSONalive message
 
 void setup() {
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   
-  os_timer_setfn(&timJSONalive, JSONalive, NULL);     // spustenie a nastavernie Timera pre snimanie teploty a spol.
+  os_timer_setfn(&timJSONalive, JSONalive, NULL);     // starting of timer
   os_timer_arm(&timJSONalive,1800000, true); 
   
   delay(10);
-  pinMode(redLED, OUTPUT);
+  pinMode(redLED, OUTPUT); //declaring things
   pinMode(greenLED, OUTPUT);
-  pinMode(pinDHT22 ,INPUT_PULLUP);
+  pinMode(pinDHT22 ,INPUT_PULLUP); //pullup pin
   pinMode(GND, OUTPUT);
   digitalWrite(GND, LOW);
   Serial.println('\n'); 
@@ -57,8 +55,6 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.print(ssid);
   Serial.println(" ... ");
-
-  int i = 0;
   while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
     
     digitalWrite(redLED, HIGH);
@@ -78,16 +74,15 @@ void setup() {
  
 
 }
-void loop(){
+void loop(){          //main function
  
 if (WiFi.status() != WL_CONNECTED) { //Check WiFi connection status
     Serial.println("Error in WiFi connection");
   } 
-  GetSensorsData();// volanie funkcie na meranie hodnot zo senzorov
+  GetSensorsData();// calling the sensors function 
 }
 
 void GetSensorsData() {
-  //nacitanie dat z DHT a vyhodnotenie cimeranie bolo uspesne
   if ((err = dht22.read2(pinDHT22, &DHTtemperature, &DHThumidity, NULL)) != SimpleDHTErrSuccess) {
     Serial.print("Read DHT22 failed, err="); 
     Serial.println(err); delay(2000);
@@ -214,11 +209,10 @@ void JSONdata() {
     DynamicJsonBuffer JSONdata;
     JsonObject& data = JSONdata.createObject();
     data["token"] = (token);
-    JsonArray& dataObject = data.createNestedArray("data");  
-    JsonObject& objectD = dataObject.createNestedObject();    
-    objectD["humidity"] = (avgH);
-    objectD["temperature"] = (avgT);
-    objectD["brightness"] = (avgB);
+    JsonObject& dataObject = data.createNestedObject("data");     
+    dataObject["humidity"] = (avgH);
+    dataObject["temperature"] = (avgT);
+    dataObject["brightness"] = (avgB);
     char dataMessage[300];
     data.prettyPrintTo(dataMessage, sizeof(dataMessage));
     Serial.println(dataMessage);

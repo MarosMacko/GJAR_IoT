@@ -1,15 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
-    <meta charset="utf-8" />
-    <title>GJAR IoT</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
-    <script src="assets/js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/styl.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Offside">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+    </script>
+    <title>Gjar IoT</title>
 </head>
+
 <body>
-    <h1>GJAR Internet of Things</h1>
-    <p>Welcome to the web interface of our IoT system.</p>
-    <p>View the changelog <a href="changelog.html">here</a>.</p>
+    <div id="scrollToTop">Top</div>
+    <div class="header" id="topScroll">
+
+        <a href="https://www.gjar-po.sk/">
+            <div class="h_gjar">GJAR</div>
+        </a>
+
+        <a href="graphs.html" style="text-decoration: none;">
+            <div class="h_button">
+                GRAFY
+            </div>
+        </a>
+        <!--tlacidlo pre mobilne telefony-->
+        <div class="wrap" onclick="openNav()">
+            <div class="icon"></div>
+            <div class="icon"></div>
+            <div class="icon"></div>
+        </div>
+    </div>
+
+    <div id="m_menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="graphs.html">GRAPHS</a>
+    </div>
+
+    <div class="uvod_obr">
+        <div class="iot">
+            <p>Internet</p>
+            <p>of</p>
+            <p>Things</p>
+        </div>
+        <div class="scroll-down" onclick="scrollToProject('about_project')"></div>
+    </div>
+    <div class="grafy_ukazka" id="about_project">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="project_info">
+        <h1>O projekte</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti illo ratione aut in quaerat saepe minima atque ad, voluptatum non assumenda quisquam modi tempore numquam reprehenderit asperiores mollitia neque! Ex. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi unde ad explicabo quod adipisci. Labore necessitatibus aut nihil debitis magnam maiores, sunt, sit odit est ea, beatae mollitia. Voluptatum, exercitationem.</p>
+    </div>
+    <div style="line-height: 50px; font-size: 23px; background-color: rgb(145,140,140, 0.3);; color: #302d2b; text-align: center;">Na projekte pracovali:</div>
+    <div class="about_us">
+        <div class="column"><!--<img src="assets/img/12.jpg" alt="1">-->
+           <h3 style="text-align: center;
+           padding:  20px 0;">Maros</h3>
+            <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil maiores accusamus temporibus, quas beatae, voluptates quod sed ratione quibusdam, iusto velit a. Distinctio optio quibusdam qui nisi autem, eos voluptate.</p>
+        </div>
+        <div class="column"><!--<img src="assets/img/12.jpg" alt="2">-->
+           <h3 style="text-align: center;
+           padding:  20px 0;">Samo</h3>
+            <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil maiores accusamus temporibus, quas beatae, voluptates quod sed ratione quibusdam, iusto velit a. Distinctio optio quibusdam qui nisi autem, eos voluptate.</p>
+        </div>
+        <div class="column"><!--<img src="assets/img/12.jpg" alt="3">-->
+           <h3 style="text-align: center;
+           padding:  20px 0;">Daniel</h3>
+            <p class="text">Pracoval som na dizajne stranky. Mam 16 rokov. Navstevujem gymnazium Jana Adama Raymana v presove a som ziakom 2.D triedy. </p>
+        </div>
+        <div class="column"><!--<img src="assets/img/12.jpg" alt="4">-->
+           <h3 style="text-align: center;
+           padding:  20px 0;">Miro</h3>
+            <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil maiores accusamus temporibus, quas beatae, voluptates quod sed ratione quibusdam, iusto velit a. Distinctio optio quibusdam qui nisi autem, eos voluptate.</p>
+        </div>
+    </div>
+    <div class="click_me">
+        <p>Presun na grafy</p>
+    </div>
+    <div class="click_mebtn">
+           <a href="graphs.html" style="text-decoration: none;">
+            <div class="click_btn">CLICK HERE</div>
+           </a>
+    </div>
+    <div class="footer">®Gjar Iot</div>
+    <script src="assets/js/script.js"></script>
+
 </body>
+
 </html>
