@@ -15,7 +15,7 @@
 </head>
     <body>
         <div id="scrollToTop">Top</div>
-        <div class="header g_header active" id="topScroll">
+        <div class="header" id="topScroll">
        
         <a href="https://www.gjar-po.sk/"><div class="h_gjar">GJAR</div></a>
     
@@ -24,18 +24,18 @@
              Späť     
         </div></a>
         <div class="dropdown1">
-            <button onclick="myFunction1()" class="dropbtn1">Miestnosti 
-                  <i class="fa fa-caret-down"></i>
+            <button class="dropbtn1">Miestnosti 
+                  <i class="fa fa-caret-down sipka"></i>
         </button>
         <div class="dropdown-content1" id="myDropdown1">
-              <a href="#">Link 1</a>
-              <a href="#">Link 2</a>
-              <a href="#">Link 3</a>
-              <a href="#">Link 4</a>
-              <a href="#">Link 5</a>
-              <a href="#">Link 6</a>
-              <a href="#">Link 7</a>
-              <a href="#">Link 8</a>
+              <a href="#" onclick="activeroomf(0)">Byt (29)</a>
+              <a href="#" onclick="activeroomf(1)">Inf kabinet (53)</a>
+              <a href="#" onclick="activeroomf(2)">III.A (61)</a>
+              <a href="#" onclick="activeroomf(3)">Kniznica (70)</a>
+              <a href="#" onclick="activeroomf(4)">Aj 1 (71)</a>
+              <a href="#" onclick="activeroomf(5)">Nj 2 (77)</a>
+              <a href="#" onclick="activeroomf(6)">Bio kabinet (83)</a>
+              <a href="#" onclick="activeroomf(7)">VI.OA (84)</a>
         </div>
         </div> 
         <!--tlacidlo pre mobilne telefony-->
@@ -51,61 +51,61 @@
         <a href="index.html">HOME</a>
         <button onclick="myFunction()" class="dropbtn">Miestnost</button>
           <div id="myDropdown" class="dropdown-content">
-            <a href="#">II.A (68)</a>
-            <a href="#">III.D (75)</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 3</a>
-            <a href="#">Link 3</a>
+              <a href="#" onclick="activeroomf(0)">Byt (29)</a>
+              <a href="#" onclick="activeroomf(1)">Inf kabinet (53)</a>
+              <a href="#" onclick="activeroomf(2)">III.A (61)</a>
+              <a href="#" onclick="activeroomf(3)">Kniznica (70)</a>
+              <a href="#" onclick="activeroomf(4)">Aj 1 (71)</a>
+              <a href="#" onclick="activeroomf(5)">Nj 2 (77)</a>
+              <a href="#" onclick="activeroomf(6)">Bio kabinet (83)</a>
+              <a href="#" onclick="activeroomf(7)">VI.OA (84)</a>
           </div>
     </div>
     <div class="table_rooms">
         <table class="table_h">
             <tr>
-             <th>GJAR</th>
-             <td>II.A (68)</td>
-             <td>III.D (75)</td>
-             <td>3</td>
-             <td>4</td>
+             <th>II.A (68)</th>
+             <td id="time_1"></td>
+             <td id="time_2"></td>
+             <td id="time_3"></td>
+             <!--td>4</td>
              <td>5</td>
              <td>6</td>
              <td>7</td>
-             <td>8</td>
+             <td>8</td-->
              </tr>
              <tr>
              <th>Teplota</th>
-             <td id="room1_temp"></td>
-             <td id="room2_temp"></td>
-             <td id="room3_temp"></td>
-             <td id="room4_temp"></td>
+             <td id="temp_1"></td>
+             <td id="temp_2"></td>
+             <td id="temp_3"></td>
+             <!--td id="room4_temp"></td>
              <td id="room5_temp"></td>
              <td id="room6_temp"></td>
              <td id="room7_temp"></td>
-             <td id="room8_temp"></td>
+             <td id="room8_temp"></td-->
              </tr>
              <tr>
              <th >Vlhkost</th>
              <td id="room1_humidity"></td>
              <td id="room2_humidity"></td>
              <td id="room3_humidity"></td>
-             <td id="room4_humidity"></td>
+             <!--td id="room4_humidity"></td>
              <td id="room5_humidity"></td>
              <td id="room6_humidity"></td>
              <td id="room7_humidity"></td>
-             <td id="room8_humidity"></td>
+             <td id="room8_humidity"></td-->
              </tr>
              <tr>
              <th>Svetlo</th>
              <td id="room1_light"></td>
              <td id="room2_light"></td>
              <td id="room3_light"></td>
-             <td id="room4_light"></td>
+             <!--td id="room4_light"></td>
              <td id="room5_light"></td>
              <td id="room6_light"></td>
              <td id="room7_light"></td>
-             <td id="room8_light"></td>
+             <td id="room8_light"></td-->
             </tr>
         </table>
     </div>
