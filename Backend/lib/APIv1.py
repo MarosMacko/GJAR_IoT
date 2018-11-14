@@ -120,15 +120,15 @@ class api():
                             if db.select("devices", "*", "dev_id={}".format(cmd[1])):
                                 db.query("update devices set token='{}' where dev_id={};".format(self.candidates[i][1], cmd[1]))
                             else:
-                                db.insert_raw("devices", "{}, {}, {}, null".format(self.candidates[i][0], self.candidates[i][1], cmd[2]))
+                                db.insert_raw("devices", "{}, '{}', {}, null".format(self.candidates[i][0], self.candidates[i][1], cmd[2]))
                             return jsonify(API_response())
                     return jsonify(API_error("No such candidate dev_id."))
                 else:
                     return jsonify(API_fatal("Invalid query."))
-            elif cmd[0] == "room":
-                if len(cmd) == 3 and cmd[1].isdigit():
-                    db.insert_raw("rooms", "{}, '{}', null".format(cmd[1], cmd[2]))
-
+            #elif cmd[0] == "room":
+            #    if len(cmd) == 3 and cmd[1].isdigit():
+            #        db.insert_raw("rooms", "{}, '{}', null".format(cmd[1], cmd[2]))
+            return jsonify(API_error("Unknown command."))
         else:
             return jsonify(API_error("Unable to authenticate."))
 
