@@ -27,9 +27,13 @@
 - author: Daniel Dopiriak
   changes:
   - add: Frontend.
-'2019-11-01':
-- author: Name
+'2018-11-01':
+- author: "Samuel Nov\u0102\u02C7k"
   changes:
   - add: Server accepting brightness.
   - remove: Removed noise.
   - bugfix: Removed time from protocol in DATA.
+'2018-11-15':
+- author: Daniel Dopiriak
+  changes:
+  - add: Added information about us
