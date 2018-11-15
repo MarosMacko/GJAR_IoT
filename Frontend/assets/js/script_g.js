@@ -7,25 +7,24 @@ function closeNav() {
 }
 
 
-var activeroom = "{\"room\":0}"
+
+var activeroom = 0;
 
 
+function activeroomf(e) {
+    activeroom = e;
+    call_on_server();
+}
 
+/*
+!!!! spojazdnit call na server za poslednych 6hodin
+var d = new Date();
+var n = d.getHours() - 6;
+*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-var data;
-var settings = {
+function call_on_server() {
+    var data;
+    var settings = {
     "async": true,
     "crossDomain": true,
     "url": "https://iot.gjar-po.sk/api/v1/view",
@@ -36,19 +35,14 @@ var settings = {
         "cache-control": "no-cache",
     },
     "processData": false,
-    "data": activeroom,
-    "data": "{\"room\":0, \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2019-01-01 00:00:00\"}}"
-}
+    "data": "{\"room\":" + activeroom + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2019-01-01 00:00:00\"}}"
+    }
 
-$.ajax(settings).done(getdata);
+    $.ajax(settings).done(getdata);   
+}
 
 
 var room, activetemp, activehum, activelight, teploty, vlhkosti
-
-
-
-
-
 
 
 
@@ -56,7 +50,7 @@ function getdata (response) {
     
     
     function active_room (e) {
-            activetemp = response.data.temperature;
+            activetemp = response.data[e].temperature;
             activehum = response.data[e].humidity;
             activelight = response.data[e].noise;
     }
@@ -64,16 +58,23 @@ function getdata (response) {
         time = [];
         teploty = [];
         vlhkosti = [];
+        brighteness = [];
         for(i = 0; i < 3; i++) {
             teploty.push(response.data[i].temperature);
             vlhkosti.push(response.data[i].humidity);
             time.push(response.data[i].time);
         }
-        
-        
+    
+        document.getElementById('temp_1').innerHTML = teploty[0] + '°C';
+        document.getElementById('temp_2').innerHTML = teploty[1] + '°C';
+        document.getElementById('temp_3').innerHTML = teploty[2] + '°C';
+        document.getElementById('time_1').innerHTML = time[0];
+        document.getElementById('time_2').innerHTML = time[1];
+        document.getElementById('time_3').innerHTML = time[2];
+
     
     
-        data = response
+        /*data = response*/
         usedata();
 }
 
@@ -135,9 +136,12 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
-function myFunction1() {
-    document.getElementById("myDropdown1").clasName.display.toggle = 'block';
-}
+
+document.querySelector(".dropbtn1").addEventListener("click", function () {
+    document.querySelector(".dropdown-content1").classList.toggle("display");
+    document.querySelector('.sipka').classList.toggle('rotate');
+})
+
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -150,5 +154,16 @@ window.onclick = function(event) {
         openDropdown.classList.remove('show');
       }
     }
-  }
+  } 
 }
+window.addEventListener('mouseup', function(event) {
+    
+    var menu = document.getElementById("m_menu");
+    
+    if(event.target != menu && event.target.parentNode != menu) {
+        document.getElementById("m_menu").style.width = "0";
+    }
+})
+
+
+call_on_server();
