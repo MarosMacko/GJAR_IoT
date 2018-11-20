@@ -37,3 +37,8 @@
 - author: Daniel Dopiriak
   changes:
   - add: Added information about us
+'2018-11-20':
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - remove: Removed room command.
+  - bugfix: Fixed approve command.

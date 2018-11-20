@@ -1,4 +1,0 @@
-author: Samuel Novák
-changes:
-  - remove: Removed room command.
-  - bugfix: Fixed approve command.
