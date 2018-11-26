@@ -78,17 +78,18 @@ class api():
         dev_id = d[0]
         room_number = d[2]
         t = db.format_time()
+        data_m = data["data"]
         d = ""
-        if "temperature" in data:
-            d += data["temperature"] + ", "
+        if "temperature" in data_m:
+            d += data_m["temperature"] + ", "
         else:
             d += "null, "
-        if "humidity" in data:
-            d += data["humidity"]
+        if "humidity" in data_m:
+            d += data_m["humidity"]
         else:
             d += "null, "
-        if "brightness" in data:
-            d += data["brightness"]
+        if "brightness" in data_m:
+            d += data_m["brightness"]
         else:
             d += "null"
         db.insert_raw("data", "{}, {}, '{}', {}".format(dev_id, room_number, t, d))
