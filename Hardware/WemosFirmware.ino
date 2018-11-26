@@ -4,8 +4,8 @@
 #include <SimpleDHT.h> //library to DHT sensor
 
 // WiFi Parameters
-const char* ssid = "Trpak";  //wifi ssid
-const char* password = "naseauto"; //wifi password
+const char* ssid = "...";  //wifi ssid
+const char* password = "..."; //wifi password
 
 #define redLED 12 //pins to bicolorled
 #define greenLED 16 //pins to bicolorled
