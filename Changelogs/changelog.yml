@@ -42,3 +42,12 @@
   changes:
   - remove: Removed room command.
   - bugfix: Fixed approve command.
+'2018-11-27':
+- author: Miroslav Repka
+  changes:
+  - add: Added rounding numbers and new token decoding.
+  - add: Added verification and approving Nodes.
+  - remove: Nothing removed.
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - bugfix: Fixed data recording.

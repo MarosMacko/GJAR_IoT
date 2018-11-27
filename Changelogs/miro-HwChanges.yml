@@ -1,5 +1,0 @@
-author: Miro
-changes:
-  - add: Added rounding numbers and new token decoding.
-  - add: Added verification and approving Nodes.
-  - remove: Nothing removed.
