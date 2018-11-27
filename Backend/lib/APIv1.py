@@ -81,15 +81,15 @@ class api():
         data_m = data["data"]
         d = ""
         if "temperature" in data_m:
-            d += data_m["temperature"] + ", "
+            d += str(data_m["temperature"]) + ", "
         else:
             d += "null, "
         if "humidity" in data_m:
-            d += data_m["humidity"]
+            d += str(data_m["humidity"]) + ", "
         else:
             d += "null, "
         if "brightness" in data_m:
-            d += data_m["brightness"]
+            d += str(data_m["brightness"])
         else:
             d += "null"
         db.insert_raw("data", "{}, {}, '{}', {}".format(dev_id, room_number, t, d))
