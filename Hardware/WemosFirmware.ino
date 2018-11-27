@@ -200,7 +200,7 @@ void JSONdata() {
     
     DynamicJsonBuffer JSONapprove;
     JsonObject& approve = JSONapprove.createObject();
-    approve["token"] = "71d22f00c6b3f756114c2dfc7606c2446270f73715235aefa7e4adc8768466f8";
+    approve["token"] = "";
     approve["command"] = (approvePar);
     char approveMessage[300];
     approve.prettyPrintTo(approveMessage, sizeof(approveMessage));
@@ -334,7 +334,7 @@ void JSONroom(){
   
     DynamicJsonBuffer JSONroom;
     JsonObject& room= JSONroom.createObject();
-    room["token"] = "71d22f00c6b3f756114c2dfc7606c2446270f73715235aefa7e4adc8768466f8";
+    room["token"] = "";
     room["command"] = "candidates";
     char roomMessage[300];
     room.prettyPrintTo(roomMessage, sizeof(roomMessage));
@@ -357,7 +357,7 @@ void JSONroom(){
     
     DynamicJsonBuffer JSONapprove;
     JsonObject& approve = JSONapprove.createObject();
-    approve["token"] = "71d22f00c6b3f756114c2dfc7606c2446270f73715235aefa7e4adc8768466f8";
+    approve["token"] = "";
     approve["command"] = (approvePar);
     char approveMessage[300];
     approve.prettyPrintTo(approveMessage, sizeof(approveMessage));
