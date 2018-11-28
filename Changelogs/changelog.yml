@@ -1,6 +1,6 @@
 # Automatically generated changelog archive. Not to be modified manually.
 '2018-07-15':
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - add: Automatic changelog system.
   - add: Basic frontend with link to changelogs.
@@ -8,7 +8,7 @@
 - author: Miroslav Repka
   changes:
   - add: Hardware using JSON protocol.
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - tweak: Simplified API imports.
   - bugfix: Fixed changelog.py
@@ -18,7 +18,7 @@
   - add: The code can now send json messages.
   - remove: Eeprom was removed from the code.
 '2018-10-05':
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - add: Added view API call.
   - bugfix: Fixed API loading.
@@ -28,7 +28,7 @@
   changes:
   - add: Frontend.
 '2018-11-01':
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - add: Server accepting brightness.
   - remove: Removed noise.
@@ -38,7 +38,7 @@
   changes:
   - add: Added information about us
 '2018-11-20':
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - remove: Removed room command.
   - bugfix: Fixed approve command.
@@ -47,7 +47,6 @@
   changes:
   - add: Added rounding numbers and new token decoding.
   - add: Added verification and approving Nodes.
-  - remove: Nothing removed.
-- author: "Samuel Nov\u0102\u02C7k"
+- author: "Samuel Nov\xE1k"
   changes:
   - bugfix: Fixed data recording.
