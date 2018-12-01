@@ -78,17 +78,18 @@ class api():
         dev_id = d[0]
         room_number = d[2]
         t = db.format_time()
+        data_m = data["data"]
         d = ""
-        if "temperature" in data:
-            d += data["temperature"] + ", "
+        if "temperature" in data_m:
+            d += str(data_m["temperature"]) + ", "
         else:
             d += "null, "
-        if "humidity" in data:
-            d += data["humidity"]
+        if "humidity" in data_m:
+            d += str(data_m["humidity"]) + ", "
         else:
             d += "null, "
-        if "brightness" in data:
-            d += data["brightness"]
+        if "brightness" in data_m:
+            d += str(data_m["brightness"])
         else:
             d += "null"
         db.insert_raw("data", "{}, {}, '{}', {}".format(dev_id, room_number, t, d))
@@ -120,15 +121,15 @@ class api():
                             if db.select("devices", "*", "dev_id={}".format(cmd[1])):
                                 db.query("update devices set token='{}' where dev_id={};".format(self.candidates[i][1], cmd[1]))
                             else:
-                                db.insert_raw("devices", "{}, {}, {}, null".format(self.candidates[i][0], self.candidates[i][1], cmd[2]))
+                                db.insert_raw("devices", "{}, '{}', {}, null".format(self.candidates[i][0], self.candidates[i][1], cmd[2]))
                             return jsonify(API_response())
                     return jsonify(API_error("No such candidate dev_id."))
                 else:
                     return jsonify(API_fatal("Invalid query."))
-            elif cmd[0] == "room":
-                if len(cmd) == 3 and cmd[1].isdigit():
-                    db.insert_raw("rooms", "{}, '{}', null".format(cmd[1], cmd[2]))
-
+            #elif cmd[0] == "room":
+            #    if len(cmd) == 3 and cmd[1].isdigit():
+            #        db.insert_raw("rooms", "{}, '{}', null".format(cmd[1], cmd[2]))
+            return jsonify(API_error("Unknown command."))
         else:
             return jsonify(API_error("Unable to authenticate."))
 

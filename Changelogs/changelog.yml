@@ -27,9 +27,27 @@
 - author: Daniel Dopiriak
   changes:
   - add: Frontend.
-'2019-11-01':
-- author: Name
+'2018-11-01':
+- author: "Samuel Nov\u0102\u02C7k"
   changes:
   - add: Server accepting brightness.
   - remove: Removed noise.
   - bugfix: Removed time from protocol in DATA.
+'2018-11-15':
+- author: Daniel Dopiriak
+  changes:
+  - add: Added information about us
+'2018-11-20':
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - remove: Removed room command.
+  - bugfix: Fixed approve command.
+'2018-11-27':
+- author: Miroslav Repka
+  changes:
+  - add: Added rounding numbers and new token decoding.
+  - add: Added verification and approving Nodes.
+  - remove: Nothing removed.
+- author: "Samuel Nov\u0102\u02C7k"
+  changes:
+  - bugfix: Fixed data recording.
