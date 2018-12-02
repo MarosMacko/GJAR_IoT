@@ -6,28 +6,45 @@ function closeNav() {
     document.getElementById("m_menu").style.width = "0";
 }
 
-
-
-var activeroom = 0;
-
+var activeroom = 16;
+var active_miestnost = document.getElementById('active_miestnost');
+active_miestnost.innerHTML = 'Byt (29)';
 
 function activeroomf(e) {
     activeroom = e;
+    if(activeroom == 16) {
+        active_miestnost.innerHTML = 'Byt (29)';
+    } else if (activeroom == 53) {
+        active_miestnost.innerHTML = 'Inf kabinet (53)';
+    } else if (activeroom == 61) {
+        active_miestnost.innerHTML = 'III.A (61)';
+    } else if (activeroom == 70) {
+        active_miestnost.innerHTML = 'Kniznica (70)';
+    } else if (activeroom == 71) {
+        active_miestnost.innerHTML = 'Aj 1 (71)';
+    } else if (activeroom ==77) {
+        active_miestnost.innerHTML = 'Nj 2 (77)';
+    } else if (activeroom == 83) {
+        active_miestnost.innerHTML = 'Bio kabinet (83)';
+    } else if (activeroom == 0) {
+         active_miestnost.innerHTML = 'VI.OA (84)';
+    } else {
+        active_miestnost.innerHTML = 'error';
+    }
+    barChart.destroy()
     call_on_server();
 }
-
 /*
 !!!! spojazdnit call na server za poslednych 6hodin
 var d = new Date();
 var n = d.getHours() - 6;
 */
-
 function call_on_server() {
     var data;
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "https://iot.gjar-po.sk/api/v1/view",
+    "url": "http://iot.gjar-po.sk/api/v1/view",
     "method": "POST",
     "dataType": "json",
     "headers": {
@@ -35,54 +52,45 @@ function call_on_server() {
         "cache-control": "no-cache",
     },
     "processData": false,
-    "data": "{\"room\":" + activeroom + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2019-01-01 00:00:00\"}}"
+    "data": "{\"room\":" + activeroom  + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2019-01-01 00:00:00\"}}"  
     }
 
-    $.ajax(settings).done(getdata);   
+    $.ajax(settings).done(getdata);  
 }
-
 
 var room, activetemp, activehum, activelight, teploty, vlhkosti
 
-
-
 function getdata (response) {
-    
-    
-    function active_room (e) {
-            activetemp = response.data[e].temperature;
-            activehum = response.data[e].humidity;
-            activelight = response.data[e].noise;
-    }
-    
         time = [];
         teploty = [];
         vlhkosti = [];
         brighteness = [];
-        for(i = 0; i < 3; i++) {
+
+        for(i = 0; i < response.data.length; i ++) {
             teploty.push(response.data[i].temperature);
             vlhkosti.push(response.data[i].humidity);
             time.push(response.data[i].time);
+            brighteness.push(response.data[i].brightness);
         }
-    
-        document.getElementById('temp_1').innerHTML = teploty[0] + '°C';
-        document.getElementById('temp_2').innerHTML = teploty[1] + '°C';
-        document.getElementById('temp_3').innerHTML = teploty[2] + '°C';
-        document.getElementById('time_1').innerHTML = time[0];
-        document.getElementById('time_2').innerHTML = time[1];
-        document.getElementById('time_3').innerHTML = time[2];
 
+            active_hodnota = response.data.length - 1;
     
+            document.getElementById('temp_1').innerHTML = teploty[active_hodnota] + '°C';
+            document.getElementById('time_1').innerHTML = time[active_hodnota];
+            document.getElementById('humidity_1').innerHTML = vlhkosti[active_hodnota];
+            document.getElementById('light_1').innerHTML = brighteness[active_hodnota];       
     
-        /*data = response*/
         usedata();
 }
 
+var myChart = document.getElementById('myChart1').getContext('2d');
+                Chart.defaults.global.defaultFontColor = 'black';
+
+
+var barChart;
 
 function usedata() {
-        var myChart = document.getElementById('myChart1').getContext('2d');
-                Chart.defaults.global.defaultFontColor = 'black';
-        var barChart = new Chart(myChart, {
+        barChart = new Chart(myChart, {
             type: 'line',
             data: {
                     labels: time,
@@ -100,7 +108,7 @@ function usedata() {
             borderColor: 'orange',
             },{
             label: 'Svietivosť',
-            data: [22, 35, 27, 14, 12, 45, 60, ],
+            data: brighteness,
             fill: false,
             borderWidth: 4,
             borderColor: 'lightgreen',
@@ -112,7 +120,7 @@ function usedata() {
             title: {
                 display: true,
                 text: 'Teplota, Vlhkosť a Svietivosť',
-                fontSize: 25,
+                fontSize: 20,
             },
             legend: {
             position: 'bottom'
@@ -123,19 +131,18 @@ function usedata() {
             scales: {
             yAxes: [ {ticks: {
                         min: 0,
-                        max: 100,
+                        max: 275,
                     }
                  }],
         },
     }
 });
+/*barChart.update( )*/
 }
-
 
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
-
 
 document.querySelector(".dropbtn1").addEventListener("click", function () {
     document.querySelector(".dropdown-content1").classList.toggle("display");
@@ -164,6 +171,5 @@ window.addEventListener('mouseup', function(event) {
         document.getElementById("m_menu").style.width = "0";
     }
 })
-
 
 call_on_server();

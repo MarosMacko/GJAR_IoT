@@ -110,5 +110,3 @@ window.addEventListener('mouseup', function(event) {
     }
 })
 grafukazka();
-
-
