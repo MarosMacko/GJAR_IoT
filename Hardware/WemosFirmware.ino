@@ -4,8 +4,8 @@
 #include <SimpleDHT.h> //library to DHT sensor
 
 // WiFi Parameters
-const char* ssid = "...";  //wifi ssid
-const char* password = "..."; //wifi password
+const char* ssid = "...";  //wifi ssid 
+const char* password ="..."; //wifi password 
 
 #define redLED 12 //pins to bicolorled
 #define greenLED 16 //pins to bicolorled
@@ -29,15 +29,21 @@ float avgT;            // average temp
 int iTmp = 0;         //index of temporary values
 int dispAVG = -2;      //average values will be printed to serial monitor
 
-float tmpH[INTERVAL];  // array of temporary values
-float avgH;           // temporary humidity
+int tmpH[INTERVAL];  // array of temporary values
+int avgH;           // temporary humidity
 
-int brightness = 0;  //brightness
+int brightness;  //brightness
 int avgB;            //average brightness
 int tmpB[INTERVAL];  //array of temporary brightness
 
 os_timer_t timJSONalive; //timer for JSONalive message
 
+struct JSONvalues{
+  String id;
+  String token;
+  };
+  
+//--------------------------------------------setup------------------------------------------------------------
 void setup() {
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   
@@ -74,6 +80,7 @@ void setup() {
  
 JSONroom();
 }
+//------------------------------------loop------------------------------------------------------------------------------
 void loop(){          //main function
  
 if (WiFi.status() != WL_CONNECTED) { //Check WiFi connection status
@@ -81,7 +88,7 @@ if (WiFi.status() != WL_CONNECTED) { //Check WiFi connection status
   } 
   GetSensorsData();// calling the sensors function 
 }
-
+//------------------------------------GetSensorsData------------------------------------------------------------------------------
 void GetSensorsData() {
   if ((err = dht22.read2(pinDHT22, &DHTtemperature, &DHThumidity, NULL)) != SimpleDHTErrSuccess) {
     Serial.print("Read DHT22 failed, err="); 
@@ -127,15 +134,10 @@ void GetSensorsData() {
   avgH = avgH / INTERVAL; //priemerna vlhkost je podiel spocitanych vlhkosti s ich poctom
   avgB = avgB / INTERVAL; //priemerne napatie je podiel spocitanych napati s ich poctom
   
-  float avgTT = avgT * 100;
+  float avgTT = avgT * 10;
   int TmpavgT = (int) avgTT;
-  avgT = (float) TmpavgT / 100; //zaokruhli na 2 desatinne miesta
-  float avgHT = avgH * 100;
-  int TmpavgH = (int) avgHT;
-  avgH = (float) TmpavgH / 100; //zaokruhli na 2 desatinne miesta
- // float avgBT = avgB * 10;
-  // int avgB = (int) avgB;
- // avgB = (float) TmpavgB / 10; //zaokruhli na 1 desatinne miesto
+  avgT = (float) TmpavgT / 10; //zaokruhli na 1 desatinne miesta
+  
   
   
 
@@ -167,8 +169,29 @@ void GetSensorsData() {
 
   delay(sensors_INTERVAL); //time interval for sensors
 }
+//-----------------------------------------------parseToken------------------------------------------------------------
+const String parseToken(String parsedMessage){
+   
+     DynamicJsonBuffer jsonToken;
+     JsonObject& root = jsonToken.parseObject(parsedMessage);
+     String token = root["token"];  
+     
+    return token;
+  }
+//-----------------------------------------------parseId------------------------------------------------------------
+const String parseId(String parsedMessage){
+   
+     DynamicJsonBuffer jsonToken;
+     JsonObject& root = jsonToken.parseObject(parsedMessage);
+     String id = root["id"];  
+     
+    return id;
+  } 
+//-----------------------------------------------JSONconnect------------------------------------------------------------
+struct JSONvalues JSONconnect(){
 
-void JSONdata() {
+struct JSONvalues values;
+  
     StaticJsonBuffer<100> JSONconnect;   //Declaring static JSON buffer
     JsonObject& connecT = JSONconnect.createObject(); 
     connecT["id"] = 0;
@@ -179,33 +202,37 @@ void JSONdata() {
     
     http.begin("http://iot.gjar-po.sk/api/v1/connect");      //prikaz zmenit na daco ine napr. connect
     http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json
-
-    
-    int httpConnect = http.POST(connectMessage);   //posle request
-    String payloadConnect = http.getString();                                        //Get the response payload
-    Serial.println(httpConnect);   //Print HTTP return code
-    Serial.println(payloadConnect);    //Print request response payload
- 
    
-    DynamicJsonBuffer jsonToken;
-    JsonObject& root = jsonToken.parseObject(payloadConnect);
-     int id = root["id"]; 
-     String token = root["token"];
-     http.end();  
+    int httpConnect = http.POST(connectMessage);   //posle request
+    String payloadConnect = http.getString(); 
+    Serial.println(httpConnect);   //Print HTTP return code
+    Serial.println(payloadConnect);    //Print request response payload 
+    http.end();
 
+    values.token = parseToken(payloadConnect);
+    values.id = parseId(payloadConnect);
+        
+    return  values;
+  }
+ 
+//-----------------------------------------------JSONapprove------------------------------------------------------------  
+void JSONapprove(struct JSONvalues values){
+    
     String ap = "approve";
-    String idStr = String(id);
+    String idStr = values.id;
     String roomStr  = "16"; //room id
     String approvePar = ap+" "+idStr+" "+roomStr;
     
     DynamicJsonBuffer JSONapprove;
     JsonObject& approve = JSONapprove.createObject();
-    approve["token"] = "";
+    approve["token"] = "...";
     approve["command"] = (approvePar);
     char approveMessage[300];
     approve.prettyPrintTo(approveMessage, sizeof(approveMessage));
     Serial.println(approveMessage);      
 
+    HTTPClient http; 
+     
     http.begin("http://iot.gjar-po.sk/api/v1/command");      //prikaz zmenit na daco ine napr. connect
     http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json   
 
@@ -215,9 +242,16 @@ void JSONdata() {
     Serial.println(payloadApprove);    //Print request response payload
  
     http.end();  //Close connection
+  }
+//-----------------------------------------------JSONdata------------------------------------------------------------  
+void JSONdata() {
+    
+    struct JSONvalues values = JSONconnect();
+    JSONapprove(values);
+    
     DynamicJsonBuffer JSONdata;
     JsonObject& data = JSONdata.createObject();
-    data["token"] = (token);
+    data["token"] = values.token;
     JsonObject& dataObject = data.createNestedObject("data");     
     dataObject["humidity"] = (avgH);
     dataObject["temperature"] = (avgT);
@@ -226,7 +260,7 @@ void JSONdata() {
     data.prettyPrintTo(dataMessage, sizeof(dataMessage));
     Serial.println(dataMessage);
    
- 
+    HTTPClient http; 
  
     http.begin("http://iot.gjar-po.sk/api/v1/data");      //prikaz zmenit na daco ine napr. connect
     http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json   
@@ -238,7 +272,7 @@ void JSONdata() {
  
     http.end();  //Close connection
    }
-
+//-----------------------------------------------JSONerror------------------------------------------------------------
 void JSONerror(){
   
     StaticJsonBuffer<100> JSONerror;
@@ -260,40 +294,19 @@ void JSONerror(){
  
     http.end();  //Close connection
   }
-
+//-----------------------------------------------JSONalive------------------------------------------------------------
   void JSONalive(void *pArg) {
-    StaticJsonBuffer<100> JSONconnect;   //Declaring static JSON buffer
-    JsonObject& connecT = JSONconnect.createObject(); 
-    connecT["id"] = 0;
-    char connectMessage [100];
-    connecT.prettyPrintTo(connectMessage, sizeof(connectMessage));
-
-    HTTPClient http;    //Declare object of class HTTPClient
- 
-    http.begin("http://iot.gjar-po.sk/api/v1/connect");      //prikaz zmenit na daco ine napr. connect
-    http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json
-
     
-    int httpConnect = http.POST(connectMessage);   //posle request
-    String payloadConnect = http.getString();                                        //Get the response payload
-    Serial.println(httpConnect);   //Print HTTP return code
-    Serial.println(payloadConnect);    //Print request response payload
- 
-   
-    DynamicJsonBuffer jsonToken;
-    JsonObject& root = jsonToken.parseObject(payloadConnect);
-      // Parameters
-     String token = root["token"]; 
-      Serial.print("New token: ");
-      Serial.println(token);
-     http.end();
-     StaticJsonBuffer<100> JSONalive;
+    struct JSONvalues values = JSONconnect();
+    JSONapprove(values);
+    
+    StaticJsonBuffer<100> JSONalive;
     JsonObject& alive = JSONalive.createObject();
-    alive["token"]  = (token);
+    alive["token"]  = values.token;
     char aliveMessage[100];
     alive.prettyPrintTo(aliveMessage, sizeof(aliveMessage));
 
-    
+    HTTPClient http;    //Declare object of class HTTPClient
  
     http.begin("http://iot.gjar-po.sk/api/v1/error");      //prikaz zmenit na daco ine napr. connect
     http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json   
@@ -306,39 +319,20 @@ void JSONerror(){
     http.end();  //Close connection
     
     }
-    
+//-----------------------------------------------JSONroom------------------------------------------------------------    
 void JSONroom(){
 
-     StaticJsonBuffer<100> JSONconnect;   //Declaring static JSON buffer
-    JsonObject& connecT = JSONconnect.createObject(); 
-    connecT["id"] = 0;
-    char connectMessage [100];
-    connecT.prettyPrintTo(connectMessage, sizeof(connectMessage));
-
-    HTTPClient http;    //Declare object of class HTTPClient
-    
-    http.begin("http://iot.gjar-po.sk/api/v1/connect");      //prikaz zmenit na daco ine napr. connect
-    http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json
-
-    
-    int httpConnect = http.POST(connectMessage);   //posle request
-    String payloadConnect = http.getString();                                        //Get the response payload
-    Serial.println(httpConnect);   //Print HTTP return code
-    Serial.println(payloadConnect);    //Print request response payload
- 
-   
-    DynamicJsonBuffer jsonToken;
-    JsonObject& root = jsonToken.parseObject(payloadConnect);
-     int id = root["id"]; 
-     http.end();
+    struct JSONvalues values = JSONconnect();
   
     DynamicJsonBuffer JSONroom;
     JsonObject& room= JSONroom.createObject();
-    room["token"] = "";
+    room["token"] = "...";
     room["command"] = "candidates";
     char roomMessage[300];
     room.prettyPrintTo(roomMessage, sizeof(roomMessage));
     Serial.println(roomMessage);
+
+    HTTPClient http;    //Declare object of class HTTPClient
  
     http.begin("http://iot.gjar-po.sk/api/v1/command");      //prikaz zmenit na daco ine napr. connect
     http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json   
@@ -349,27 +343,6 @@ void JSONroom(){
     Serial.println(payloadRoom);    //Print request response payload
  
     http.end();  //Close connection
-
-    String ap = "approve";
-    String idStr = String(id);
-    String roomStr  = "16"; //room id
-    String approvePar = ap+" "+idStr+" "+roomStr;
     
-    DynamicJsonBuffer JSONapprove;
-    JsonObject& approve = JSONapprove.createObject();
-    approve["token"] = "";
-    approve["command"] = (approvePar);
-    char approveMessage[300];
-    approve.prettyPrintTo(approveMessage, sizeof(approveMessage));
-    Serial.println(approveMessage);      
-
-    http.begin("http://iot.gjar-po.sk/api/v1/command");      //prikaz zmenit na daco ine napr. connect
-    http.addHeader("Content-Type", "application/json");  //specifikuje ze ide o json   
-
-    int httpApprove = http.POST(approveMessage);   //posle request
-    String payloadApprove = http.getString();                                        //Get the response payload
-    Serial.println(httpApprove);   //Print HTTP return code
-    Serial.println(payloadApprove);    //Print request response payload
- 
-    http.end();  //Close connection
+    JSONapprove(values);
   }
