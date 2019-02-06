@@ -6,28 +6,42 @@ function closeNav() {
     document.getElementById("m_menu").style.width = "0";
 }
 
-
-
-var activeroom = 0;
-
+var activeroom = 16;
+var active_miestnost = document.getElementById('active_miestnost');
+active_miestnost.innerHTML = 'Byt (29)';
 
 function activeroomf(e) {
     activeroom = e;
+    if(activeroom == 16) {
+        active_miestnost.innerHTML = 'Byt (29)';
+    } else if (activeroom == 53) {
+        active_miestnost.innerHTML = 'Inf kabinet (53)';
+    } else if (activeroom == 61) {
+        active_miestnost.innerHTML = 'III.A (61)';
+    } else if (activeroom == 70) {
+        active_miestnost.innerHTML = 'Kniznica (70)';
+    } else if (activeroom == 71) {
+        active_miestnost.innerHTML = 'Aj 1 (71)';
+    } else if (activeroom ==77) {
+        active_miestnost.innerHTML = 'Nj 2 (77)';
+    } else if (activeroom == 83) {
+        active_miestnost.innerHTML = 'Bio kabinet (83)';
+    } else if (activeroom == 0) {
+         active_miestnost.innerHTML = 'VI.OA (84)';
+    } else {
+        active_miestnost.innerHTML = 'error';
+    }
+    barChart.destroy()
     call_on_server();
 }
 
-/*
-!!!! spojazdnit call na server za poslednych 6hodin
-var d = new Date();
-var n = d.getHours() - 6;
-*/
 
 function call_on_server() {
     var data;
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "https://iot.gjar-po.sk/api/v1/view",
+    "url": "http://iot.gjar-po.sk/api/v1/view",
     "method": "POST",
     "dataType": "json",
     "headers": {
@@ -35,72 +49,84 @@ function call_on_server() {
         "cache-control": "no-cache",
     },
     "processData": false,
-    "data": "{\"room\":" + activeroom + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2019-01-01 00:00:00\"}}"
+    "data": "{\"room\":" + activeroom  + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2020-01-01 00:00:00\"}}"  
     }
 
-    $.ajax(settings).done(getdata);   
+    $.ajax(settings).done(processData);  
 }
-
 
 var room, activetemp, activehum, activelight, teploty, vlhkosti
 
+let values;
 
-
-function getdata (response) {
-    
-    
-    function active_room (e) {
-            activetemp = response.data[e].temperature;
-            activehum = response.data[e].humidity;
-            activelight = response.data[e].noise;
+function processData(data) {
+    values = {
+        temperature: [],
+        humidity: [],
+        brightness: [],
+        times: [],
+        last_time: undefined,
+    };
+    const response = data;
+    response_length = response.data.length;
+    let pocet_hodnot = 15;
+    if(response_length < 16) {
+        pocet_hodnot = response_length;
     }
-    
-        time = [];
-        teploty = [];
-        vlhkosti = [];
-        brighteness = [];
-        for(i = 0; i < 3; i++) {
-            teploty.push(response.data[i].temperature);
-            vlhkosti.push(response.data[i].humidity);
-            time.push(response.data[i].time);
+    if(response_length > 1) {
+        for(let i = response.data.length - 1; i > response_length - pocet_hodnot; i--) {
+            values.temperature.unshift(response.data[i].temperature);
+            values.humidity.unshift(response.data[i].humidity);
+            values.brightness.unshift(response.data[i].brightness);
+            values.times.unshift((response.data[i].time).split(" ", 2)[1]);
         }
-    
-        document.getElementById('temp_1').innerHTML = teploty[0] + '°C';
-        document.getElementById('temp_2').innerHTML = teploty[1] + '°C';
-        document.getElementById('temp_3').innerHTML = teploty[2] + '°C';
-        document.getElementById('time_1').innerHTML = time[0];
-        document.getElementById('time_2').innerHTML = time[1];
-        document.getElementById('time_3').innerHTML = time[2];
-
-    
-    
-        /*data = response*/
-        usedata();
+        values.last_time = response.data[(response_length - 1)].time;
+    }
+    updateValues();
+    usedata();
 }
 
+const strings = {
+    temp: '#temp_1',
+    hum: '#humidity_1',
+    brig: '#light_1',
+    time: '#time_1',
+};
+function updateValues() {
+    //todo => spravit na querySelectorAll
+    const val = [document.querySelector(strings.temp), document.querySelector(strings.hum), document.querySelector(strings.brig), document.querySelector(strings.time)];
+    val[0].innerHTML = values.temperature[values.temperature.length - 1] + '°C';
+    val[1].innerHTML = values.humidity[values.humidity.length - 1] + '%';
+    val[2].innerHTML = values.brightness[values.brightness.length - 1] + '%';
+    val[3].innerHTML = values.last_time;
+}
+
+var myChart = document.getElementById('graph').getContext('2d');
+
+
+
+var barChart;
 
 function usedata() {
-        var myChart = document.getElementById('myChart1').getContext('2d');
-                Chart.defaults.global.defaultFontColor = 'black';
-        var barChart = new Chart(myChart, {
+        barChart = new Chart(myChart, {
             type: 'line',
             data: {
-                    labels: time,
+                    labels: values.times,
             datasets: [{
             label: 'Teplota',
-            data: teploty,
+            data: values.temperature,
             fill: false,
             borderWidth: 4,
             borderColor: 'rgb(20, 89, 197)',
             }, {
             label: 'Vlhkosť',
-            data: vlhkosti,
+            data: values.humidity,
             fill: false,
             borderWidth: 4,
             borderColor: 'orange',
             },{
             label: 'Svietivosť',
-            data: [22, 35, 27, 14, 12, 45, 60, ],
+            data: values.brightness,
             fill: false,
             borderWidth: 4,
             borderColor: 'lightgreen',
@@ -109,33 +135,20 @@ function usedata() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Teplota, Vlhkosť a Svietivosť',
-                fontSize: 25,
-            },
             legend: {
             position: 'bottom'
             },
             hover: {
                 mode: 'index',
             },
-            scales: {
-            yAxes: [ {ticks: {
-                        min: 0,
-                        max: 100,
-                    }
-                 }],
-        },
     }
 });
+/*barChart.update( )*/
 }
-
 
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
-
 
 document.querySelector(".dropbtn1").addEventListener("click", function () {
     document.querySelector(".dropdown-content1").classList.toggle("display");
@@ -143,6 +156,7 @@ document.querySelector(".dropbtn1").addEventListener("click", function () {
 })
 
 // Close the dropdown menu if the user clicks outside of it
+
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
 
@@ -164,6 +178,5 @@ window.addEventListener('mouseup', function(event) {
         document.getElementById("m_menu").style.width = "0";
     }
 })
-
 
 call_on_server();
