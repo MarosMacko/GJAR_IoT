@@ -49,7 +49,7 @@ body, html {
 /*koniec headeru*/
 /*hlavny nahladovy obrazok*/
 .uvod_obr {
-    background-image: url("img3.png");
+    background-image: url("../img/img3.png");
     background-size: cover;
     background-repeat: no-repeat;
     height: 45%;
