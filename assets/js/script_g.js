@@ -35,31 +35,27 @@ function activeroomf(e) {
     call_on_server();
 }
 
+var data;
 
-function call_on_server() {
-    var data;
-    var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://iot.gjar-po.sk/api/v1/view",
-    "method": "POST",
-    "dataType": "json",
-    "headers": {
-        "content-type": "application/json",
-        "cache-control": "no-cache",
-    },
-    "processData": false,
-    "data": "{\"room\":" + activeroom  + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2020-01-01 00:00:00\"}}"  
+async function call_on_server() {
+    try {
+        const rawdata = await fetch(`http://iot.gjar-po.sk/api/v1/view`, {
+        method: 'POST',
+        headers: {"content-type": "application/json", "cache-control": "no-cache"},
+        body: "{\"room\":" + activeroom  + ", \"time\": {\"time-from\": \"2018-01-01 00:00:00\", \"time-to\": \"2020-01-01 00:00:00\"}}",
+        });
+        data = await rawdata.json();
+        processData();
+    } catch (error) {
+        alert(error);
     }
-
-    $.ajax(settings).done(processData);  
 }
 
 var room, activetemp, activehum, activelight, teploty, vlhkosti
 
 let values;
 
-function processData(data) {
+function processData() {
     values = {
         temperature: [],
         humidity: [],
@@ -143,20 +139,16 @@ function usedata() {
             },
     }
 });
-/*barChart.update( )*/
 }
 
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
-
 document.querySelector(".dropbtn1").addEventListener("click", function () {
     document.querySelector(".dropdown-content1").classList.toggle("display");
     document.querySelector('.sipka').classList.toggle('rotate');
 })
-
 // Close the dropdown menu if the user clicks outside of it
-
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
 
