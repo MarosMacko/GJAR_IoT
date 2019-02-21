@@ -106,7 +106,7 @@ function showGraph() {
                 maintainAspectRatio: false,
             title: {
                 display: true,
-                text: `Miestnosť č.${activeroom}`,
+                text: `Miestnosť č.${/*activeroom*/26}`, //TODO po oprave na 26 prepnut
                 fontSize: 25,
             },
             legend: {
