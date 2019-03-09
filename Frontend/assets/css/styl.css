@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 * {
     margin: 0;
     padding: 0;
     font-size: 16px;
-    font-family: 'Offside', cursive;
+    font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
 }
 body, html {
@@ -49,7 +48,7 @@ body, html {
 /*koniec headeru*/
 /*hlavny nahladovy obrazok*/
 .uvod_obr {
-    background-image: url("img3.png");
+    background-image: url("../img/img3.png");
     background-size: cover;
     background-repeat: no-repeat;
     height: 45%;
