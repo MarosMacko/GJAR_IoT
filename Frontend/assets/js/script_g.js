@@ -139,6 +139,7 @@ function usedata() {
             },
     }
 });
+/*barChart.update( )*/
 }
 
 function myFunction() {
