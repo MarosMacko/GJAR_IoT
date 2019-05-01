@@ -1,98 +1,108 @@
-<!DOCTYPE html>
-<html lang="zxx">
+<!DOCTYPE html> 
+<html lang="en">
 <head>
-    <meta http-equiv="Access-Control-Allow-Origin" content="*" /> 
-    <meta http-equiv="Access-Control-Allow-Headers" content="X-Requested-With" />
-    <link rel="stylesheet" type="text/css" href="assets/css/styl.css">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="./img/icon.png">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="css/hamburgers.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
-    </script>
-    <title>Gjar IoT</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <title>Gjar Iot</title>
 </head>
-
 <body>
-    <div id="scrollToTop">Top</div>
-    <div class="header" id="topScroll">
+    <div class="topnav">
+        <div class="mobile_gjar-iot">GJAR IOT</div>
+        <p class="activeroom_topnav">Byt (29)</p>
+        <button class="hamburger hamburger--squeeze hamburger_button" type="button">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button> 
+    </div>
 
-        <a href="https://www.gjar-po.sk/">
-            <div class="h_gjar">GJAR</div>
-        </a>
-
-        <a href="graphs.html" style="text-decoration: none;">
-            <div class="h_button">
-                GRAFY
+    <div class="navbar nav">
+        <div class="gjar_div">
+            <h1>GJAR IOT</h1>
+        </div>
+        <div class="navbar_items">
+            <div class="dropdown_menu">
+                <div>1. poschodie</div>
+                <div class="dropdown_content dropdown1">
+                    <li data-room="16" class="nav_li">
+                        Byt (29)
+                    </li>
+                </div>
             </div>
-        </a>
-        <!--tlacidlo pre mobilne telefony-->
-        <div class="wrap" onclick="openNav()">
-            <div class="icon"></div>
-            <div class="icon"></div>
-            <div class="icon"></div>
+            <div class="dropdown_menu">
+                <div>2. poschodie</div>
+                <div class="dropdown_content dropdown2">
+                    <li data-room="53" class="nav_li">
+                        Inf kabinet (53)
+                    </li>
+                    <li data-room="61" class="nav_li">
+                        III.A (61)
+                    </li>
+                    <li data-room="70" class="nav_li">
+                        Kniznica (70)
+                    </li>
+                    <li data-room="71" class="nav_li">
+                        Aj 1 (71)           
+                    </li>
+                    <li data-room="77" class="nav_li">
+                        Nj 2 (77)
+                    </li>
+                </div>
+            </div>
+            <div class="dropdown_menu">
+                <div>3. poschodie</div>
+                <div class="dropdown_content dropdown3">
+                    <li data-room="83" class="nav_li">
+                        Bio kabinet (83)
+                    </li>
+                    <li data-room="84" class="nav_li">
+                        VI.OA (84)
+                    </li>
+                </div>
+            </div>
+            <div class="dropdown_menu">
+                <div class="about_project_btn">O projekte</div>
+            </div>
         </div>
+        <div class="links">
+            <a href="https://www.gjar-po.sk/"><img src="./img/Web.svg" alt=""></a>
+        </div>
+    </div>
+    
+
+    <div class="mainpage">
         
-        
-        
     </div>
-
-    <div id="m_menu">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="graphs.html">GRAFY</a>
+    <div class="mobile_nav">
+            <div class="mobile_nav_div">
+                <div>1. poschodie</div>
+                    <li data-room="16" class="nav_li">Byt (29)</li>
+            </div>
+            <div class="mobile_nav_div">
+                <div>2. poschodie</div>
+                    <li data-room="53" class="nav_li">Inf kabinet (53)</li>
+                    <li data-room="61" class="nav_li">III.A (61)</li>
+                    <li data-room="70" class="nav_li">Kniznica (70)</li>
+                    <li data-room="71" class="nav_li"> Aj 1 (71)</li>
+                    <li data-room="77" class="nav_li">Nj 2 (77)</li>
+            </div>
+            <div class="mobile_nav_div">
+                <div>3. poschodie</div>
+                    <li data-room="83" class="nav_li">Bio kabinet (83)</li>
+                    <li data-room="84" class="nav_li">VI.OA (84)</li>
+            </div>
+            <div class="mobile_nav_div">
+                <div class="about_project_btn">O projekte</div>
+            </div>
+            <div class="links">
+                    <a href="https://www.gjar-po.sk/"><img src="./img/Web-mobile.svg" alt=""></a>
+            </div>
     </div>
-
-    <div class="uvod_obr">
-        <div class="iot">
-            <p>Internet</p>
-            <p>of</p>
-            <p>Things</p>
-        </div>
-        <div class="scroll-down" onclick="scrollToProject('about_project')"></div>
-    </div>
-    <div class="grafy_ukazka" id="about_project">
-        <canvas id="graph"></canvas>
-    </div>
-    <div class="project_info">
-        <h1>O projekte</h1>
-        <p>Cieľom tohto projektu je modernizácia školy, bude sa merať teplota vzduchu, svietivosť a vlkosť v miestnostiach.</p>
-    </div>
-    <div class="napr_prac">Na projekte pracovali:</div>
-    <div class="about_us">
-        <div class="column"><!--<img src="assets/img/12.jpg" alt="1">-->
-           <h3 style="text-align: center;
-           padding:  20px 0;">Maros</h3>
-            <p class="text">Pracoval som na koncepte tohto projektu a hardware pre Node jednotky. Mám 19 rokov a som absolvent Gymnázia Jána Adama Raymana.</p>
-        </div>
-        <div class="column"><!--<img src="assets/img/12.jpg" alt="2">-->
-           <h3 style="text-align: center;
-           padding:  20px 0;">Samo</h3>
-            <p class="text">Pracoval som na softvéri a správe servera. Mám 20 rokov a som absolventom Gymnázia Jána Adama Raymana.</p>
-        </div>
-        <div class="column"><!--<img src="assets/img/12.jpg" alt="3">-->
-           <h3 style="text-align: center;
-           padding:  20px 0;">Daniel</h3>
-            <p class="text">Pracoval som na dizajne stránky. Mám 17 rokov. Navštevujem Gymnázium Jána Adama Raymana v Prešove a som žiakom 2.D triedy. </p>
-        </div>
-        <div class="column"><!--<img src="assets/img/12.jpg" alt="4">-->
-           <h3 style="text-align: center;
-           padding:  20px 0;">Miro</h3>
-            <p class="text">Pracoval som na softvéri pre Node. Mám 18 rokov. Navštevujem Gymnázium Jána Adama Raymana v Prešove a som žiakom 4.C triedy.</p>
-        </div>
-    </div>
-    <div class="click_me">
-        <p>Presun na grafy</p>
-    </div>
-    <div class="click_mebtn">
-           <a href="graphs.html" style="text-decoration: none;">
-            <div class="click_btn">GRAFY</div>
-           </a>
-    </div>
-    <div class="footer">®Gjar Iot</div>
-    <script src="assets/js/script.js"></script>
-
-</body>
-
+<script type="text/javascript" src="bundle.js"></script></body>
 </html>

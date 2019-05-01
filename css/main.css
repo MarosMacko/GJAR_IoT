@@ -1,0 +1,360 @@
+/*loader*/
+.lds-dual-ring {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    margin-left: 100px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 46px;
+    height: 46px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 5px solid #43425D;
+    border-color: #43425D transparent #43425D transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }  
+/*basic configuration*/
+p {
+    padding: 0;
+    margin: 0;
+}
+h1 {
+    padding: 0;
+    margin: 0;
+}
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #fff;
+}
+::-webkit-scrollbar-track {
+    background-color: #fff;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgb(57, 56, 77, .5);
+}
+/*reseting margin and padding + basic configuration*/
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    background-color: #F0F0F7;
+}
+/*main css code*/
+.navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #43425D;
+    color: #ffffff;
+}
+.navbar .gjar_div {
+    position: relative;
+    background-color: #39384D;
+    padding: 10px;
+}
+.navbar .gjar_div h1 {
+    font-size: 22px;
+    text-align: center;
+    font-weight: normal;
+}
+.navbar .navbar_items {
+    padding-top: 20px;
+    display: grid;
+    grid-template-rows: 3;
+    cursor: pointer;
+}
+.navbar .navbar_items .dropdown_menu a {
+    color: #fff;
+    text-decoration: none;
+}
+.navbar .navbar_items .dropdown_menu div:nth-child(1) {
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+    margin: 2.5px 0;
+    background-color: rgb(240, 240, 247, .1);
+}
+.navbar .navbar_items .dropdown_menu .cursor-context_menu {
+    cursor: context-menu;
+}
+.navbar .navbar_items .dropdown_menu .dropdown_content li {
+    list-style-type: none;
+    padding: 6px 0 6px 22px;
+    font-size: 15.5px;
+    cursor: pointer;
+}
+.navbar .navbar_items .dropdown_menu .dropdown_content li:hover {
+    text-decoration: underline;
+}
+.navbar .links {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+}
+.topnav {
+    height: 50px;
+    background-color: #ffffff;
+    margin-left: 200px;
+}
+.topnav p {
+    text-align: center;
+    line-height: 50px;
+    color: #39384D;
+    letter-spacing: 1px;
+}
+.topnav .mobile_gjar-iot {
+    display: none;
+    font-size: 22px;
+    line-height: 50px;
+    background-color: #39384D;
+    color: white;
+    padding: 0 35px;
+    float: left;
+}
+.mainpage {
+    margin-left: 200px;
+}
+.mainpage .mainpagegrid {
+    display: grid;
+    grid-gap: 40px;
+    margin: 30px 80px;
+    grid-template-columns: repeat(3, 1fr);
+}
+.mainpage .mainpagegrid_about_us {
+    margin: 30px 80px;
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_project {
+    display: grid;
+    width: 100%;
+    min-height: 500px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 40px;
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_project .image {
+    background-color: rgb(0, 128, 0, .2);
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_project .text_about_project {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 50px;
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_us {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    padding: 45px;
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_us div h2 {
+    text-align: center;
+}
+.mainpage .mainpagegrid .whitebox, .mainpage .mainpagegrid_about_us .whitebox {
+    position: relative;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: #979797 1px 1px 3px;
+}
+.mainpage .mainpagegrid .whitebox p:nth-child(1) {
+    margin-bottom: 15px;
+    color: rgb(67, 66, 93, .7);
+}
+.mainpage .mainpagegrid .whitebox p:nth-child(2) {
+    font-size: 25px;
+    color: #39384D;
+}
+.mainpage .mainpagegrid .whitebox .icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+.mainpage .graph {
+    background-color: #fff;
+    margin: 0 80px 30px;
+    box-shadow: #979797 1px 1px 3px;
+    height: 675px;
+}
+.mainpage .graph canvas {
+    width: 200px;
+}
+/*mobile navbar settings*/
+.hamburger_button {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    height: 50px;
+    z-index: 2;
+    outline: none;
+}
+.pos_fixed {
+    position: fixed;
+}
+.mobile_nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1;
+    color: black;
+    transition: 200ms;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.show_mobile_nav {
+    width: 250px;
+}
+.mobile_nav {
+    color: #39384D;
+}
+.mobile_nav .mobile_nav_div:nth-child(1) {
+    padding-top: 75px;
+}
+.mobile_nav .mobile_nav_div div {
+    font-size: 21px;
+    text-align: center;
+    padding: 10px 0;
+    cursor: context-menu;
+    background-color: rgb(57, 56, 77, .1);
+    margin: 5px 0;
+}
+.mobile_nav .mobile_nav_div a, .mobile_nav .mobile_nav_div a div {
+    margin-top: 20px;
+    text-decoration: underline;
+    color: #39384D;
+    cursor: pointer;
+    background-color: rgb(57, 56, 77, .1);
+}
+.mobile_nav .mobile_nav_div li {
+    list-style-type: none;
+    padding: 5px 0;
+    margin: 0 0 0 50px;
+    cursor: pointer;
+}
+.mobile_nav .mobile_nav_div li:hover {
+    text-decoration: underline;
+}
+.mobile_nav .links {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+/*mobile layout*/
+@media screen and (max-width: 1230px) {
+    .mainpage .mainpagegrid .whitebox .icon img {
+        height: 30px;
+        transform: translateY(-5px);
+    }
+    .mainpage .mainpagegrid .whitebox p:nth-child(2) {
+        font-size: 22px;
+    }
+    .mainpage .mainpagegrid_about_us .whitebox .about_us {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        text-align: center;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .mainpage .mainpagegrid .whitebox .icon img {
+        height: 45px;
+    }
+    .mainpage .mainpagegrid .whitebox p:nth-child(2) {
+        font-size: 25px;
+    }
+    .menumobile {
+        display: inline-block;
+    }
+    .navbar {
+        display: none;
+    }
+    .lds-dual-ring {
+        margin-left: 0;
+    }
+    .topnav {
+        margin-left: 0;
+    }
+    .mainpage {
+        margin-left: 0;
+    }
+    .mainpage .mainpagegrid, .mainpage .mainpagegrid_about_us {
+        margin: 30px 30px;
+    }
+    .mainpage .graph {
+        height: 400px;
+        margin: 0 30px 30px;
+    }
+    .mainpage .mainpagegrid {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 20px;
+    }
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    .topnav .mobile_gjar-iot {
+        display: block;
+    }
+    .topnav p {
+        transform: translateX(-25px);
+    }
+    .mainpage .mainpagegrid_about_us .whitebox .about_project {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        padding: 0;
+    }
+    .mainpage .mainpagegrid_about_us .whitebox .about_us {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        text-align: center;
+    }
+    .mainpage .mainpagegrid_about_us .whitebox .about_project .text_about_project {
+        padding: 20px; 
+    }
+}
+@media screen and (max-height: 600px) {
+    .navbar {
+        overflow-y: scroll;
+    }
+    .navbar .links {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        margin: 15px 0 10px 15px;
+    }
+    .mobile_nav .links {
+        position: relative;
+        right: 0;
+        bottom: 0;
+        margin: 15px 25px 10px 0;
+        text-align: right;
+    }
+}
+@media screen and (max-width: 380px) {
+    .topnav p {
+        font-size: 16px;
+    }
+    .topnav .mobile_gjar-iot {
+        padding: 0 20px;
+        font-size: 18px;
+    }
+}
