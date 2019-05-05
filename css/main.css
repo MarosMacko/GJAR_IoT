@@ -145,19 +145,36 @@ body, html {
 }
 .mainpage .mainpagegrid_about_us .whitebox .about_project {
     display: grid;
-    width: 100%;
     min-height: 500px;
     grid-template-columns: repeat(2, 1fr);
-    padding: 40px;
+    padding: 40px 0;
 }
 .mainpage .mainpagegrid_about_us .whitebox .about_project .image {
-    background-color: rgb(0, 128, 0, .2);
+    position: relative;
+}
+.mainpage .mainpagegrid_about_us .whitebox .about_project .image img {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
 }
 .mainpage .mainpagegrid_about_us .whitebox .about_project .text_about_project {
     text-align: center;
     display: flex;
     align-items: center;
     padding: 50px;
+    font-size: 18px;
+}
+.mainpage .mainpagegrid_about_us .whitebox .title_about_us {
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px 0;
+    background-image: linear-gradient(to right, white , #39384d12, white);
 }
 .mainpage .mainpagegrid_about_us .whitebox .about_us {
     display: grid;
@@ -237,6 +254,9 @@ body, html {
     cursor: context-menu;
     background-color: rgb(57, 56, 77, .1);
     margin: 5px 0;
+}
+.mobile_nav .mobile_nav_div .about_project_btn {
+    cursor: pointer;
 }
 .mobile_nav .mobile_nav_div a, .mobile_nav .mobile_nav_div a div {
     margin-top: 20px;
@@ -330,6 +350,9 @@ body, html {
     .mainpage .mainpagegrid_about_us .whitebox .about_project .text_about_project {
         padding: 20px; 
     }
+    .mainpage .mainpagegrid_about_us .whitebox .about_us {
+        padding: 0 50px 50px 50px;
+    }
 }
 @media screen and (max-height: 600px) {
     .navbar {
@@ -358,3 +381,89 @@ body, html {
         font-size: 18px;
     }
 }
+
+
+/*!
+ * Hamburgers
+ * @description Tasty CSS-animated hamburgers
+ * @author Jonathan Suh @jonsuh
+ * @site https://jonsuh.com/hamburgers
+ * @link https://github.com/jonsuh/hamburgers
+ */
+ .hamburger {
+    padding: 15px 15px;
+    cursor: pointer;
+    display: none;
+    transition-property: opacity, filter;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible; }
+    .hamburger:hover {
+      opacity: 0.7; }
+    .hamburger.is-active:hover {
+      opacity: 0.7; }
+    .hamburger.is-active .hamburger-inner,
+    .hamburger.is-active .hamburger-inner::before,
+    .hamburger.is-active .hamburger-inner::after {
+      background-color: #39384D; }
+  
+  .hamburger-box {
+    width: 40px;
+    height: 24px;
+    display: inline-block;
+    position: relative; }
+  
+  .hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px; }
+    .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+      width: 40px;
+      height: 4px;
+      background-color: #39384D;
+      border-radius: 4px;
+      position: absolute;
+      transition-property: transform;
+      transition-duration: 0.15s;
+      transition-timing-function: ease; }
+    .hamburger-inner::before, .hamburger-inner::after {
+      content: "";
+      display: block; }
+    .hamburger-inner::before {
+      top: -10px; }
+    .hamburger-inner::after {
+      bottom: -10px; }
+  
+  
+      @media screen and (max-width: 1023px) {
+        .hamburger {
+          display: inline-block;
+        }
+      }
+      /*hamburger squeeze*/
+    .hamburger--squeeze .hamburger-inner {
+      transition-duration: 0.075s;
+      transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); }
+      .hamburger--squeeze .hamburger-inner::before {
+        transition: top 0.075s 0.12s ease, opacity 0.075s ease; }
+      .hamburger--squeeze .hamburger-inner::after {
+        transition: bottom 0.075s 0.12s ease, transform 0.075s cubic-bezier(0.55, 0.055, 0.675, 0.19); }
+    
+    .hamburger--squeeze.is-active .hamburger-inner {
+      transform: rotate(45deg);
+      transition-delay: 0.12s;
+      transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+      .hamburger--squeeze.is-active .hamburger-inner::before {
+        top: 0;
+        opacity: 0;
+        transition: top 0.075s ease, opacity 0.075s 0.12s ease; }
+      .hamburger--squeeze.is-active .hamburger-inner::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+        transition: bottom 0.075s ease, transform 0.075s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1); }
