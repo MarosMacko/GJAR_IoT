@@ -55,3 +55,13 @@
 - author: Daniel Dopiriak
   changes:
   - add: Graph section updated
+'2019-03-09':
+- author: Daniel Dopiriak
+  changes:
+  - add: Graph section updated
+  - add: Added real room 16 graph to landing page
+'2019-05-05':
+- author: Daniel Dopiriak
+  changes:
+  - add: Added new site.
+  - remove: Removed old site.
