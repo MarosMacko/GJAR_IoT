@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "./static/css/main.4b597ee4.chunk.css",
-    "main.js": "./static/js/main.9ec233d4.chunk.js",
-    "main.js.map": "./static/js/main.9ec233d4.chunk.js.map",
+    "main.js": "./static/js/main.a22d2c63.chunk.js",
+    "main.js.map": "./static/js/main.a22d2c63.chunk.js.map",
     "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
     "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
     "static/js/2.f256a3c6.chunk.js": "./static/js/2.f256a3c6.chunk.js",
     "static/js/2.f256a3c6.chunk.js.map": "./static/js/2.f256a3c6.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.66c7cc93e6526691081770b852314939.js": "./precache-manifest.66c7cc93e6526691081770b852314939.js",
+    "precache-manifest.a21bdfc8071622900e1a2cc0a2ea815e.js": "./precache-manifest.a21bdfc8071622900e1a2cc0a2ea815e.js",
     "service-worker.js": "./service-worker.js",
     "static/css/main.4b597ee4.chunk.css.map": "./static/css/main.4b597ee4.chunk.css.map",
     "static/media/bluechart.svg": "./static/media/bluechart.1e9aebf7.svg",
