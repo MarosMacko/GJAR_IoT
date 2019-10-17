@@ -64,12 +64,12 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
     
     digitalWrite(redLED, HIGH);
-  delay(250);
-  digitalWrite(redLED, LOW);
-  delay(250);
+    delay(250);
+    digitalWrite(redLED, LOW);
+    delay(250);
   }
   digitalWrite(greenLED, HIGH);
-    digitalWrite(redLED, LOW);
+  digitalWrite(redLED, LOW);
 
   
   Serial.println('\n');
@@ -85,6 +85,15 @@ void loop(){          //main function
  
 if (WiFi.status() != WL_CONNECTED) { //Check WiFi connection status
     Serial.println("Error in WiFi connection");
+  
+    WiFi.begin(ssid, password);             // Connect to the network
+    Serial.print("Reconnecting...");
+    while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect   
+      digitalWrite(redLED, HIGH);
+      delay(250);
+      digitalWrite(redLED, LOW);
+      delay(250);
+  }
   } 
   GetSensorsData();// calling the sensors function 
 }
