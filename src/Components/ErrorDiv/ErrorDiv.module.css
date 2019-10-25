@@ -1,0 +1,13 @@
+.errDiv {
+    position: relative;
+    background-color: #fff;
+    width: 96%;
+    margin-left: 2%;
+    box-shadow: #979797 1px 1px 3px;
+}
+.errDiv p {
+    color: #43425D;
+    font-size: 1.3em;
+    text-align: center;
+    padding: 50px 0;
+}
