@@ -1,0 +1,13 @@
+.Graph {
+    height: 300px;
+    background-color: #fff;
+    padding: 20px 10px;
+    box-shadow: #979797 1px 1px 3px;
+}
+
+@media (min-width: 800px) {
+    .Graph {
+        height: 650px;
+        padding: 40px 30px 30px;
+    }
+}

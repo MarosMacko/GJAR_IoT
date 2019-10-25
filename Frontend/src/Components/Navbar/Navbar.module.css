@@ -1,0 +1,29 @@
+.GjarIot {
+    background-color: #39384D;
+    color: white;
+    font-size: 1.3em;
+    padding: 0 20px;
+    line-height: 50px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.Activeroom {
+    text-align: center;
+    color: #39384D;
+    letter-spacing: 1px;
+    margin: auto;
+}
+
+.HamburgerButton {
+    margin-right: 10px;
+}
+
+@media (min-width: 800px) {
+    .GjarIot {
+        width: 200px;
+    }
+    .HamburgerButton {
+        margin: 0;
+    }
+}

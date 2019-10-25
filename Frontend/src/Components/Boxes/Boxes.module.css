@@ -1,0 +1,13 @@
+.Boxes {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    margin: 15px 0;
+    grid-gap: 15px;
+}
+
+@media (min-width: 800px) {
+    .Boxes {
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
