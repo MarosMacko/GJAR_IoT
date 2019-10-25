@@ -1,0 +1,52 @@
+.SideDrawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: #fff;
+    max-width: 70%;
+    width: 250px;
+    transition: 0.2s;
+    transform: translateX(100%);
+    z-index: 100;
+    box-sizing: border-box;
+    padding: 50px 0;
+    overflow-y: auto;
+}
+.SideDrawer .CloseBtn {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    font-size: .9em;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    background-color: #eeecec;
+    padding: 1.5px 9px 1.5px 3px;
+}
+
+.SideDrawer div {
+    background-color: #39384d1a;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px;
+    color: black;
+}
+.SideDrawer li {
+    list-style-type: none;
+    padding: 5px 0;
+    cursor: pointer;
+    margin-left: 50px;
+    color: black;
+}
+
+.SideDrawer li:hover {
+    text-decoration: underline;
+}
+
+.Active {
+    transform: translateX(0);
+}

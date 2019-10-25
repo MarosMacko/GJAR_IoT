@@ -1,0 +1,39 @@
+.Icon {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+.Icon img {
+    height: 30px;
+}
+.Whitebox {
+    position: relative;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: #979797 1px 1px 3px;
+    color: #43425D;
+}
+.Whitebox p {
+    font-size: 1em;
+    opacity: .75;
+    margin: 7px 0;
+    word-spacing: 2px;
+}
+.Whitebox h1 {
+    font-size: 1.25em;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 800px) {
+    .Whitebox p {
+        margin: 12px 0;
+    }
+}
+
+@media(min-width: 900px) {
+    .Icon img {
+        height: 40px;
+    }
+}
+
