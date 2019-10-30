@@ -16,10 +16,10 @@ import 'moment/locale/sk';
 const formatDate = (date) => date.format('YYYY-MM-DD');
 
 const todayHours = moment().format('LTS');
-const beforeTimeHours = moment().subtract(3, 'hours').format('LTS');
+const beforeTimeHours = moment().subtract(3, 'hours');
 
-const timeFrom = formatDate(moment().subtract(1, 'days'));
-const timeTo = formatDate(moment().add(1, 'days'));
+const timeFrom = formatDate(moment(beforeTimeHours));
+const timeTo = formatDate(moment());
 
 class Layout extends Component {
 	state = {
@@ -49,7 +49,7 @@ class Layout extends Component {
 		const parseData = {
 			room: roomNumber,
 			time: {
-				'time-from': `${timeFrom} ${beforeTimeHours}`,
+				'time-from': `${timeFrom} ${moment(beforeTimeHours).format('LTS')}`,
 				'time-to': `${timeTo} ${todayHours}`
 			}
 		};
@@ -100,14 +100,14 @@ class Layout extends Component {
 		let hum = [];
 		let brig = [];
 		let tim = [];
-		for (let i = response.data.data.length - 1; i > response.data.data.length - 7; i--) {
+		for (let i = 0; i < response.data.data.length; i++) {
 			const rawTime = response.data.data[i].time.split(' ', 2)[1].split(':', 2);
 			const time = rawTime[0] + ':' + rawTime[1];
 
-			temp.unshift(parseFloat(response.data.data[i].temperature).toFixed(2));
-			hum.unshift(parseFloat(response.data.data[i].humidity).toFixed(2));
-			brig.unshift(parseFloat(response.data.data[i].brightness).toFixed(2));
-			tim.unshift(time);
+			temp.push(parseFloat(response.data.data[i].temperature).toFixed(2));
+			hum.push(parseFloat(response.data.data[i].humidity).toFixed(2));
+			brig.push(parseFloat(response.data.data[i].brightness).toFixed(2));
+			tim.push(time);
 		}
 		this.setState({
 			values: {
