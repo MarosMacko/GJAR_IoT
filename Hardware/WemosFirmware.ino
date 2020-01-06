@@ -161,7 +161,7 @@ void GetSensorsData()
     avgH = avgH / INTERVAL;
     avgB = avgB / INTERVAL;
   
-    avgT = ((int)(avgT*10)) / 10.0; //zaokruhli na 1 desatinne miesta
+    avgT = ((int)(avgT*10)) / 10; //zaokruhli na 1 desatinne miesta
   
     // displaying the values on serial monitor
     if (dispAVG == 0)
