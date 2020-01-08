@@ -65,3 +65,7 @@
   changes:
   - add: Added new site.
   - remove: Removed old site.
+'2019-10-31':
+- author: Daniel Dopiriak
+  changes:
+  - add: Specific date parsed in POST request
