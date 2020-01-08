@@ -15,12 +15,6 @@ import 'moment/locale/sk';
 
 const formatDate = (date) => date.format('YYYY-MM-DD');
 
-const todayHours = moment().format('LTS');
-const beforeTimeHours = moment().subtract(3, 'hours');
-
-const timeFrom = formatDate(moment(beforeTimeHours));
-const timeTo = formatDate(moment());
-
 class Layout extends Component {
 	state = {
 		activeNav: false,
@@ -34,7 +28,11 @@ class Layout extends Component {
 		},
 		render: false,
 		serverError: false,
-		errMessage: null
+		errMessage: null,
+		selectedInterval: 1,
+		timeFrom: null,
+		timeTo: null,
+		beforeTimeHours: null
 	};
 
 	hamburgerButtonClickedHandler = () => {
@@ -46,11 +44,22 @@ class Layout extends Component {
 	};
 
 	changeActiveRoomHandler = (room, roomNumber) => {
+		const defaultSelectedInterval = 1;
+
+		const beforeTimeHours = moment().subtract(defaultSelectedInterval, 'hours');
+
+		this.setState({
+			timeTo: formatDate(moment()),
+			timeFrom: formatDate(moment(beforeTimeHours)),
+			beforeTimeHours: beforeTimeHours,
+			todayHours: moment().format('LTS')
+		});
+
 		const parseData = {
 			room: roomNumber,
 			time: {
-				'time-from': `${timeFrom} ${moment(beforeTimeHours).format('LTS')}`,
-				'time-to': `${timeTo} ${todayHours}`
+				'time-from': `${this.state.timeFrom} ${moment(this.state.beforeTimeHours).format('LTS')}`,
+				'time-to': `${this.state.timeTo} ${this.state.todayHours}`
 			}
 		};
 		if (this.state.activeRoomNumber !== roomNumber || this.state.activeRoomNumber === null) {
@@ -59,7 +68,8 @@ class Layout extends Component {
 				activeRoomNumber: roomNumber,
 				render: false,
 				serverError: false,
-				errMessage: null
+				errMessage: null,
+				selectedInterval: defaultSelectedInterval
 			});
 			if (this.state.activeNav === true) {
 				this.setState({ activeNav: !this.state.activeNav });
@@ -87,6 +97,41 @@ class Layout extends Component {
 		this.changeActiveRoomHandler('Byt (29)', 16);
 	}
 
+	setSelectedInterval = (interval) => {
+		const beforeTimeHours = moment().subtract(interval, 'hours');
+
+		this.setState({
+			selectedInterval: interval,
+			timeFrom: formatDate(moment(beforeTimeHours)),
+			beforeTimeHours: beforeTimeHours
+		});
+
+		const parseData = {
+			room: this.state.activeRoomNumber,
+			time: {
+				'time-from': `${formatDate(moment(beforeTimeHours))} ${moment(beforeTimeHours).format('LTS')}`,
+				'time-to': `${this.state.timeTo} ${this.state.todayHours}`
+			}
+		};
+
+		axios({
+			method: 'POST',
+			data: parseData,
+			url: 'api/v1/view',
+			headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
+		})
+			.then((response) => {
+				this.processResponse(response);
+			})
+			.catch((error) => {
+				this.setState({
+					render: false,
+					serverError: true,
+					errMessage: error.message
+				});
+			});
+	};
+
 	processResponse = (response) => {
 		if (response.data.data.length <= 0) {
 			this.setState({
@@ -100,14 +145,17 @@ class Layout extends Component {
 		let hum = [];
 		let brig = [];
 		let tim = [];
-		for (let i = 0; i < response.data.data.length; i++) {
+
+		const reduceBy = response.data.data.length / (response.data.data.length / this.state.selectedInterval);
+
+		for (let i = response.data.data.length - 1; i > 0; i -= reduceBy) {
 			const rawTime = response.data.data[i].time.split(' ', 2)[1].split(':', 2);
 			const time = rawTime[0] + ':' + rawTime[1];
 
-			temp.push(parseFloat(response.data.data[i].temperature).toFixed(2));
-			hum.push(parseFloat(response.data.data[i].humidity).toFixed(2));
-			brig.push(parseFloat(response.data.data[i].brightness).toFixed(2));
-			tim.push(time);
+			temp.unshift(parseFloat(response.data.data[i].temperature).toFixed(2));
+			hum.unshift(parseFloat(response.data.data[i].humidity).toFixed(2));
+			brig.unshift(parseFloat(response.data.data[i].brightness).toFixed(2));
+			tim.unshift(time);
 		}
 		this.setState({
 			values: {
@@ -143,9 +191,12 @@ class Layout extends Component {
 					activeRoomNumber={this.state.activeRoomNumber}
 					values={this.state.values}
 					render={this.state.render}
+					selectedInterval={this.state.selectedInterval}
+					select={this.setSelectedInterval}
 				/>
 			);
 		}
+
 		return (
 			<React.Fragment>
 				<nav className={classes.Navbar}>
