@@ -1,5 +1,19 @@
 from collections.abc import Iterable
 
+def can_be_instance(item, dtype):
+    if isinstance(item, dtype):
+        return True
+    else:
+        # try:
+        #     dtype(str(item))
+        #     return True
+        # except Exception as e:
+        #     print(e)
+        #     return False
+        if dtype == float and isinstance(item, int):
+            return True
+    return False
+
 class Item:
     """An Item for the Scheme."""
     __slots__ = ("name", "dtype", "contents")
@@ -69,8 +83,8 @@ class Scheme:
         return "Scheme(required={}, optional={})".format(self.required, self.optional)
 
 def _is_valid_type(item, data):
-    if not item.dtype == type(data):
-            return False
+    if not can_be_instance(data, item.dtype):
+        return False
     if item.dtype == list:
         for j in data:
             if not item.contents == type(j):
