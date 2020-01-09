@@ -2,7 +2,7 @@
 
 import os, time
 import yaml
-from flask import Flask, request, abort, send_from_directory, g
+from flask import Flask, request, abort, redirect, send_from_directory, g
 
 from lib import api_manager
 from webhook import webhook
@@ -25,6 +25,10 @@ webhook("Loading Flask application. Should be running as a daemon. Yayy!")
 
 @app.route("/v<version>/<req>", methods=["POST"])
 def api_call(version, req):
+    if not request.is_secure() and request.headers.get("User-Agent") != "ESP8266HTTPClient":
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
+    
     if request.is_json:
         return api_manager.call(version, req.lower(), request.get_json())
     else:
