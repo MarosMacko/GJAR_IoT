@@ -25,7 +25,7 @@ webhook("Loading Flask application. Should be running as a daemon. Yayy!")
 
 @app.route("/v<version>/<req>", methods=["POST"])
 def api_call(version, req):
-    if not request.is_secure() and request.headers.get("User-Agent") != "ESP8266HTTPClient":
+    if not request.is_secure and request.headers.get("User-Agent") != "ESP8266HTTPClient":
         url = request.url.replace('http://', 'https://', 1)
         return redirect(url, code=301)
     
