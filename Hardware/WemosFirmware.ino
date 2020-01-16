@@ -163,8 +163,8 @@ void GetSensorsData()
   
     avgT = ((int)(avgT*10)) / 10; //zaokruhli na 1 desatinne miesta
   
-    // displaying the values on serial monitor
-    if (dispAVG == 0)
+    //Send data to server and display them 
+    if (dispAVG >= 0)
     {
         Serial.println("--------------------------");
         Serial.print("AVG Temp: ");
@@ -177,16 +177,13 @@ void GetSensorsData()
         Serial.print(avgB);
         Serial.println(" %  ");
         Serial.println("--------------------------");
+      
+        // Send data
         JSONdata();
-        dispAVG++;
     }
-    else // if disAVG is different,values will not display on serial monitor
+    else // We have only first few samples, wait.
     {
         dispAVG++;
-        if (dispAVG > (dispAVG_INTERVAL - 1))
-        {
-            dispAVG = 0; // if dispAVG is bigger then interval for averiging then it displays values on serial monitor and reset
-        }
     }
 
     delay(sensors_INTERVAL); //time interval for sensors
