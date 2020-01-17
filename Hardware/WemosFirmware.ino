@@ -16,9 +16,9 @@ const char* nodeToken = "...";
 #define greenLED 16
 #define GND 14
 
-#define INTERVAL                3         //amount of temporary values
-#define dispAVG_INTERVAL        3         // amount of measurements
-#define sensors_INTERVAL        10000     //time to new measurement
+#define AVERAGES                3           //amount of temporary values
+#define send_INTERVAL           10*1000     //time to new measurement (in miliseconds)
+#define delay_INTERVAL          10*1000     //time between measurement values to average
 
 //DHT humidity/temperature sensor
 int pinDHT22 = 2;
@@ -27,17 +27,15 @@ SimpleDHT22 dht22;
 float DHTtemperature = 0;
 float DHThumidity = 0;
 int err = SimpleDHTErrSuccess;        //DHT error return
-float tmpT[INTERVAL];       // array of temporary values 
+float tmpT[AVERAGES];       // array of temporary values 
 float avgT;                 // average temp
-int iTmp = 0;               //index of temporary values
-int dispAVG = -2;           //average values will be printed to serial monitor
 
-int tmpH[INTERVAL];         // array of temporary values
+int tmpH[AVERAGES];         // array of temporary values
 int avgH;                   // temporary humidity
 
 int brightness;             //brightness
 int avgB;                   //average brightness
-int tmpB[INTERVAL];         //array of temporary brightness
+int tmpB[AVERAGES];         //array of temporary brightness
 
 os_timer_t timJSONalive;    //timer for JSONalive message
 
@@ -50,9 +48,8 @@ struct JSONvalues
 void blinkLed(int led, int delay)
 {
     digitalWrite(led, HIGH);
-    delay(delay/2);
-    digitalWrite(led, LOW);
-    delay(delay/2);    
+    delay(delay);
+    digitalWrite(led, LOW);    
 }
   
 //--------------------------------------------setup------------------------------------------------------------
@@ -115,79 +112,80 @@ void loop()
     } 
     
     GetSensorsData();
+    SendData();
+    
+    delay(send_INTERVAL - (delay_INTERVAL * AVERAGES)); //time interval for sending data
 }
 
 
 //------------------------------------GetSensorsData------------------------------------------------------------------------------
 void GetSensorsData() 
 {
-    if ((err = dht22.read2(pinDHT22, &DHTtemperature, &DHThumidity, NULL)) != SimpleDHTErrSuccess) 
-    {
-        Serial.print("Read DHT22 failed, err="); 
-        Serial.println(err); 
-        delay(2000); //just error things
-        
-        digitalWrite(greenLED, LOW);
-        blinkLed(redLED, 200);
-        blinkLed(redLED, 200);
-        blinkLed(redLED, 200);
-        digitalWrite(greenLED, HIGH);
-        
-        JSONerror(); // send error message to server
-        return;
-    }
-
-    brightness = analogRead(A0);       // read the value from LDR 
-    brightness = map(brightness, 0, 1023, 0, 100); // maps the values on 0 - 100 scale
-
-    tmpT[iTmp] = DHTtemperature;
-    tmpH[iTmp] = DHThumidity;
-    tmpB[iTmp] = brightness;
-    iTmp++;
-    if (iTmp == INTERVAL) iTmp = 0;     // ak je index pola hodnot vacsi ako 2 vynuluje ho
-
     avgT = 0;
     avgH = 0;
     avgB = 0;
     
-    for (int i = 0; i < INTERVAL; i++) // spocitame vsetky ulozene teploty
+    for(int iTmp=0; iTmp<AVERAGES; iTmp++)
+    {
+        //DHT22 temb & humidity reading
+        if ((err = dht22.read2(pinDHT22, &DHTtemperature, &DHThumidity, NULL)) != SimpleDHTErrSuccess) 
+        {
+            Serial.print("Read DHT22 failed, err="); 
+            Serial.println(err); 
+            delay(2000); //just error things
+            
+            digitalWrite(greenLED, LOW);
+            blinkLed(redLED, 200);
+            blinkLed(redLED, 200);
+            blinkLed(redLED, 200);
+            digitalWrite(greenLED, HIGH);
+            
+            JSONerror(); // send error message to server
+            return;
+        }
+        
+        //LDR brightness reading
+        brightness = analogRead(A0);       // read the value from LDR 
+        brightness = map(brightness, 0, 1023, 0, 100); // maps the values on 0 - 100 scale
+
+        tmpT[iTmp] = DHTtemperature;
+        tmpH[iTmp] = DHThumidity;
+        tmpB[iTmp] = brightness;
+        
+        delay(delay_INTERVAL);
+    }
+    
+    
+    for (int i = 0; i < INTERVAL; i++) //Calc average
     {
         avgT = avgT + tmpT[i];
         avgH = avgH + tmpH[i];
         avgB = avgB + tmpB[i];
     }
     
-    avgT = avgT / INTERVAL;
-    avgH = avgH / INTERVAL;
-    avgB = avgB / INTERVAL;
+    avgT = avgT / AVERAGES;
+    avgH = avgH / AVERAGES;
+    avgB = avgB / AVERAGES;
   
-    avgT = ((int)(avgT*10)) / 10; //zaokruhli na 1 desatinne miesta
-  
-    //Send data to server and display them 
-    if (dispAVG >= 0)
-    {
-        Serial.println("--------------------------");
-        Serial.print("AVG Temp: ");
-        Serial.print(avgT);
-        Serial.println(" °C ");
-        Serial.print("AVG Hum: ");
-        Serial.print(avgH);
-        Serial.println(" %  ");
-        Serial.print("AVG Light: ");
-        Serial.print(avgB);
-        Serial.println(" %  ");
-        Serial.println("--------------------------");
-      
-        // Send data
-        JSONdata();
-    }
-    else // We have only first few samples, wait.
-    {
-        dispAVG++;
-    }
+    avgT = ((int)(avgT*10)) / 10; //zaokruhli na 1 desatinne miesto
+}
 
-    delay(sensors_INTERVAL); //time interval for sensors
-    
+void SendData()
+{
+    Serial.println("--------------------------");
+    Serial.print("AVG Temp: ");
+    Serial.print(avgT);
+    Serial.println(" °C ");
+    Serial.print("AVG Hum: ");
+    Serial.print(avgH);
+    Serial.println(" %  ");
+    Serial.print("AVG Light: ");
+    Serial.print(avgB);
+    Serial.println(" %  ");
+    Serial.println("--------------------------");
+
+    // Send data
+    JSONdata();    
 }
 
 //-----------------------------------------------parseToken--------------------------------------------
