@@ -1,39 +1,39 @@
 .DesktopSideDrawer {
-    height: calc(100% - 50px);
-    width: 200px;
-    background-color: #43425D;
-    position: fixed;
-    top: 50px;
-    left: 0;
-    display: none;
-    overflow-y: auto;
+	height: calc(100% - 50px);
+	width: 200px;
+	background-color: #43425d;
+	position: fixed;
+	top: 50px;
+	left: 0;
+	display: none;
+	overflow-y: auto;
 }
 .DesktopSideDrawer::-webkit-scrollbar {
-    width: 5px;
+	width: 5px;
 }
 
 .DesktopSideDrawer div {
-    background-color: #f0f0f71a;
-    font-size: 1.2em;
-    text-align: center;
-    padding: 10px;
-    color: white;
+	background-color: #f0f0f71a;
+	font-size: 1.2em;
+	text-align: center;
+	padding: 10px 0;
+	color: white;
 }
 .DesktopSideDrawer li {
-    list-style-type: none;
-    padding: 5px 0;
-    cursor: pointer;
-    margin-left: 50px;
-    color: white;
-    font-size: .975em;
+	list-style-type: none;
+	padding: 8px 0;
+	cursor: pointer;
+	margin-left: 45px;
+	color: white;
+	font-size: .975em;
 }
 
 .DesktopSideDrawer li:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 @media (min-width: 800px) {
-    .DesktopSideDrawer {
-        display: inline-block;
-    }
+	.DesktopSideDrawer {
+		display: inline-block;
+	}
 }
