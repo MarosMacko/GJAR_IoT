@@ -4,21 +4,22 @@
 #include <SimpleDHT.h>
 
 // WiFi Parameters
-const char* ssid = "...";  //wifi ssid 
+const char* ssid = "gjar-iot";  //wifi ssid 
 const char* password ="..."; //wifi password 
 
 //Node parameters
-int nodeId = 0;
+int nodeId = ...;
 const char* nodeToken = "...";
 
 //Bi-color LED pins
 #define redLED 12
 #define greenLED 16
+#define LDRpower 15
 #define GND 14
 
-#define AVERAGES                3           //amount of temporary values
-#define send_INTERVAL           10*1000     //time to new measurement (in miliseconds)
-#define delay_INTERVAL          10*1000     //time between measurement values to average
+#define AVERAGES                3          //amount of temporary values
+#define send_INTERVAL           5*60*1000  //time to new measurement (in miliseconds)
+#define delay_INTERVAL          3*1000     //time between measurement values to average
 
 //DHT humidity/temperature sensor
 int pinDHT22 = 2;
@@ -29,6 +30,7 @@ float DHThumidity = 0;
 int err = SimpleDHTErrSuccess;        //DHT error return
 float tmpT[AVERAGES];       // array of temporary values 
 float avgT;                 // average temp
+int errCounter = 0;
 
 int tmpH[AVERAGES];         // array of temporary values
 int avgH;                   // temporary humidity
@@ -45,11 +47,12 @@ struct JSONvalues
   String token;
 };
 
-void blinkLed(int led, int delay)
+void blinkLed(int led, int delayT)
 {
     digitalWrite(led, HIGH);
-    delay(delay);
-    digitalWrite(led, LOW);    
+    delay(delayT/2);
+    digitalWrite(led, LOW);
+    delay(delayT/2);     
 }
   
 //--------------------------------------------setup------------------------------------------------------------
@@ -64,10 +67,12 @@ void setup()
     
     pinMode(redLED, OUTPUT);
     pinMode(greenLED, OUTPUT);
-    pinMode(pinDHT22 ,INPUT_PULLUP);
+    pinMode(pinDHT22, INPUT_PULLUP);
     pinMode(GND, OUTPUT);
+    pinMode(LDRpower, OUTPUT);
     
     digitalWrite(GND, LOW);
+    digitalWrite(LDRpower, HIGH);
     
     Serial.println('\n');
     
@@ -109,12 +114,12 @@ void loop()
         {   
             blinkLed(redLED, 500);
         }
-    } 
+    }
     
     GetSensorsData();
     SendData();
     
-    delay(send_INTERVAL - (delay_INTERVAL * AVERAGES)); //time interval for sending data
+    delay((send_INTERVAL - (delay_INTERVAL * AVERAGES)) < 0 ? 0 : (send_INTERVAL - (delay_INTERVAL * AVERAGES))); //time interval for sending data
 }
 
 
@@ -132,16 +137,24 @@ void GetSensorsData()
         {
             Serial.print("Read DHT22 failed, err="); 
             Serial.println(err); 
-            delay(2000); //just error things
             
             digitalWrite(greenLED, LOW);
-            blinkLed(redLED, 200);
-            blinkLed(redLED, 200);
-            blinkLed(redLED, 200);
+            blinkLed(redLED, 500);
+            blinkLed(redLED, 500);
             digitalWrite(greenLED, HIGH);
             
-            JSONerror(); // send error message to server
-            return;
+            if(errCounter >4)
+            {
+              errCounter = 0;
+              JSONerror(); // send error message to server
+              delay(5*1000); //Give it more time
+            }
+            delay(5*1000); //just error things
+            GetSensorsData();
+        }
+        else
+        {
+          Serial.println("Yayy DHT read successful");
         }
         
         //LDR brightness reading
@@ -156,7 +169,7 @@ void GetSensorsData()
     }
     
     
-    for (int i = 0; i < INTERVAL; i++) //Calc average
+    for (int i = 0; i < AVERAGES; i++) //Calc average
     {
         avgT = avgT + tmpT[i];
         avgH = avgH + tmpH[i];
@@ -240,7 +253,7 @@ void JSONerror()
 {  
     StaticJsonBuffer<100> JSONerror;
     JsonObject& error = JSONerror.createObject();
-    error["id"] = 0;
+    error["id"] = nodeId;
     error["level"] = "ERROR";
     char errorMessage[100];
     error.prettyPrintTo(errorMessage, sizeof(errorMessage));
@@ -256,6 +269,8 @@ void JSONerror()
     Serial.println(payloadData);                        //Print request response payload
  
     http.end();
+
+    
 }
 
 //-----------------------------------------------JSONalive------------------------------------------------------------
