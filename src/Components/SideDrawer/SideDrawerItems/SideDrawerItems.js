@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const items = [
-	{ name: 'Byt', number: 29 },
+	{ name: 'Študovňa', number: 29 },
 	{ name: 'Inf Kabinet', number: 53 },
-	{ name: 'III.A', number: 61 },
-	{ name: 'Kniznica', number: 70 },
+	{ name: 'Učebňa Fyz', number: 61 },
+	{ name: 'Knižnica', number: 70 },
 	{ name: 'Aj 1', number: 71 },
 	{ name: 'Nj 2', number: 77 },
 	{ name: 'Bio kabinet', number: 83 },

@@ -1,4 +1,7 @@
 .MainPage {
-    margin: 0 2%;
+	margin: 0 2%;
+	height: 100%;
+	flex: 2;
+	flex-direction: column;
+	align-content: stretch;
 }
-

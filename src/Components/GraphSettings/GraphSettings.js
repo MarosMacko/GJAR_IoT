@@ -15,8 +15,8 @@ const graphSettings = (props) => {
 				<option className={classes.Item} value="1">
 					1 hodina
 				</option>
-				<option className={classes.Item} value="3">
-					3 hodiny
+				<option className={classes.Item} value="6">
+					6 hodín
 				</option>
 				<option className={classes.Item} value="24">
 					24 hodín
