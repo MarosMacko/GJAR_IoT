@@ -48,18 +48,25 @@ class Layout extends Component {
 
 		const beforeTimeHours = moment().subtract(defaultSelectedInterval, 'hours');
 
-		this.setState({
+		const times = {
 			timeTo: formatDate(moment()),
 			timeFrom: formatDate(moment(beforeTimeHours)),
 			beforeTimeHours: beforeTimeHours,
 			todayHours: moment().format('LTS')
+		};
+
+		this.setState({
+			timeTo: times.timeTo,
+			timeFrom: times.timeFrom,
+			beforeTimeHours: times.beforeTimeHours,
+			todayHours: times.todayHours
 		});
 
 		const parseData = {
 			room: roomNumber,
 			time: {
-				'time-from': `${this.state.timeFrom} ${moment(this.state.beforeTimeHours).format('LTS')}`,
-				'time-to': `${this.state.timeTo} ${this.state.todayHours}`
+				'time-from': `${times.timeFrom} ${moment(times.beforeTimeHours).format('LTS')}`,
+				'time-to': `${times.timeTo} ${times.todayHours}`
 			}
 		};
 		if (this.state.activeRoomNumber !== roomNumber || this.state.activeRoomNumber === null) {
@@ -94,7 +101,7 @@ class Layout extends Component {
 	};
 
 	componentDidMount() {
-		this.changeActiveRoomHandler('Byt (29)', 16);
+		this.changeActiveRoomHandler('Byt (29)', 29);
 	}
 
 	setSelectedInterval = (interval) => {

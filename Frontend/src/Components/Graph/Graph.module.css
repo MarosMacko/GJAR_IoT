@@ -10,7 +10,8 @@
 
 @media (min-width: 800px) {
 	.Graph {
-		height: 650px;
+		min-height: 350px;
 		padding: 40px 30px 10px;
+		height: calc(100vh - 350px);
 	}
 }
