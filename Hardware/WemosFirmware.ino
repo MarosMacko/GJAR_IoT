@@ -14,8 +14,8 @@ const char* nodeToken = "...";
 //Bi-color LED pins
 #define redLED 12
 #define greenLED 16
-#define LDRpower 15
 #define GND 14
+#define DHTpower 15
 
 #define AVERAGES                3          //amount of temporary values
 #define send_INTERVAL           5*60*1000  //time to new measurement (in miliseconds)
@@ -69,10 +69,10 @@ void setup()
     pinMode(greenLED, OUTPUT);
     pinMode(pinDHT22, INPUT_PULLUP);
     pinMode(GND, OUTPUT);
-    pinMode(LDRpower, OUTPUT);
+    pinMode(DHTpower, OUTPUT);
     
     digitalWrite(GND, LOW);
-    digitalWrite(LDRpower, HIGH);
+    digitalWrite(DHTpower, HIGH);
     
     Serial.println('\n');
     
@@ -128,29 +128,38 @@ void GetSensorsData()
 {
     avgT = 0;
     avgH = 0;
-    avgB = 0;
+    avgB = 0; 
     
     for(int iTmp=0; iTmp<AVERAGES; iTmp++)
     {
+        measureAgain:
+        digitalWrite(DHTpower, HIGH);
+        delay(delay_INTERVAL); 
+          
         //DHT22 temb & humidity reading
         if ((err = dht22.read2(pinDHT22, &DHTtemperature, &DHThumidity, NULL)) != SimpleDHTErrSuccess) 
         {
             Serial.print("Read DHT22 failed, err="); 
             Serial.println(err); 
+
+            //Turn off DHT
+            digitalWrite(DHTpower, LOW);
             
             digitalWrite(greenLED, LOW);
             blinkLed(redLED, 500);
             blinkLed(redLED, 500);
             digitalWrite(greenLED, HIGH);
             
-            if(errCounter >4)
+            if(errCounter > 4)
             {
               errCounter = 0;
+              
               JSONerror(); // send error message to server
               delay(5*1000); //Give it more time
+              GetSensorsData();
             }
             delay(5*1000); //just error things
-            GetSensorsData();
+            goto measureAgain;
         }
         else
         {
@@ -164,8 +173,6 @@ void GetSensorsData()
         tmpT[iTmp] = DHTtemperature;
         tmpH[iTmp] = DHThumidity;
         tmpB[iTmp] = brightness;
-        
-        delay(delay_INTERVAL);
     }
     
     
