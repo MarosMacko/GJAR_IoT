@@ -4,7 +4,7 @@ import Navbar from '../../Components/Navbar/Navbar';
 import SideDrawer from '../../Components/SideDrawer/SideDrawer';
 import Backdrop from '../../Components/UI/Backdrop/Backdrop';
 import DesktopSideDrawer from '../../Components/DesktopSideDrawer/DesktopSideDrawer';
-import MainPage from '../MainPage/MainPage';
+import MainPage from '../../Components/MainPage/MainPage';
 import axios from '../../axios-call';
 import Loader from '../../Components/UI/Loader/Loader';
 import ErrorDiv from '../../Components/ErrorDiv/ErrorDiv';
@@ -18,7 +18,7 @@ const formatDate = (date) => date.format('YYYY-MM-DD');
 class Layout extends Component {
 	state = {
 		activeNav: false,
-		activeRoom: 'Byt (29)',
+		activeRoom: null,
 		activeRoomNumber: null,
 		values: {
 			temperature: [],
@@ -29,11 +29,12 @@ class Layout extends Component {
 		render: false,
 		serverError: false,
 		errMessage: null,
-		selectedInterval: 1,
-		timeFrom: null,
-		timeTo: null,
-		beforeTimeHours: null
+		selectedInterval: 3
 	};
+
+	componentDidMount() {
+		this.changeActiveRoomHandler('Študovňa (29)', 29);
+	}
 
 	hamburgerButtonClickedHandler = () => {
 		this.setState(() => {
@@ -43,8 +44,8 @@ class Layout extends Component {
 		});
 	};
 
-	changeActiveRoomHandler = (room, roomNumber) => {
-		const defaultSelectedInterval = 1;
+	changeActiveRoomHandler = (roomName, roomNumber) => {
+		const defaultSelectedInterval = 3;
 
 		const beforeTimeHours = moment().subtract(defaultSelectedInterval, 'hours');
 
@@ -55,13 +56,6 @@ class Layout extends Component {
 			todayHours: moment().format('LTS')
 		};
 
-		this.setState({
-			timeTo: times.timeTo,
-			timeFrom: times.timeFrom,
-			beforeTimeHours: times.beforeTimeHours,
-			todayHours: times.todayHours
-		});
-
 		const parseData = {
 			room: roomNumber,
 			time: {
@@ -69,9 +63,10 @@ class Layout extends Component {
 				'time-to': `${times.timeTo} ${times.todayHours}`
 			}
 		};
+
 		if (this.state.activeRoomNumber !== roomNumber || this.state.activeRoomNumber === null) {
 			this.setState({
-				activeRoom: room,
+				activeRoom: roomName,
 				activeRoomNumber: roomNumber,
 				render: false,
 				serverError: false,
@@ -81,46 +76,28 @@ class Layout extends Component {
 			if (this.state.activeNav === true) {
 				this.setState({ activeNav: !this.state.activeNav });
 			}
-			axios({
-				method: 'POST',
-				data: parseData,
-				url: 'api/v1/view',
-				headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
-			})
-				.then((response) => {
-					this.processResponse(response);
-				})
-				.catch((error) => {
-					this.setState({
-						render: false,
-						serverError: true,
-						errMessage: error.message
-					});
-				});
+			this.getDataFromServer(parseData);
 		}
 	};
-
-	componentDidMount() {
-		this.changeActiveRoomHandler('Byt (29)', 29);
-	}
 
 	setSelectedInterval = (interval) => {
 		const beforeTimeHours = moment().subtract(interval, 'hours');
 
 		this.setState({
-			selectedInterval: interval,
-			timeFrom: formatDate(moment(beforeTimeHours)),
-			beforeTimeHours: beforeTimeHours
+			selectedInterval: interval
 		});
 
 		const parseData = {
 			room: this.state.activeRoomNumber,
 			time: {
 				'time-from': `${formatDate(moment(beforeTimeHours))} ${moment(beforeTimeHours).format('LTS')}`,
-				'time-to': `${this.state.timeTo} ${this.state.todayHours}`
+				'time-to': `${formatDate(moment())} ${moment().format('LTS')}`
 			}
 		};
+		this.getDataFromServer(parseData);
+	};
 
+	getDataFromServer = (parseData, interval) => {
 		axios({
 			method: 'POST',
 			data: parseData,
@@ -128,7 +105,7 @@ class Layout extends Component {
 			headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
 		})
 			.then((response) => {
-				this.processResponse(response);
+				this.processResponse(response, interval);
 			})
 			.catch((error) => {
 				this.setState({
@@ -139,10 +116,10 @@ class Layout extends Component {
 			});
 	};
 
-	processResponse = (response) => {
+	processResponse = (response, interval) => {
 		if (response.data.data.length <= 0) {
 			this.setState({
-				errMessage: 'No Data',
+				errMessage: 'Žiadne dáta',
 				serverError: true,
 				render: false
 			});
@@ -153,11 +130,10 @@ class Layout extends Component {
 		let brig = [];
 		let tim = [];
 
-		const reduceBy = response.data.data.length / (response.data.data.length / this.state.selectedInterval);
+		const reduceBy = response.data.data.length / (response.data.data.length / interval);
 
 		for (let i = response.data.data.length - 1; i > 0; i -= reduceBy) {
-			const rawTime = response.data.data[i].time.split(' ', 2)[1].split(':', 2);
-			const time = rawTime[0] + ':' + rawTime[1];
+			const time = moment(response.data.data[i].time).format('HH:mm DD/MM');
 
 			temp.unshift(parseFloat(response.data.data[i].temperature).toFixed(2));
 			hum.unshift(parseFloat(response.data.data[i].humidity).toFixed(2));
