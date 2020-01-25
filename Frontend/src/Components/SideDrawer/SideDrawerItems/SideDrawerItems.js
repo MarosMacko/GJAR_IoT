@@ -14,10 +14,12 @@ const items = [
 
 const sideDrawerItems = (props) => (
 	<React.Fragment>
-		<div>1. poschodie</div>
+		<div>Prízemie</div>
 		{items.map((item, index) => {
 			let header = null;
 			if (item.number === 29) {
+				header = '1. poschodie';
+			} else if (item.number === 53) {
 				header = '2. poschodie';
 			} else if (item.number === 77) {
 				header = '3. poschodie';
