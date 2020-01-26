@@ -4,201 +4,59 @@ import Navbar from '../../Components/Navbar/Navbar';
 import SideDrawer from '../../Components/SideDrawer/SideDrawer';
 import Backdrop from '../../Components/UI/Backdrop/Backdrop';
 import DesktopSideDrawer from '../../Components/DesktopSideDrawer/DesktopSideDrawer';
-import MainPage from '../MainPage/MainPage';
-import axios from '../../axios-call';
+import MainPage from '../../Components/MainPage/MainPage';
 import Loader from '../../Components/UI/Loader/Loader';
 import ErrorDiv from '../../Components/ErrorDiv/ErrorDiv';
 import { Route } from 'react-router-dom';
 import AboutUsPage from '../../Components/AboutUsPage/AboutUsPage';
-import moment from 'moment';
 import 'moment/locale/sk';
-
-const formatDate = (date) => date.format('YYYY-MM-DD');
+import { contactServer, changeActiveRoom, toggleNav } from '../../store/actions/index';
+import { connect } from 'react-redux';
 
 class Layout extends Component {
-	state = {
-		activeNav: false,
-		activeRoom: 'Byt (29)',
-		activeRoomNumber: null,
-		values: {
-			temperature: [],
-			humidity: [],
-			brightness: [],
-			times: []
-		},
-		render: false,
-		serverError: false,
-		errMessage: null,
-		selectedInterval: 1,
-		timeFrom: null,
-		timeTo: null,
-		beforeTimeHours: null
-	};
-
-	hamburgerButtonClickedHandler = () => {
-		this.setState(() => {
-			return {
-				activeNav: !this.state.activeNav
-			};
-		});
-	};
-
-	changeActiveRoomHandler = (room, roomNumber) => {
-		const defaultSelectedInterval = 1;
-
-		const beforeTimeHours = moment().subtract(defaultSelectedInterval, 'hours');
-
-		const times = {
-			timeTo: formatDate(moment()),
-			timeFrom: formatDate(moment(beforeTimeHours)),
-			beforeTimeHours: beforeTimeHours,
-			todayHours: moment().format('LTS')
-		};
-
-		this.setState({
-			timeTo: times.timeTo,
-			timeFrom: times.timeFrom,
-			beforeTimeHours: times.beforeTimeHours,
-			todayHours: times.todayHours
-		});
-
-		const parseData = {
-			room: roomNumber,
-			time: {
-				'time-from': `${times.timeFrom} ${moment(times.beforeTimeHours).format('LTS')}`,
-				'time-to': `${times.timeTo} ${times.todayHours}`
-			}
-		};
-		if (this.state.activeRoomNumber !== roomNumber || this.state.activeRoomNumber === null) {
-			this.setState({
-				activeRoom: room,
-				activeRoomNumber: roomNumber,
-				render: false,
-				serverError: false,
-				errMessage: null,
-				selectedInterval: defaultSelectedInterval
-			});
-			if (this.state.activeNav === true) {
-				this.setState({ activeNav: !this.state.activeNav });
-			}
-			axios({
-				method: 'POST',
-				data: parseData,
-				url: 'api/v1/view',
-				headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
-			})
-				.then((response) => {
-					this.processResponse(response);
-				})
-				.catch((error) => {
-					this.setState({
-						render: false,
-						serverError: true,
-						errMessage: error.message
-					});
-				});
-		}
-	};
-
 	componentDidMount() {
-		this.changeActiveRoomHandler('Byt (29)', 29);
+		this.props.changeActiveRoom(29, 'Študovňa (29)');
+		this.props.contactServer(29, 3);
 	}
 
-	setSelectedInterval = (interval) => {
-		const beforeTimeHours = moment().subtract(interval, 'hours');
-
-		this.setState({
-			selectedInterval: interval,
-			timeFrom: formatDate(moment(beforeTimeHours)),
-			beforeTimeHours: beforeTimeHours
-		});
-
-		const parseData = {
-			room: this.state.activeRoomNumber,
-			time: {
-				'time-from': `${formatDate(moment(beforeTimeHours))} ${moment(beforeTimeHours).format('LTS')}`,
-				'time-to': `${this.state.timeTo} ${this.state.todayHours}`
-			}
-		};
-
-		axios({
-			method: 'POST',
-			data: parseData,
-			url: 'api/v1/view',
-			headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
-		})
-			.then((response) => {
-				this.processResponse(response);
-			})
-			.catch((error) => {
-				this.setState({
-					render: false,
-					serverError: true,
-					errMessage: error.message
-				});
-			});
+	hamburgerButtonClickedHandler = () => {
+		this.props.toggleNav(this.props.isNavOpened);
 	};
 
-	processResponse = (response) => {
-		if (response.data.data.length <= 0) {
-			this.setState({
-				errMessage: 'No Data',
-				serverError: true,
-				render: false
-			});
-			return;
+	changeActiveRoomHandler = (roomName, roomNumber) => {
+		if (this.props.activeRoomNumber !== roomNumber || this.props.activeRoomNumber === null) {
+			this.props.changeActiveRoom(roomNumber, roomName);
+			if (this.props.isNavOpened === true) {
+				this.props.toggleNav(this.props.toggleNav);
+			}
+			this.props.contactServer(roomNumber, 3);
 		}
-		let temp = [];
-		let hum = [];
-		let brig = [];
-		let tim = [];
+	};
 
-		const reduceBy = response.data.data.length / (response.data.data.length / this.state.selectedInterval);
-
-		for (let i = response.data.data.length - 1; i > 0; i -= reduceBy) {
-			const rawTime = response.data.data[i].time.split(' ', 2)[1].split(':', 2);
-			const time = rawTime[0] + ':' + rawTime[1];
-
-			temp.unshift(parseFloat(response.data.data[i].temperature).toFixed(2));
-			hum.unshift(parseFloat(response.data.data[i].humidity).toFixed(2));
-			brig.unshift(parseFloat(response.data.data[i].brightness).toFixed(2));
-			tim.unshift(time);
-		}
-		this.setState({
-			values: {
-				temperature: temp,
-				humidity: hum,
-				brightness: brig,
-				times: tim
-			},
-			render: true,
-			serverError: false
-		});
+	setSelectedInterval = (interval) => {
+		this.props.contactServer(this.props.activeRoomNumber, interval);
 	};
 
 	aboutProjectClickHandler = () => {
-		this.setState({
-			activeRoom: 'O projekte',
-			activeRoomNumber: null
-		});
-		if (this.state.activeNav === true) {
-			this.setState({ activeNav: !this.state.activeNav });
+		this.props.changeActiveRoom('O projekte', null);
+		if (this.props.isNavOpened) {
+			this.props.toggleNav(this.props.isNavOpened);
 		}
 	};
 
 	render() {
 		let content = <Loader />;
-		if (this.state.serverError) {
-			content = <ErrorDiv errMessage={this.state.errMessage} />;
-		} else if (!this.state.serverError && !this.state.render) {
+		if (this.props.serverError) {
+			content = <ErrorDiv errMessage={this.props.errMessage} />;
+		} else if (!this.props.serverError && !this.props.render) {
 			content = <Loader />;
-		} else if (this.state.render) {
+		} else if (this.props.render) {
 			content = (
 				<MainPage
-					activeRoomNumber={this.state.activeRoomNumber}
-					values={this.state.values}
-					render={this.state.render}
-					selectedInterval={this.state.selectedInterval}
+					activeRoomNumber={this.props.activeRoomNumber}
+					values={this.props.values}
+					render={this.props.render}
+					selectedInterval={this.props.selectedInterval}
 					select={this.setSelectedInterval}
 				/>
 			);
@@ -209,8 +67,8 @@ class Layout extends Component {
 				<nav className={classes.Navbar}>
 					<Navbar
 						click={this.hamburgerButtonClickedHandler}
-						active={this.state.activeNav}
-						title={this.state.activeRoom}
+						active={this.props.isNavOpened}
+						title={this.props.activeRoom}
 					/>
 				</nav>
 				<main className={classes.Content}>
@@ -223,14 +81,35 @@ class Layout extends Component {
 				/>
 				<SideDrawer
 					aboutProjectClick={this.aboutProjectClickHandler}
-					active={this.state.activeNav}
+					active={this.props.isNavOpened}
 					clicked={this.hamburgerButtonClickedHandler}
 					click={this.changeActiveRoomHandler}
 				/>
-				<Backdrop show={this.state.activeNav} clicked={this.hamburgerButtonClickedHandler} />
+				<Backdrop show={this.props.isNavOpened} clicked={this.hamburgerButtonClickedHandler} />
 			</React.Fragment>
 		);
 	}
 }
 
-export default Layout;
+const mapStateToProps = (state) => {
+	return {
+		isNavOpened: state.ui.isNavOpened,
+		values: state.data.values,
+		activeRoomNumber: state.room.activeRoomNumber,
+		activeRoom: state.room.activeRoom,
+		serverError: state.data.serverError,
+		render: state.data.render,
+		errMessage: state.data.errMessage,
+		selectedInterval: state.data.selectedInterval
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		contactServer: (roomNumber, interval) => dispatch(contactServer(roomNumber, interval)),
+		changeActiveRoom: (roomNumber, roomName) => dispatch(changeActiveRoom(roomNumber, roomName)),
+		toggleNav: (isNavOpened) => dispatch(toggleNav(isNavOpened))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
