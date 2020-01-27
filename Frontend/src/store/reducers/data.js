@@ -9,7 +9,7 @@ const initialState = {
 		brightness: [],
 		times: []
 	},
-	render: true,
+	render: false,
 	serverError: false,
 	errMessage: null,
 	selectedInterval: null
@@ -38,6 +38,7 @@ const processResponse = (state, action) => {
 		brig.unshift(parseFloat(action.response.data.data[i].brightness).toFixed(2));
 		tim.unshift(time);
 	}
+
 	return updateObject(state, {
 		values: {
 			temperature: temp,
@@ -47,6 +48,7 @@ const processResponse = (state, action) => {
 		},
 		render: true,
 		serverError: false,
+		errMessage: null,
 		selectedInterval: action.interval
 	});
 };
