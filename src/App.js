@@ -7,6 +7,7 @@ import dataReducer from './store/reducers/data';
 import uiReducer from './store/reducers/ui';
 import roomReducer from './store/reducers/room';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const rootReducer = combineReducers({
 	data: dataReducer,
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
 	room: roomReducer
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 function App() {
 	return (

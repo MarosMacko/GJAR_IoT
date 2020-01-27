@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { toggleNav } from '../../store/actions/index';
 
 const sideDrawer = (props) => {
-	let sideDrawerClasses = props.active ? [ classes.SideDrawer, classes.Active ].join(' ') : classes.SideDrawer;
+	let sideDrawerClasses = props.isNavOpened ? [ classes.SideDrawer, classes.Active ].join(' ') : classes.SideDrawer;
 
 	return (
 		<div className={sideDrawerClasses}>

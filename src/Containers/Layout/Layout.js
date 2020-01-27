@@ -34,7 +34,7 @@ class Layout extends Component {
 	};
 
 	aboutProjectClickHandler = () => {
-		this.props.changeActiveRoom('O projekte', null);
+		this.props.changeActiveRoom(null, 'O projekte');
 		if (this.props.isNavOpened) {
 			this.props.toggleNav(this.props.isNavOpened);
 		}
@@ -65,7 +65,6 @@ class Layout extends Component {
 				/>
 				<SideDrawer
 					aboutProjectClick={this.aboutProjectClickHandler}
-					active={this.props.isNavOpened}
 					clicked={this.hamburgerButtonClickedHandler}
 					click={this.changeActiveRoomHandler}
 				/>

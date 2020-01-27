@@ -13,7 +13,7 @@ const graphSettings = (props) => {
 	return (
 		<div className={classes.Wrapper}>
 			<p className={classes.Text}>Zobraz dáta za posledných:</p>
-			<select className={classes.Select} onChange={onChangeHandler}>
+			<select value={props.selectedInterval} className={classes.Select} onChange={onChangeHandler}>
 				<option className={classes.Item} value="3">
 					3 hodiny
 				</option>
