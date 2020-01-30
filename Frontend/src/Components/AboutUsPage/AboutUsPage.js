@@ -44,8 +44,8 @@ const aboutUsPage = () => (
 			<div>
 				<h2>Miro</h2>
 				<p>
-					Pracoval som na softvéri pre Node. Mám 18 rokov. Navštevujem Gymnázium Jána Adama Raymana v Prešove
-					a som žiakom 4.C triedy.
+					Mojou úlohou bolo naprogramovať firmware pre Node. Som absolventom GJAR a mám{' '}
+					{moment().diff('2000-01-21', 'years')} rokov.
 				</p>
 			</div>
 		</div>

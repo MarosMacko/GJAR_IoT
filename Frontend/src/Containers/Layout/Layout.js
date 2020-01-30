@@ -19,10 +19,6 @@ class Layout extends Component {
 		this.props.contactServer(29, 3);
 	}
 
-	hamburgerButtonClickedHandler = () => {
-		this.props.toggleNav(this.props.isNavOpened);
-	};
-
 	changeActiveRoomHandler = (roomName, roomNumber) => {
 		if (this.props.activeRoomNumber !== roomNumber || this.props.activeRoomNumber === null) {
 			this.props.changeActiveRoom(roomNumber, roomName);
@@ -38,7 +34,7 @@ class Layout extends Component {
 	};
 
 	aboutProjectClickHandler = () => {
-		this.props.changeActiveRoom('O projekte', null);
+		this.props.changeActiveRoom(null, 'O projekte');
 		if (this.props.isNavOpened) {
 			this.props.toggleNav(this.props.isNavOpened);
 		}
@@ -51,25 +47,13 @@ class Layout extends Component {
 		} else if (!this.props.serverError && !this.props.render) {
 			content = <Loader />;
 		} else if (this.props.render) {
-			content = (
-				<MainPage
-					activeRoomNumber={this.props.activeRoomNumber}
-					values={this.props.values}
-					render={this.props.render}
-					selectedInterval={this.props.selectedInterval}
-					select={this.setSelectedInterval}
-				/>
-			);
+			content = <MainPage />;
 		}
 
 		return (
 			<React.Fragment>
 				<nav className={classes.Navbar}>
-					<Navbar
-						click={this.hamburgerButtonClickedHandler}
-						active={this.props.isNavOpened}
-						title={this.props.activeRoom}
-					/>
+					<Navbar />
 				</nav>
 				<main className={classes.Content}>
 					<Route path="/" exact render={() => content} />
@@ -81,11 +65,10 @@ class Layout extends Component {
 				/>
 				<SideDrawer
 					aboutProjectClick={this.aboutProjectClickHandler}
-					active={this.props.isNavOpened}
 					clicked={this.hamburgerButtonClickedHandler}
 					click={this.changeActiveRoomHandler}
 				/>
-				<Backdrop show={this.props.isNavOpened} clicked={this.hamburgerButtonClickedHandler} />
+				<Backdrop />
 			</React.Fragment>
 		);
 	}

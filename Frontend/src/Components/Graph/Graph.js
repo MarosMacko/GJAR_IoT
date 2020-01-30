@@ -2,6 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import classes from './Graph.module.css';
 import GraphSettings from './GraphSettings/GraphSettings';
+import { connect } from 'react-redux';
 
 const graph = (props) => {
 	return (
@@ -9,11 +10,11 @@ const graph = (props) => {
 			<div className={classes.Graph}>
 				<Line
 					data={{
-						labels: props.time,
+						labels: props.values.times,
 						datasets: [
 							{
 								label: 'Teplota',
-								data: props.temperature,
+								data: props.values.temperature,
 								fill: true,
 								backgroundColor: 'rgba(85, 186, 254, .3)',
 								borderWidth: 4,
@@ -21,7 +22,7 @@ const graph = (props) => {
 							},
 							{
 								label: 'Vlhkosť',
-								data: props.humidity,
+								data: props.values.humidity,
 								fill: true,
 								backgroundColor: 'rgba(163, 160, 251, .3)',
 								borderWidth: 4,
@@ -29,7 +30,7 @@ const graph = (props) => {
 							},
 							{
 								label: 'Osvetlenie',
-								data: props.brightness,
+								data: props.values.brightness,
 								fill: true,
 								backgroundColor: 'rgba(94, 226, 160, .3)',
 								borderWidth: 4,
@@ -52,9 +53,15 @@ const graph = (props) => {
 					}}
 				/>
 			</div>
-			<GraphSettings select={props.select} selectedInterval={props.selectedInterval} />
+			<GraphSettings />
 		</div>
 	);
 };
 
-export default graph;
+const mapStateToProps = (state) => {
+	return {
+		values: state.data.values
+	};
+};
+
+export default connect(mapStateToProps)(graph);
