@@ -1,23 +1,38 @@
 .Wrapper {
-	margin-left: 5px;
+	position: relative;
+}
+.SelectorWrapper {
+	margin-left: 10px;
 	position: relative;
 	display: inline;
 }
+.LoaderWrapper {
+	position: absolute;
+	right: 10px;
+	bottom: 0px;
+}
 .Text {
 	display: inline-block;
-	font-size: 12px;
+	font-size: 10px;
 }
 .Select {
 	background-color: #fff;
 	border-radius: 5px;
 	padding: 5px 10px;
 	margin-left: 5px;
+	font-size: 12px;
 }
 @media (min-width: 800px) {
-	.Wrapper {
+	.SelectorWrapper {
 		margin: 10px 20px;
 	}
 	.Text {
 		font-size: 16px;
+	}
+	.Select {
+		font-size: 15px;
+	}
+	.LoaderWrapper {
+		bottom: 5px;
 	}
 }

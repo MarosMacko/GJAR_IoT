@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-call';
 import moment from 'moment';
+import { trackPromise } from 'react-promise-tracker';
 
 const contactServerSuccess = (response, interval) => {
 	return {
@@ -17,8 +18,15 @@ const contactServerFail = (error) => {
 	};
 };
 
+const contactServerStart = () => {
+	return {
+		type: actionTypes.CONTACT_SERVER_START
+	};
+};
+
 export const contactServer = (roomNumber, interval) => {
 	return (dispatch) => {
+		dispatch(contactServerStart());
 		const beforeTimeHours = moment().subtract(interval, 'hours');
 
 		const times = {
@@ -36,17 +44,25 @@ export const contactServer = (roomNumber, interval) => {
 			}
 		};
 
-		axios({
-			method: 'POST',
-			data: parseData,
-			url: 'api/v1/view',
-			headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
-		})
-			.then((response) => {
-				dispatch(contactServerSuccess(response, interval));
+		trackPromise(
+			axios({
+				method: 'POST',
+				data: parseData,
+				url: 'api/v1/view',
+				headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' }
 			})
-			.catch((error) => {
-				dispatch(contactServerFail(error.message));
-			});
+				.then((response) => {
+					dispatch(contactServerSuccess(response, interval));
+				})
+				.catch((error) => {
+					dispatch(contactServerFail(error.message));
+				})
+		);
+	};
+};
+
+export const clearActiveValues = () => {
+	return {
+		type: actionTypes.CLEAR_ACTIVE_VALUES
 	};
 };
