@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-	isNavOpened: false
+	isNavOpened: false,
+	loading: false
 };
 
 const reducer = (state = initialState, action) => {

@@ -12,7 +12,7 @@ const aboutUsPage = () => (
 			<div className={classes.aboutProjectText}>
 				<p>
 					Cieľom tohto projektu je modernizácia školy. V miestnostiach školy sa bude merať teplota vzduchu,
-					osvietenosť a vlkosť.
+					osvetlenie a vlkosť.
 				</p>
 			</div>
 		</div>
@@ -45,7 +45,7 @@ const aboutUsPage = () => (
 				<h2>Miro</h2>
 				<p>
 					Mojou úlohou bolo naprogramovať firmware pre Node. Som absolventom GJAR a mám{' '}
-					{moment().diff('2000-01-21', 'years')} rokov.
+					{moment().diff('2000-01-21', 'years')} rokov. Momentálne som študentom Lancaster University.
 				</p>
 			</div>
 		</div>

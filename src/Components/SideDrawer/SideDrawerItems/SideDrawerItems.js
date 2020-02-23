@@ -8,8 +8,8 @@ const items = [
 	{ name: 'Knižnica', number: 70 },
 	{ name: 'Aj 1', number: 71 },
 	{ name: 'Nj 2', number: 77 },
-	{ name: 'Bio kabinet', number: 83 },
-	{ name: 'VI.OA', number: 84 }
+	{ name: 'Bio kabinet', number: 83 }
+	// { name: 'VI.OA', number: 84 }
 ];
 
 const sideDrawerItems = (props) => (
