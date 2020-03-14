@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import classes from './Layout.module.css';
 import Navbar from '../../Components/Navbar/Navbar';
 import SideDrawer from '../../Components/SideDrawer/SideDrawer';
@@ -11,42 +11,48 @@ import { Route } from 'react-router-dom';
 import AboutUsPage from '../../Components/AboutUsPage/AboutUsPage';
 import 'moment/locale/sk';
 import { contactServer, changeActiveRoom, toggleNav, clearActiveValues } from '../../store/actions/index';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Layout = (props) => {
-	const { changeActiveRoom, contactServer } = props;
+const Layout = () => {
+	const dispatch = useDispatch();
+	const isNavOpened = useSelector((state) => state.ui.isNavOpened);
+	const activeRoomNumber = useSelector((state) => state.room.activeRoomNumber);
+	const serverError = useSelector((state) => state.data.serverError);
+	const render = useSelector((state) => state.data.render);
+	const errMessage = useSelector((state) => state.data.errMessage);
+
 	useEffect(
 		() => {
-			changeActiveRoom(29, 'Študovňa (29)');
-			contactServer(29, 3);
+			dispatch(changeActiveRoom(29, 'Študovňa (29)'));
+			dispatch(contactServer(29, 3));
 		},
-		[ changeActiveRoom, contactServer ]
+		[ dispatch ]
 	);
 
 	const changeActiveRoomHandler = (roomName, roomNumber) => {
-		if (props.activeRoomNumber !== roomNumber || props.activeRoomNumber === null) {
-			props.changeActiveRoom(roomNumber, roomName);
-			if (props.isNavOpened === true) {
-				props.toggleNav(props.toggleNav);
+		if (activeRoomNumber !== roomNumber || activeRoomNumber === null) {
+			dispatch(changeActiveRoom(roomNumber, roomName));
+			if (isNavOpened === true) {
+				dispatch(toggleNav(isNavOpened));
 			}
-			props.contactServer(roomNumber, 3);
+			dispatch(contactServer(roomNumber, 3));
 		}
 	};
 
 	const aboutProjectClickHandler = () => {
-		props.changeActiveRoom(null, 'O projekte');
-		props.clearActiveValues();
-		if (props.isNavOpened) {
-			props.toggleNav(props.isNavOpened);
+		dispatch(changeActiveRoom(null, 'O projekte'));
+		dispatch(clearActiveValues());
+		if (isNavOpened) {
+			dispatch(toggleNav(isNavOpened));
 		}
 	};
 
-	let content = <Loader />;
-	if (props.serverError) {
-		content = <ErrorDiv errMessage={props.errMessage} />;
-	} else if (!props.serverError && !props.render) {
+	let content;
+	if (serverError) {
+		content = <ErrorDiv errMessage={errMessage} />;
+	} else if (!serverError && !render) {
 		content = <Loader />;
-	} else if (props.render) {
+	} else if (render) {
 		content = <MainPage />;
 	}
 
@@ -66,26 +72,4 @@ const Layout = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		isNavOpened: state.ui.isNavOpened,
-		activeRoomNumber: state.room.activeRoomNumber,
-		serverError: state.data.serverError,
-		render: state.data.render,
-		errMessage: state.data.errMessage,
-		isLoading: state.ui.loading,
-		values: state.data.values,
-		selectedInterval: state.data.selectedInterval
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		contactServer: (roomNumber, interval) => dispatch(contactServer(roomNumber, interval)),
-		changeActiveRoom: (roomNumber, roomName) => dispatch(changeActiveRoom(roomNumber, roomName)),
-		toggleNav: (isNavOpened) => dispatch(toggleNav(isNavOpened)),
-		clearActiveValues: () => dispatch(clearActiveValues())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default Layout;
