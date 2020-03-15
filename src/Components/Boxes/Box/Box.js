@@ -10,15 +10,15 @@ class Box extends Component {
 		let index = null;
 		let title = null;
 		if (this.props.type === 'temperature') {
-			title = 'Aktuálna teplota';
+			title = 'Teplota';
 			index = '°C';
 			graphImage = <img src={blueChart} alt="chart" />;
 		} else if (this.props.type === 'humidity') {
-			title = 'Aktuálna vlhkosť';
+			title = 'Vlhkosť';
 			index = '%';
 			graphImage = <img src={purpleChart} alt="chart" />;
 		} else if (this.props.type === 'brightness') {
-			title = 'Aktuálne osvetlenie';
+			title = 'Osvetlenie';
 			index = '%';
 			graphImage = <img src={greenChart} alt="chart" />;
 		}

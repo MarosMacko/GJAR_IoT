@@ -2,15 +2,15 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import classes from './Graph.module.css';
 import GraphSettings from './GraphSettings/GraphSettings';
-import { useSelector, useDispatch } from 'react-redux';
-import { openBottomDrawerSettings } from '../../store/actions/index';
+import { useSelector } from 'react-redux';
+import GraphDate from './GraphDate/GraphDate';
 
 const Graph = (props) => {
-	const dispatch = useDispatch();
 	const values = useSelector((state) => state.data.values);
 
 	return (
 		<div className={classes.Wrapper}>
+			<GraphDate />
 			<div className={classes.Graph}>
 				<Line
 					data={{
@@ -58,7 +58,6 @@ const Graph = (props) => {
 				/>
 			</div>
 			<GraphSettings />
-			<button onClick={() => dispatch(openBottomDrawerSettings())}>asdfasdf</button>
 		</div>
 	);
 };
