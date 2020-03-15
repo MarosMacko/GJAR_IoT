@@ -5,13 +5,13 @@
 
 .Graph {
 	height: 300px;
-	padding: 20px 10px;
+	padding: 0 10px 20px;
 }
 
 @media (min-width: 800px) {
 	.Graph {
 		min-height: 350px;
-		padding: 40px 30px 10px;
+		padding: 10px 30px 10px;
 		height: calc(100vh - 350px);
 	}
 }

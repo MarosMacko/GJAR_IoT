@@ -13,7 +13,8 @@ const initialState = {
 	serverError: false,
 	errMessage: null,
 	selectedInterval: null,
-	loading: false
+	loading: false,
+	activeDate: null
 };
 
 const processResponse = (state, action) => {
@@ -21,7 +22,14 @@ const processResponse = (state, action) => {
 		return updateObject(state, {
 			errMessage: 'Žiadne dáta',
 			serverError: true,
-			render: false
+			render: true,
+			loading: false,
+			values: {
+				temperature: [],
+				humidity: [],
+				brightness: [],
+				times: []
+			}
 		});
 	}
 
@@ -60,8 +68,14 @@ const throwError = (state, action) => {
 	return updateObject(state, {
 		serverError: true,
 		errMessage: action.error,
-		render: false,
-		loading: false
+		render: true,
+		loading: false,
+		values: {
+			temperature: [],
+			humidity: [],
+			brightness: [],
+			times: []
+		}
 	});
 };
 
@@ -69,8 +83,19 @@ const contactServerStart = (state, action) => {
 	return updateObject(state, { loading: true });
 };
 
+const changeActiveDate = (state, action) => {
+	return updateObject(state, { activeDate: action.date });
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+		case actionTypes.CLEAR_ERROR:
+			return updateObject(state, {
+				serverError: false,
+				errMessage: null
+			});
+		case actionTypes.CHANGE_ACTIVE_DATE:
+			return changeActiveDate(state, action);
 		case actionTypes.CONTACT_SERVER_START:
 			return contactServerStart(state, action);
 		case actionTypes.CONTACT_SERVER_SUCCESS:

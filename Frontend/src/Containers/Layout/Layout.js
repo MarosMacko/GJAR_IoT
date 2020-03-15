@@ -6,12 +6,20 @@ import Backdrop from '../../Components/UI/Backdrop/Backdrop';
 import DesktopSideDrawer from '../../Components/DesktopSideDrawer/DesktopSideDrawer';
 import MainPage from '../../Components/MainPage/MainPage';
 import Loader from '../../Components/UI/Loader/Loader';
-import ErrorDiv from '../../Components/ErrorDiv/ErrorDiv';
 import { Route } from 'react-router-dom';
 import AboutUsPage from '../../Components/AboutUsPage/AboutUsPage';
-import 'moment/locale/sk';
-import { contactServer, changeActiveRoom, toggleNav, clearActiveValues } from '../../store/actions/index';
+import {
+	contactServer,
+	changeActiveRoom,
+	toggleNav,
+	clearActiveValues,
+	changeActiveDate,
+	clearError
+} from '../../store/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const Layout = () => {
 	const dispatch = useDispatch();
@@ -20,11 +28,13 @@ const Layout = () => {
 	const serverError = useSelector((state) => state.data.serverError);
 	const render = useSelector((state) => state.data.render);
 	const errMessage = useSelector((state) => state.data.errMessage);
+	const activeDate = useSelector((state) => state.data.activeDate);
 
 	useEffect(
 		() => {
 			dispatch(changeActiveRoom(29, 'Študovňa (29)'));
 			dispatch(contactServer(29, 3));
+			dispatch(changeActiveDate(moment()));
 		},
 		[ dispatch ]
 	);
@@ -35,7 +45,7 @@ const Layout = () => {
 			if (isNavOpened === true) {
 				dispatch(toggleNav(isNavOpened));
 			}
-			dispatch(contactServer(roomNumber, 3));
+			dispatch(contactServer(roomNumber, 3, activeDate));
 		}
 	};
 
@@ -48,11 +58,9 @@ const Layout = () => {
 	};
 
 	let content;
-	if (serverError) {
-		content = <ErrorDiv errMessage={errMessage} />;
-	} else if (!serverError && !render) {
+	if (!render) {
 		content = <Loader />;
-	} else if (render) {
+	} else {
 		content = <MainPage />;
 	}
 
@@ -68,6 +76,11 @@ const Layout = () => {
 			<DesktopSideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
 			<SideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
 			<Backdrop />
+			<Snackbar open={serverError} autoHideDuration={6000} onClose={() => dispatch(clearError())}>
+				<MuiAlert elevation={6} variant="filled" onClose={() => dispatch(clearError())} severity="error">
+					{errMessage}
+				</MuiAlert>
+			</Snackbar>
 		</React.Fragment>
 	);
 };

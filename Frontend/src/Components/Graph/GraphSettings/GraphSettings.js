@@ -9,10 +9,11 @@ const GraphSettings = () => {
 	const activeRoomNumber = useSelector((state) => state.room.activeRoomNumber);
 	const selectedInterval = useSelector((state) => state.data.selectedInterval);
 	const loading = useSelector((state) => state.data.loading);
+	const activeDate = useSelector((state) => state.data.activeDate);
 
 	const onChangeHandler = (event) => {
 		if (event.target.value !== selectedInterval) {
-			dispatch(contactServer(activeRoomNumber, event.target.value));
+			dispatch(contactServer(activeRoomNumber, event.target.value, activeDate));
 		}
 	};
 
