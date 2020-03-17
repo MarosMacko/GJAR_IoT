@@ -1,44 +1,41 @@
 import React from 'react';
 import classes from './GraphSettings.module.css';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { contactServer } from '../../../store/actions/index';
+import Spinner from '../../UI/LoadingIndicator/LoadingIndicator';
 
-const graphSettings = (props) => {
+const GraphSettings = () => {
+	const dispatch = useDispatch();
+	const activeRoomNumber = useSelector((state) => state.room.activeRoomNumber);
+	const selectedInterval = useSelector((state) => state.data.selectedInterval);
+	const loading = useSelector((state) => state.data.loading);
+	const activeDate = useSelector((state) => state.data.activeDate);
+
 	const onChangeHandler = (event) => {
-		if (event.target.value !== props.selectedInterval) {
-			props.contactServer(props.activeRoomNumber, event.target.value);
+		if (event.target.value !== selectedInterval) {
+			dispatch(contactServer(activeRoomNumber, event.target.value, activeDate));
 		}
 	};
 
 	return (
 		<div className={classes.Wrapper}>
-			<p className={classes.Text}>Zobraz dáta za posledných:</p>
-			<select value={props.selectedInterval} className={classes.Select} onChange={onChangeHandler}>
-				<option className={classes.Item} value="3">
-					3 hodiny
-				</option>
-				<option className={classes.Item} value="6">
-					6 hodín
-				</option>
-				<option className={classes.Item} value="24">
-					24 hodín
-				</option>
-			</select>
+			<div className={classes.SelectorWrapper}>
+				<p className={classes.Text}>Zobraz dáta za posledných:</p>
+				<select value={selectedInterval} className={classes.Select} onChange={onChangeHandler}>
+					<option className={classes.Item} value="3">
+						3 hodiny
+					</option>
+					<option className={classes.Item} value="6">
+						6 hodín
+					</option>
+					<option className={classes.Item} value="24">
+						24 hodín
+					</option>
+				</select>
+			</div>
+			<div className={classes.LoaderWrapper}>{loading ? <Spinner /> : null}</div>
 		</div>
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		activeRoomNumber: state.room.activeRoomNumber,
-		selectedInterval: state.data.selectedInterval
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		contactServer: (roomNumber, inteval) => dispatch(contactServer(roomNumber, inteval))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(graphSettings);
+export default GraphSettings;

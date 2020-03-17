@@ -1,3 +1,3 @@
-export { contactServer } from './dataAtions';
+export { contactServer, clearActiveValues, changeActiveDate, clearError } from './dataAtions';
 export { changeActiveRoom } from './roomActions';
-export { toggleNav } from './uiActions';
+export { toggleNav, openBottomDrawerSettings, closeBottomDrawerSettings } from './uiActions';

@@ -12,7 +12,9 @@ const initialState = {
 	render: false,
 	serverError: false,
 	errMessage: null,
-	selectedInterval: null
+	selectedInterval: null,
+	loading: false,
+	activeDate: null
 };
 
 const processResponse = (state, action) => {
@@ -20,9 +22,17 @@ const processResponse = (state, action) => {
 		return updateObject(state, {
 			errMessage: 'Žiadne dáta',
 			serverError: true,
-			render: false
+			render: true,
+			loading: false,
+			values: {
+				temperature: [],
+				humidity: [],
+				brightness: [],
+				times: []
+			}
 		});
 	}
+
 	const temp = [];
 	const hum = [];
 	const brig = [];
@@ -49,7 +59,8 @@ const processResponse = (state, action) => {
 		render: true,
 		serverError: false,
 		errMessage: null,
-		selectedInterval: action.interval
+		selectedInterval: action.interval,
+		loading: false
 	});
 };
 
@@ -57,16 +68,50 @@ const throwError = (state, action) => {
 	return updateObject(state, {
 		serverError: true,
 		errMessage: action.error,
-		render: false
+		render: true,
+		loading: false,
+		values: {
+			temperature: [],
+			humidity: [],
+			brightness: [],
+			times: []
+		}
 	});
+};
+
+const contactServerStart = (state, action) => {
+	return updateObject(state, { loading: true });
+};
+
+const changeActiveDate = (state, action) => {
+	return updateObject(state, { activeDate: action.date });
 };
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
+		case actionTypes.CLEAR_ERROR:
+			return updateObject(state, {
+				serverError: false,
+				errMessage: null
+			});
+		case actionTypes.CHANGE_ACTIVE_DATE:
+			return changeActiveDate(state, action);
+		case actionTypes.CONTACT_SERVER_START:
+			return contactServerStart(state, action);
 		case actionTypes.CONTACT_SERVER_SUCCESS:
 			return processResponse(state, action);
 		case actionTypes.CONTACT_SERVER_FAIL:
 			return throwError(state, action);
+		case actionTypes.CLEAR_ACTIVE_VALUES:
+			return updateObject(state, {
+				values: {
+					temperature: [],
+					humidity: [],
+					brightness: [],
+					times: []
+				},
+				render: false
+			});
 		default:
 			return state;
 	}

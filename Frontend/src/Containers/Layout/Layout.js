@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import classes from './Layout.module.css';
 import Navbar from '../../Components/Navbar/Navbar';
 import SideDrawer from '../../Components/SideDrawer/SideDrawer';
@@ -6,93 +6,91 @@ import Backdrop from '../../Components/UI/Backdrop/Backdrop';
 import DesktopSideDrawer from '../../Components/DesktopSideDrawer/DesktopSideDrawer';
 import MainPage from '../../Components/MainPage/MainPage';
 import Loader from '../../Components/UI/Loader/Loader';
-import ErrorDiv from '../../Components/ErrorDiv/ErrorDiv';
 import { Route } from 'react-router-dom';
 import AboutUsPage from '../../Components/AboutUsPage/AboutUsPage';
-import 'moment/locale/sk';
-import { contactServer, changeActiveRoom, toggleNav } from '../../store/actions/index';
-import { connect } from 'react-redux';
+import {
+	contactServer,
+	changeActiveRoom,
+	toggleNav,
+	clearActiveValues,
+	changeActiveDate,
+	clearError
+} from '../../store/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
-class Layout extends Component {
-	componentDidMount() {
-		this.props.changeActiveRoom(29, 'Študovňa (29)');
-		this.props.contactServer(29, 3);
-	}
+const Layout = () => {
+	const dispatch = useDispatch();
+	const isNavOpened = useSelector((state) => state.ui.isNavOpened);
+	const activeRoomNumber = useSelector((state) => state.room.activeRoomNumber);
+	const serverError = useSelector((state) => state.data.serverError);
+	const render = useSelector((state) => state.data.render);
+	const errMessage = useSelector((state) => state.data.errMessage);
+	const activeDate = useSelector((state) => state.data.activeDate);
 
-	changeActiveRoomHandler = (roomName, roomNumber) => {
-		if (this.props.activeRoomNumber !== roomNumber || this.props.activeRoomNumber === null) {
-			this.props.changeActiveRoom(roomNumber, roomName);
-			if (this.props.isNavOpened === true) {
-				this.props.toggleNav(this.props.toggleNav);
+	useEffect(
+		() => {
+			dispatch(changeActiveRoom(29, 'Študovňa (29)'));
+			dispatch(contactServer(29, 3));
+			dispatch(changeActiveDate(moment()));
+		},
+		[ dispatch ]
+	);
+
+	const changeActiveRoomHandler = (roomName, roomNumber) => {
+		if (activeRoomNumber !== roomNumber || activeRoomNumber === null) {
+			dispatch(changeActiveRoom(roomNumber, roomName));
+			if (isNavOpened === true) {
+				dispatch(toggleNav(isNavOpened));
 			}
-			this.props.contactServer(roomNumber, 3);
+			dispatch(contactServer(roomNumber, 3, activeDate));
 		}
 	};
 
-	setSelectedInterval = (interval) => {
-		this.props.contactServer(this.props.activeRoomNumber, interval);
-	};
-
-	aboutProjectClickHandler = () => {
-		this.props.changeActiveRoom(null, 'O projekte');
-		if (this.props.isNavOpened) {
-			this.props.toggleNav(this.props.isNavOpened);
+	const aboutProjectClickHandler = () => {
+		dispatch(changeActiveRoom(null, 'O projekte'));
+		dispatch(clearActiveValues());
+		if (isNavOpened) {
+			dispatch(toggleNav(isNavOpened));
 		}
 	};
 
-	render() {
-		let content = <Loader />;
-		if (this.props.serverError) {
-			content = <ErrorDiv errMessage={this.props.errMessage} />;
-		} else if (!this.props.serverError && !this.props.render) {
-			content = <Loader />;
-		} else if (this.props.render) {
-			content = <MainPage />;
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
 		}
 
-		return (
-			<React.Fragment>
-				<nav className={classes.Navbar}>
-					<Navbar />
-				</nav>
-				<main className={classes.Content}>
-					<Route path="/" exact render={() => content} />
-					<Route path="/about-project" exact component={AboutUsPage} />
-				</main>
-				<DesktopSideDrawer
-					aboutProjectClick={this.aboutProjectClickHandler}
-					click={this.changeActiveRoomHandler}
-				/>
-				<SideDrawer
-					aboutProjectClick={this.aboutProjectClickHandler}
-					clicked={this.hamburgerButtonClickedHandler}
-					click={this.changeActiveRoomHandler}
-				/>
-				<Backdrop />
-			</React.Fragment>
-		);
+		dispatch(clearError());
+	};
+
+	let content;
+	if (!render) {
+		content = <Loader />;
+	} else {
+		content = <MainPage />;
 	}
-}
 
-const mapStateToProps = (state) => {
-	return {
-		isNavOpened: state.ui.isNavOpened,
-		values: state.data.values,
-		activeRoomNumber: state.room.activeRoomNumber,
-		activeRoom: state.room.activeRoom,
-		serverError: state.data.serverError,
-		render: state.data.render,
-		errMessage: state.data.errMessage,
-		selectedInterval: state.data.selectedInterval
-	};
+	return (
+		<React.Fragment>
+			<nav className={classes.Navbar}>
+				<Navbar />
+			</nav>
+			<main className={classes.Content}>
+				<Route path="/" exact render={() => content} />
+				<Route path="/about-project" exact component={AboutUsPage} />
+			</main>
+			<DesktopSideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
+			<SideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
+			<Backdrop />
+			<Snackbar open={serverError} autoHideDuration={6000} onClose={handleClose}>
+				<MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="error">
+					{errMessage}
+				</MuiAlert>
+			</Snackbar>
+		</React.Fragment>
+	);
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		contactServer: (roomNumber, interval) => dispatch(contactServer(roomNumber, interval)),
-		changeActiveRoom: (roomNumber, roomName) => dispatch(changeActiveRoom(roomNumber, roomName)),
-		toggleNav: (isNavOpened) => dispatch(toggleNav(isNavOpened))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default Layout;
