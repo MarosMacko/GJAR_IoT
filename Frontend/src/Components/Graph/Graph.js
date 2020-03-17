@@ -2,19 +2,23 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import classes from './Graph.module.css';
 import GraphSettings from './GraphSettings/GraphSettings';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import GraphDate from './GraphDate/GraphDate';
 
-const graph = (props) => {
+const Graph = (props) => {
+	const values = useSelector((state) => state.data.values);
+
 	return (
 		<div className={classes.Wrapper}>
+			<GraphDate />
 			<div className={classes.Graph}>
 				<Line
 					data={{
-						labels: props.values.times,
+						labels: values.times,
 						datasets: [
 							{
 								label: 'Teplota',
-								data: props.values.temperature,
+								data: values.temperature,
 								fill: true,
 								backgroundColor: 'rgba(85, 186, 254, .3)',
 								borderWidth: 4,
@@ -22,7 +26,7 @@ const graph = (props) => {
 							},
 							{
 								label: 'Vlhkosť',
-								data: props.values.humidity,
+								data: values.humidity,
 								fill: true,
 								backgroundColor: 'rgba(163, 160, 251, .3)',
 								borderWidth: 4,
@@ -30,7 +34,7 @@ const graph = (props) => {
 							},
 							{
 								label: 'Osvetlenie',
-								data: props.values.brightness,
+								data: values.brightness,
 								fill: true,
 								backgroundColor: 'rgba(94, 226, 160, .3)',
 								borderWidth: 4,
@@ -58,10 +62,4 @@ const graph = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		values: state.data.values
-	};
-};
-
-export default connect(mapStateToProps)(graph);
+export default Graph;
