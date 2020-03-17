@@ -57,6 +57,14 @@ const Layout = () => {
 		}
 	};
 
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		dispatch(clearError());
+	};
+
 	let content;
 	if (!render) {
 		content = <Loader />;
@@ -76,8 +84,8 @@ const Layout = () => {
 			<DesktopSideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
 			<SideDrawer aboutProjectClick={aboutProjectClickHandler} click={changeActiveRoomHandler} />
 			<Backdrop />
-			<Snackbar open={serverError} autoHideDuration={6000} onClose={() => dispatch(clearError())}>
-				<MuiAlert elevation={6} variant="filled" onClose={() => dispatch(clearError())} severity="error">
+			<Snackbar open={serverError} autoHideDuration={6000} onClose={handleClose}>
+				<MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="error">
 					{errMessage}
 				</MuiAlert>
 			</Snackbar>
