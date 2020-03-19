@@ -4,7 +4,6 @@ import classes from './Graph.module.css';
 import GraphSettings from './GraphSettings/GraphSettings';
 import { useSelector } from 'react-redux';
 import GraphDate from './GraphDate/GraphDate';
-import { updateObject } from '../../store/utility';
 
 const Graph = (props) => {
 	const values = useSelector((state) => state.data.values);
@@ -78,8 +77,7 @@ const Graph = (props) => {
 										maxRotation: 0
 									}
 								}
-							],
-							yAxes: [ {} ]
+							]
 						}
 					}}
 				/>

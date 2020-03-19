@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import classes from './GraphSettings.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactServer } from '../../../store/actions/index';
@@ -12,7 +12,7 @@ const GraphSettings = () => {
 	const loading = useSelector((state) => state.data.loading);
 	const activeDate = useSelector((state) => state.data.activeDate);
 
-	const [ sliderValue, setSliderValue ] = useState(24);
+	const [ sliderValue, setSliderValue ] = useState(selectedInterval);
 
 	useEffect(
 		() => {
@@ -28,8 +28,8 @@ const GraphSettings = () => {
 		[ activeRoomNumber, sliderValue, activeDate, selectedInterval, dispatch ]
 	);
 
-	const onChangeHandler = (value) => {
-		setSliderValue(value);
+	const onChangeHandler = (event, newValue) => {
+		setSliderValue(newValue);
 	};
 
 	return (
@@ -38,9 +38,9 @@ const GraphSettings = () => {
 				<p className={classes.Text}>Zobraz dáta za posledných: {sliderValue} hodín</p>
 				<div className={classes.SliderWrapper}>
 					<Slider
+						onChange={onChangeHandler}
 						className={classes.Slider}
-						defaultValue={24}
-						getAriaValueText={onChangeHandler}
+						defaultValue={selectedInterval}
 						aria-labelledby="discrete-slider"
 						valueLabelDisplay="auto"
 						step={1}

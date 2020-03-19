@@ -34,7 +34,7 @@ const Layout = () => {
 	useEffect(
 		() => {
 			dispatch(changeActiveRoom(29, 'Študovňa (29)'));
-			dispatch(contactServer(29, 3));
+			dispatch(contactServer(29, 12));
 			dispatch(changeActiveDate(moment()));
 		},
 		[ dispatch ]
