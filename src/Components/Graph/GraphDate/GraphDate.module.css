@@ -1,3 +1,24 @@
+.Wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
 .GraphDate {
-	left: 25px;
+	width: 40%;
+}
+.GraphTime {
+	width: 40%;
+}
+@media (min-width: 800px) {
+	.Wrapper {
+		justify-content: left;
+	}
+	.GraphDate {
+		left: 25px;
+		width: auto;
+	}
+	.GraphTime {
+		left: 35px;
+		width: auto;
+	}
 }

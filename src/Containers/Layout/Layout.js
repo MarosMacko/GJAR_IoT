@@ -29,6 +29,7 @@ const Layout = () => {
 	const render = useSelector((state) => state.data.render);
 	const errMessage = useSelector((state) => state.data.errMessage);
 	const activeDate = useSelector((state) => state.data.activeDate);
+	const selectedInterval = useSelector((state) => state.data.selectedInterval);
 
 	useEffect(
 		() => {
@@ -45,7 +46,7 @@ const Layout = () => {
 			if (isNavOpened === true) {
 				dispatch(toggleNav(isNavOpened));
 			}
-			dispatch(contactServer(roomNumber, 3, activeDate));
+			dispatch(contactServer(roomNumber, selectedInterval, activeDate));
 		}
 	};
 
