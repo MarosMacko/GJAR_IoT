@@ -40,7 +40,7 @@ export const contactServer = (roomNumber, interval, date) => {
 			timeTo: moment(date).format('YYYY-MM-DD'),
 			timeFrom: moment(beforeTimeHours).format('YYYY-MM-DD'),
 			beforeTimeHours: beforeTimeHours,
-			todayHours: moment().format('HH:mm:ss')
+			todayHours: moment(date).format('HH:mm:ss')
 		};
 
 		const parseData = {
