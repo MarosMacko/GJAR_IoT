@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "./static/css/main.7f4e5026.chunk.css",
-    "main.js": "./static/js/main.edff1734.chunk.js",
-    "main.js.map": "./static/js/main.edff1734.chunk.js.map",
+    "main.css": "./static/css/main.db3cac10.chunk.css",
+    "main.js": "./static/js/main.b2cedf19.chunk.js",
+    "main.js.map": "./static/js/main.b2cedf19.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.28f99f7a.js",
     "runtime-main.js.map": "./static/js/runtime-main.28f99f7a.js.map",
-    "static/js/2.36f74ae8.chunk.js": "./static/js/2.36f74ae8.chunk.js",
-    "static/js/2.36f74ae8.chunk.js.map": "./static/js/2.36f74ae8.chunk.js.map",
+    "static/js/2.96a85372.chunk.js": "./static/js/2.96a85372.chunk.js",
+    "static/js/2.96a85372.chunk.js.map": "./static/js/2.96a85372.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.668795a396b0810195c974e42c877a4b.js": "./precache-manifest.668795a396b0810195c974e42c877a4b.js",
+    "precache-manifest.2105214c41adac85e9249400bab6bdcf.js": "./precache-manifest.2105214c41adac85e9249400bab6bdcf.js",
     "service-worker.js": "./service-worker.js",
-    "static/css/main.7f4e5026.chunk.css.map": "./static/css/main.7f4e5026.chunk.css.map",
-    "static/js/2.36f74ae8.chunk.js.LICENSE.txt": "./static/js/2.36f74ae8.chunk.js.LICENSE.txt",
+    "static/css/main.db3cac10.chunk.css.map": "./static/css/main.db3cac10.chunk.css.map",
+    "static/js/2.96a85372.chunk.js.LICENSE.txt": "./static/js/2.96a85372.chunk.js.LICENSE.txt",
     "static/media/bluechart.svg": "./static/media/bluechart.1e9aebf7.svg",
     "static/media/greenchart.svg": "./static/media/greenchart.dcd133bc.svg",
     "static/media/purplechart.svg": "./static/media/purplechart.cce984ae.svg",
@@ -19,8 +19,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.28f99f7a.js",
-    "static/js/2.36f74ae8.chunk.js",
-    "static/css/main.7f4e5026.chunk.css",
-    "static/js/main.edff1734.chunk.js"
+    "static/js/2.96a85372.chunk.js",
+    "static/css/main.db3cac10.chunk.css",
+    "static/js/main.b2cedf19.chunk.js"
   ]
 }
