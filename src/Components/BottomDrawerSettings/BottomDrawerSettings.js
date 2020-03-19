@@ -9,10 +9,7 @@ const BottomDrawerSettings = () => {
 
 	return (
 		<Drawer anchor="bottom" open={isBottomSettingsOpened} onClose={() => dispatch(closeBottomDrawerSettings())}>
-			{/*setting eg. calendar*/}
-			askdfjksdjf Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates aperiam ipsum nam dolor
-			quas provident, temporibus reprehenderit doloribus mollitia. Amet exercitationem hic veritatis, ea
-			voluptatem neque quas quaerat accusamus nobis.
+			{/*setting (download options etc.) calendar !!! not implemented yet*/}
 		</Drawer>
 	);
 };

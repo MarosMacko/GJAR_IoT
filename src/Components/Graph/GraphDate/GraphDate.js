@@ -11,6 +11,7 @@ const GraphDate = () => {
 	const activeDate = useSelector((state) => state.data.activeDate);
 	const roomNumber = useSelector((state) => state.room.activeRoomNumber);
 	const selectedInterval = useSelector((state) => state.data.selectedInterval);
+
 	const handleDateChange = (date) => {
 		dispatch(changeActiveDate(date));
 		dispatch(contactServer(roomNumber, selectedInterval, moment(date)));
