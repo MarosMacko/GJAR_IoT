@@ -38,9 +38,7 @@ const processResponse = (state, action) => {
 	const brig = [];
 	const tim = [];
 
-	const reduceBy = action.response.data.data.length / (action.response.data.data.length / action.interval);
-
-	for (let i = action.response.data.data.length - 1; i > 0; i -= reduceBy) {
+	for (let i = action.response.data.data.length - 1; i > 0; i--) {
 		const time = moment(action.response.data.data[i].time).format('HH:mm DD/MM');
 
 		temp.unshift(parseFloat(action.response.data.data[i].temperature).toFixed(2));

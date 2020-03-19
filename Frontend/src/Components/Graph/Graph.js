@@ -22,9 +22,11 @@ const Graph = (props) => {
 								fill: true,
 								backgroundColor: 'rgba(85, 186, 254, .3)',
 								borderWidth: 4,
-								borderColor: '#55D8FE'
+								borderColor: '#55D8FE',
+								pointRadius: 0
 							},
 							{
+								pointRadius: 0,
 								label: 'Vlhkosť',
 								data: values.humidity,
 								fill: true,
@@ -33,6 +35,7 @@ const Graph = (props) => {
 								borderColor: '#A3A0FB'
 							},
 							{
+								pointRadius: 0,
 								label: 'Osvetlenie',
 								data: values.brightness,
 								fill: true,
@@ -50,9 +53,31 @@ const Graph = (props) => {
 							mode: 'index',
 							intersect: false
 						},
+						animation: {
+							duration: 0 // general animation time
+						},
 						hover: {
 							mode: 'index',
-							intersect: false
+							intersect: false,
+							animationDuration: 0 // duration of animations when hovering an item
+						},
+						responsiveAnimationDuration: 0, // animation duration after a resize
+						elements: {
+							line: {
+								tension: 0 // disables bezier curves
+							}
+						},
+						scales: {
+							xAxes: [
+								{
+									offset: false,
+									ticks: {
+										autoSkip: true,
+										autoSkipPadding: 40,
+										maxRotation: 0
+									}
+								}
+							]
 						}
 					}}
 				/>

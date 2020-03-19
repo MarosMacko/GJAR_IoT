@@ -29,11 +29,12 @@ const Layout = () => {
 	const render = useSelector((state) => state.data.render);
 	const errMessage = useSelector((state) => state.data.errMessage);
 	const activeDate = useSelector((state) => state.data.activeDate);
+	const selectedInterval = useSelector((state) => state.data.selectedInterval);
 
 	useEffect(
 		() => {
 			dispatch(changeActiveRoom(29, 'Študovňa (29)'));
-			dispatch(contactServer(29, 3));
+			dispatch(contactServer(29, 12));
 			dispatch(changeActiveDate(moment()));
 		},
 		[ dispatch ]
@@ -45,7 +46,7 @@ const Layout = () => {
 			if (isNavOpened === true) {
 				dispatch(toggleNav(isNavOpened));
 			}
-			dispatch(contactServer(roomNumber, 3, activeDate));
+			dispatch(contactServer(roomNumber, selectedInterval, activeDate));
 		}
 	};
 

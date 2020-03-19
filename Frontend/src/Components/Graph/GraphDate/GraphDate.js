@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { KeyboardDatePicker, MuiPickersUtilsProvider, KeyboardTimePicker } from '@material-ui/pickers';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeActiveDate, contactServer } from '../../../store/actions/index';
 import MomentUtils from '@date-io/moment';
@@ -19,22 +19,35 @@ const GraphDate = () => {
 
 	return (
 		<MuiPickersUtilsProvider utils={MomentUtils}>
-			<KeyboardDatePicker
-				minDate={moment('2020-01-23')}
-				maxDate={moment()}
-				className={classes.GraphDate}
-				disableToolbar
-				variant="inline"
-				format="MM/DD/YYYY"
-				margin="normal"
-				id="date-picker-inline"
-				label="Dátum:"
-				value={activeDate}
-				onChange={handleDateChange}
-				KeyboardButtonProps={{
-					'aria-label': 'change date'
-				}}
-			/>
+			<div className={classes.Wrapper}>
+				<KeyboardDatePicker
+					className={classes.GraphDate}
+					minDate={moment('2020-01-23')}
+					maxDate={moment()}
+					variant="inline"
+					format="MM/DD/YYYY"
+					margin="normal"
+					id="date-picker-inline"
+					label="Dátum:"
+					value={activeDate}
+					onChange={handleDateChange}
+					KeyboardButtonProps={{
+						'aria-label': 'change date'
+					}}
+				/>
+				<KeyboardTimePicker
+					className={classes.GraphTime}
+					variant="inline"
+					margin="normal"
+					id="time-picker-inline"
+					label="Čas:"
+					value={activeDate}
+					onChange={handleDateChange}
+					KeyboardButtonProps={{
+						'aria-label': 'change time'
+					}}
+				/>
+			</div>
 		</MuiPickersUtilsProvider>
 	);
 };

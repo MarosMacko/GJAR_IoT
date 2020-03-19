@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import classes from './GraphSettings.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactServer } from '../../../store/actions/index';
 import Spinner from '../../UI/LoadingIndicator/LoadingIndicator';
+import Slider from '@material-ui/core/Slider';
 
 const GraphSettings = () => {
 	const dispatch = useDispatch();
@@ -11,27 +12,43 @@ const GraphSettings = () => {
 	const loading = useSelector((state) => state.data.loading);
 	const activeDate = useSelector((state) => state.data.activeDate);
 
-	const onChangeHandler = (event) => {
-		if (event.target.value !== selectedInterval) {
-			dispatch(contactServer(activeRoomNumber, event.target.value, activeDate));
-		}
+	const [ sliderValue, setSliderValue ] = useState(selectedInterval);
+
+	useEffect(
+		() => {
+			const timer = setTimeout(() => {
+				if (sliderValue !== selectedInterval) {
+					dispatch(contactServer(activeRoomNumber, sliderValue, activeDate));
+				}
+			}, 500);
+			return () => {
+				clearTimeout(timer);
+			};
+		},
+		[ activeRoomNumber, sliderValue, activeDate, selectedInterval, dispatch ]
+	);
+
+	const onChangeHandler = (event, newValue) => {
+		setSliderValue(newValue);
 	};
 
 	return (
 		<div className={classes.Wrapper}>
 			<div className={classes.SelectorWrapper}>
-				<p className={classes.Text}>Zobraz dáta za posledných:</p>
-				<select value={selectedInterval} className={classes.Select} onChange={onChangeHandler}>
-					<option className={classes.Item} value="3">
-						3 hodiny
-					</option>
-					<option className={classes.Item} value="6">
-						6 hodín
-					</option>
-					<option className={classes.Item} value="24">
-						24 hodín
-					</option>
-				</select>
+				<p className={classes.Text}>Zobraz dáta za posledných: {sliderValue} hodín</p>
+				<div className={classes.SliderWrapper}>
+					<Slider
+						onChange={onChangeHandler}
+						className={classes.Slider}
+						defaultValue={selectedInterval}
+						aria-labelledby="discrete-slider"
+						valueLabelDisplay="auto"
+						step={1}
+						marks
+						min={1}
+						max={24}
+					/>
+				</div>
 			</div>
 			<div className={classes.LoaderWrapper}>{loading ? <Spinner /> : null}</div>
 		</div>
