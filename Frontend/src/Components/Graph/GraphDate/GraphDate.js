@@ -25,7 +25,7 @@ const GraphDate = () => {
 					minDate={moment('2020-01-23')}
 					maxDate={moment()}
 					variant="inline"
-					format="MM/DD/YYYY"
+					format="DD/MM/YYYY"
 					margin="normal"
 					id="date-picker-inline"
 					label="Dátum:"
