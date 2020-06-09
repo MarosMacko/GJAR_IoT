@@ -1,15 +1,23 @@
 import React from 'react';
 import HamburgerButton from '../UI/HamburgerButton/HamburgerButton';
 import classes from './Navbar.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleNav } from '../../store/actions/index';
 
-const navbar = (props) => (
-    <React.Fragment>
-        <div className={classes.GjarIot}>GJAR IOT</div>
-        <p className={classes.Activeroom}>{props.title}</p>
-        <div className={classes.HamburgerButton}>
-            <HamburgerButton click={props.click} active={props.active}/>
-        </div>
-    </React.Fragment>
-)
+const Navbar = (props) => {
+	const dispatch = useDispatch();
+	const isNavOpened = useSelector((state) => state.room.isNavOpened);
+	const activeRoom = useSelector((state) => state.room.activeRoom);
 
-export default navbar;
+	return (
+		<React.Fragment>
+			<div className={classes.GjarIot}>GJAR IOT</div>
+			<p className={classes.Activeroom}>{activeRoom}</p>
+			<div className={classes.HamburgerButton}>
+				<HamburgerButton click={() => dispatch(toggleNav(isNavOpened))} active={isNavOpened} />
+			</div>
+		</React.Fragment>
+	);
+};
+
+export default Navbar;

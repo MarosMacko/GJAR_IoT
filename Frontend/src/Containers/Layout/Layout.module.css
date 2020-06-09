@@ -3,7 +3,7 @@
 	position: relative;
 	height: calc(100vh - 65px);
 	flex: 1;
-	margin-top: 65px;
+	margin-top: 60px;
 }
 .Navbar {
 	position: fixed;
