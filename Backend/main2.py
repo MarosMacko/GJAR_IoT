@@ -8,6 +8,11 @@ loads other specialised modules.
 """
 
 import app
-import dbv2
+import dbv2 # so that DB tables are created if needed
 
-#from lib import APIv1new
+
+import lib.APIv2
+
+v2 = lib.APIv2.load(app.app, app.db, dbv2)
+app.app.register_blueprint(v2)
+
