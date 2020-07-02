@@ -158,12 +158,13 @@ class api():
                 except KeyError:
                     return abort(400)
         except KeyError:
-            d = db.select("data", "time", "room_number = {}".format(room))
-            if d:
-                field_time = max(d, key=lambda x: x[0])[0]
-            else:
-                return self._view_format(room, ("time",), d)
-            return self._view_format(room, requested_data, db.select("data", ",".join(requested_data), "time = '{}' and room_number={}".format(field_time, room)))
+            return self._view_format(room, requested_data,
+                                     db.select("data", ",".join(requested_data),
+                                               ("room_number = {room} and "
+                                                "time = ("
+                                                "select max(time) from data "
+                                                "where room_number = {room})"
+                                                .format(room=room))))
 
     def _view_format(self, room, requested, data):
         """Format data for api_view."""
