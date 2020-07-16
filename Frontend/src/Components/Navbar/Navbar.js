@@ -1,23 +1,25 @@
-import React from 'react';
-import HamburgerButton from '../UI/HamburgerButton/HamburgerButton';
-import classes from './Navbar.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleNav } from '../../store/actions/index';
+import React, { memo } from "react";
+import classes from "./NavBar.module.scss";
+import HamburgerButton from "../UI/HamburgerButton/HamburgerButton";
+import Logo from "../UI/Logo/Logo";
+import SettingsButton from "../UI/SettingsButton/SettingsButton";
+import WeatherInfo from "../UI/WeatherInfo/WeatherInfo";
 
-const Navbar = (props) => {
-	const dispatch = useDispatch();
-	const isNavOpened = useSelector((state) => state.room.isNavOpened);
-	const activeRoom = useSelector((state) => state.room.activeRoom);
-
-	return (
-		<React.Fragment>
-			<div className={classes.GjarIot}>GJAR IOT</div>
-			<p className={classes.Activeroom}>{activeRoom}</p>
-			<div className={classes.HamburgerButton}>
-				<HamburgerButton click={() => dispatch(toggleNav(isNavOpened))} active={isNavOpened} />
-			</div>
-		</React.Fragment>
-	);
+const NavBar = ({ openSidebar }) => {
+    return (
+        <div className={classes.Wrapper}>
+            <div className={classes.LeftSide}>
+                <HamburgerButton toggle={openSidebar} style={{ marginLeft: 10 }} />
+                <Logo style={{ marginLeft: 10 }} />
+            </div>
+            <div className={classes.Weather}>
+                <WeatherInfo />
+            </div>
+            <div className={classes.RightSide}>
+                <SettingsButton />
+            </div>
+        </div>
+    );
 };
 
-export default Navbar;
+export default memo(NavBar);

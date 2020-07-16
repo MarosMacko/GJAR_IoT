@@ -1,23 +1,24 @@
-import React from 'react';
-import classes from './Backdrop.module.css';
-import { connect } from 'react-redux';
-import { toggleNav } from '../../../store/actions/index';
+import React, { memo } from "react";
+import classes from "./Backdrop.module.scss";
+import { motion, AnimatePresence } from "framer-motion";
+import { useStore } from "../../../store/store";
 
-const backdrop = (props) =>
-	props.isNavOpened ? (
-		<div className={classes.Backdrop} onClick={props.toggleNav.bind(this, props.isNavOpened)} />
-	) : null;
-
-const mapStateToProps = (state) => {
-	return {
-		isNavOpened: state.ui.isNavOpened
-	};
+const Backdrop = ({ isVisible }) => {
+    const dispatch = useStore(false)[1];
+    return (
+        <AnimatePresence>
+            {isVisible ? (
+                <motion.div
+                    onClick={() => dispatch("CLOSE_ALL_SIDEBARS")}
+                    className={classes.Backdrop}
+                    transition={{ type: "tween" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.4 }}
+                    exit={{ opacity: 0 }}
+                ></motion.div>
+            ) : null}
+        </AnimatePresence>
+    );
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		toggleNav: (isNavOpened) => dispatch(toggleNav(isNavOpened))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(backdrop);
+export default memo(Backdrop);
