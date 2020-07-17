@@ -2,30 +2,40 @@ import React from "react";
 import classes from "./About.module.scss";
 import PcMockup from "../../assets/pc_mockup.png";
 import AboutUsItem from "./AboutUsItem/AboutUsItem";
+import moment from "moment";
 
 const aboutUsInfo = [
     {
         name: "Daniel",
         role: "Frontend",
-        text: "Pracoval som na webstránke. Mám 18 rokov. Navštevujem Gymnázium Jána Adama Raymana v Prešove a som žiakom 3.D triedy.",
+        text: `Pracoval som na webstránke. Mám ${moment().diff(
+            "2002-01-10",
+            "years"
+        )} rokov. Navštevujem Gymnázium Jána Adama Raymana v Prešove a som žiakom 3.D triedy.`,
     },
     {
         name: "Maroš",
         role: "Hardware",
-        text:
-            "Pracoval som na koncepte tohto projektu a hardware pre Node jednotky. Mám 20 rokov a som už absolventom Gymnázia Jána Adama Raymana. Momentálne študujem odbor Mikroelektronika a technológie na FEKT VUT v Brne.",
+        text: `Pracoval som na koncepte tohto projektu a hardware pre Node jednotky. Mám ${moment().diff(
+            "1999-08-19",
+            "years"
+        )} rokov a som už absolventom Gymnázia Jána Adama Raymana. Momentálne študujem odbor Mikroelektronika a technológie na FEKT VUT v Brne.`,
     },
     {
         name: "Samo",
         role: "Backend",
-        text:
-            "Pracoval som na softvéri a správe servera. Mám 21 rokov a som absolventom Gymnázia Jána Adama Raymana. Teraz študujem Informatiku a Fyziku na University of Edinburgh.",
+        text: `Pracoval som na softvéri a správe servera. Mám ${moment().diff(
+            "1998-11-06",
+            "years"
+        )} rokov a som absolventom Gymnázia Jána Adama Raymana. Teraz študujem Informatiku a Fyziku na University of Edinburgh.`,
     },
     {
         name: "Miro",
         role: "Hardware",
-        text:
-            "Mojou úlohou bolo naprogramovať firmware pre Node. Som absolventom GJAR a mám 20 rokov. Momentálne som študentom Lancaster University.",
+        text: `Mojou úlohou bolo naprogramovať firmware pre Node. Som absolventom GJAR a mám ${moment().diff(
+            "2000-01-21",
+            "years"
+        )} rokov. Momentálne som študentom Lancaster University.`,
     },
 ];
 
