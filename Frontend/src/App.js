@@ -3,7 +3,7 @@ import "./App.scss";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import Main from "./routes/Main/Main";
 import About from "./routes/About/About";
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/Navbar/NavBar";
 import ItemsSideBar from "./components/ItemsSideDrawer/ItemsSideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
 import Settings from "./components/Settings/Settings";
