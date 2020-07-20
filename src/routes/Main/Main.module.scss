@@ -31,6 +31,7 @@
     }
 
     .AcitveValuesBoxes {
+        position: relative;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         background-color: $tertiary-black;
@@ -43,6 +44,11 @@
             font-size: 1.5em;
             font-weight: 500;
             opacity: 0.4;
+        }
+        .InfoWrapper {
+            position: absolute;
+            top: 5px;
+            right: 5px;
         }
     }
 
