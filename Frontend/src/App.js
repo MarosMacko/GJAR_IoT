@@ -3,6 +3,7 @@ import "./App.scss";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import Main from "./routes/Main/Main";
 import About from "./routes/About/About";
+import Page404 from "./routes/Page404/Page404";
 import NavBar from "./components/Navbar/NavBar";
 import ItemsSideBar from "./components/ItemsSideDrawer/ItemsSideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
@@ -40,7 +41,7 @@ function App() {
                         <Main />
                     </RouteTransition>
                     <RouteTransition path="*" slideUp={0}>
-                        <h1>404 page</h1>
+                        <Page404 />
                     </RouteTransition>
                 </AnimatedRoutes>
                 <Settings />

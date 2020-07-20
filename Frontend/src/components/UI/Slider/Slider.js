@@ -3,6 +3,8 @@ import Slider from "@material-ui/core/Slider";
 import { withStyles } from "@material-ui/core/styles";
 import colors from "../../../constants/colors.scss";
 import classes from "./Slider.module.scss";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import HoverModal from "../../HoverModal/HoverModal";
 
 const CustomizedStyleSlider = withStyles({
     root: {
@@ -36,6 +38,7 @@ const CustomizedStyleSlider = withStyles({
 
 const CustomSlider = ({ change, defaultvalue }) => {
     const [newInterval, setNewInterval] = useState(defaultvalue);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -48,8 +51,16 @@ const CustomSlider = ({ change, defaultvalue }) => {
 
     return (
         <div className={classes.SliderWrapper}>
-            <div>
-                Interval: <span>{newInterval}</span> hod
+            <div className={classes.HeaderWrapper}>
+                <div>
+                    Interval: <span>{newInterval}</span> hod
+                </div>
+                <div style={{ cursor: "pointer" }} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+                    <AiFillQuestionCircle />
+                    <HoverModal show={show} x={-180} y={-15} width={200}>
+                        <div>Časový interval podľa ktorého sú zobrazené dáta v grafe.</div>
+                    </HoverModal>
+                </div>
             </div>
             <CustomizedStyleSlider
                 onChange={(event, newValue) => setNewInterval(newValue)}

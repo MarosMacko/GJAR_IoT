@@ -1,12 +1,15 @@
 @import "../../../constants/colors.scss";
 
+
 .MainWrapper {
     margin: 20px;
+    position: relative;
 }
 .HeaderWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 5px;
 }
 .Label {

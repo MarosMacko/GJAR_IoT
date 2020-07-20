@@ -7,21 +7,27 @@ import classes from "./Main.module.scss";
 import colors from "../../constants/colors.scss";
 import ActiveValueBox from "../../components/UI/ActiveValueBox/ActiveValueBox";
 import { FaTemperatureLow, FaLightbulb } from "react-icons/fa";
+import { AiFillQuestionCircle } from "react-icons/ai";
 import { IoMdWater } from "react-icons/io";
 import { motion } from "framer-motion";
 import { fetchActualRoomData, fetchDataFromTimeInterval } from "../../utils/fetchData";
 import { findActiveRoom } from "../../utils/helperFunctions";
+import HoverModal from "../../components/HoverModal/HoverModal";
+import "moment/locale/sk";
 
 export default function Main() {
     const { id } = useParams();
     const [store, dispatch] = useStore(true, ["activeDate", "interval", "ActualRoomData"]);
     const [canAnimate, setCanAnimate] = useState(false);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
+        const abortCtrl = new AbortController();
+
         //set active room info
         dispatch("SET_CURRENT_ROOM_INFO", findActiveRoom(id));
         //load current data for selected room
-        fetchActualRoomData(id)
+        fetchActualRoomData(id, abortCtrl.signal)
             .then((res) => {
                 dispatch("SET_ACTUAL_ROOM_DATA", res);
                 setCanAnimate(true);
@@ -30,10 +36,15 @@ export default function Main() {
                 dispatch("SET_ACTUAL_ROOM_DATA", null);
                 setCanAnimate(true);
             });
+        return () => {
+            abortCtrl.abort();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
+        const abortCtrl = new AbortController();
+
         dispatch("SET_CAN_ANIMATE", false);
         //load data widthin time interval
         const timeFrom = moment(store.activeDate).clone().subtract(store.interval, "hours");
@@ -45,7 +56,7 @@ export default function Main() {
             humidityData: [],
         };
 
-        fetchDataFromTimeInterval(timeFrom, timeTo, id)
+        fetchDataFromTimeInterval(timeFrom, timeTo, id, abortCtrl.signal)
             .then((res) => {
                 dispatch("SET_CAN_ANIMATE", true);
                 res.forEach((val) => {
@@ -58,11 +69,13 @@ export default function Main() {
                 dispatch("SET_GRAPH_DATA", data);
             })
             .catch((err) => {
-                //set error "error loading data from server"
                 //alert(err);
                 dispatch("SET_GRAPH_DATA", null);
                 dispatch("SET_CAN_ANIMATE", true);
             });
+        return () => {
+            abortCtrl.abort();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, store.interval, store.activeDate]);
 
@@ -97,6 +110,17 @@ export default function Main() {
                                 value={`${store.ActualRoomData.brightness}%`}
                                 icon={FaLightbulb}
                             />
+                            <div
+                                className={classes.InfoWrapper}
+                                style={{ cursor: "pointer" }}
+                                onMouseEnter={() => setShow(true)}
+                                onMouseLeave={() => setShow(false)}
+                            >
+                                <AiFillQuestionCircle />
+                                <HoverModal show={show} x={-180} y={-15} width={250}>
+                                    <div>Aktualizované: {moment(store.ActualRoomData.time).format("LLLL")}</div>
+                                </HoverModal>
+                            </div>
                         </>
                     ) : (
                         <h1>Oops</h1>

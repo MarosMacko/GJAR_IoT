@@ -48,20 +48,20 @@ export default function Graph() {
                     dataPoints: store.GraphData.humidityData,
                 },
                 {
-                    name: "Teplota",
-                    xValueFormatString: "DD/MM HH:mm",
-                    yValueFormatString: '#,##0.##"°C"',
-                    type: "area",
-                    color: colors.temperatureColor,
-                    dataPoints: store.GraphData.temperatureData,
-                },
-                {
                     name: "Osvetlenie",
                     xValueFormatString: "DD/MM HH:mm",
                     yValueFormatString: '#,##0.##"%"',
                     type: "area",
                     color: colors.brightnessColor,
                     dataPoints: store.GraphData.brightnessData,
+                },
+                {
+                    name: "Teplota",
+                    xValueFormatString: "DD/MM HH:mm",
+                    yValueFormatString: '#,##0.##"°C"',
+                    type: "area",
+                    color: colors.temperatureColor,
+                    dataPoints: store.GraphData.temperatureData,
                 },
             ],
         });
