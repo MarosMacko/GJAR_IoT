@@ -38,8 +38,21 @@ export default function Graph() {
             toolTip: {
                 shared: true,
             },
+            legend: {
+                cursor: "pointer",
+                itemclick: function (e) {
+                    if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+                        e.dataSeries.visible = false;
+                    } else {
+                        e.dataSeries.visible = true;
+                    }
+
+                    e.chart.render();
+                },
+            },
             data: [
                 {
+                    showInLegend: true,
                     name: "Vlhkosť",
                     xValueFormatString: "DD/MM HH:mm",
                     yValueFormatString: '#,##0.##"%"',
@@ -48,6 +61,7 @@ export default function Graph() {
                     dataPoints: store.GraphData.humidityData,
                 },
                 {
+                    showInLegend: true,
                     name: "Osvetlenie",
                     xValueFormatString: "DD/MM HH:mm",
                     yValueFormatString: '#,##0.##"%"',
@@ -56,6 +70,7 @@ export default function Graph() {
                     dataPoints: store.GraphData.brightnessData,
                 },
                 {
+                    showInLegend: true,
                     name: "Teplota",
                     xValueFormatString: "DD/MM HH:mm",
                     yValueFormatString: '#,##0.##"°C"',
