@@ -29,13 +29,13 @@ app.config['MYSQL_DATABASE_PASSWORD'] = conf["database"]["password"]
 app.config['MYSQL_DATABASE_DB'] = conf["database"]["db"]
 app.config['MYSQL_DATABASE_HOST'] = conf["database"]["host"]
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{user}:{password}@{server}/{database}".format( # sqlite for testing
-#     user     = app.config["MYSQL_DATABASE_USER"],
-#     password = app.config["MYSQL_DATABASE_PASSWORD"],
-#     server   = app.config["MYSQL_DATABASE_HOST"],
-#     database = app.config["MYSQL_DATABASE_DB"])
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{user}:{password}@{server}/{database}".format( # sqlite for testing
+    user     = app.config["MYSQL_DATABASE_USER"],
+    password = app.config["MYSQL_DATABASE_PASSWORD"],
+    server   = app.config["MYSQL_DATABASE_HOST"],
+    database = app.config["MYSQL_DATABASE_DB"])
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 

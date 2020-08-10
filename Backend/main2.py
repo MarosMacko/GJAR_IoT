@@ -14,5 +14,7 @@ import dbv2 # so that DB tables are created if needed
 import lib.APIv2
 
 v2 = lib.APIv2.load(app.app, app.db, dbv2)
-app.app.register_blueprint(v2)
+app.app.register_blueprint(v2, url_prefix="/dbvv2")
 
+if __name__ == '__main__':
+    app.app.run()
