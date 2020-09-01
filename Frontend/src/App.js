@@ -4,7 +4,7 @@ import { BrowserRouter, Redirect } from "react-router-dom";
 import Main from "./routes/Main/Main";
 import About from "./routes/About/About";
 import Page404 from "./routes/Page404/Page404";
-import NavBar from "./components/Navbar/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import ItemsSideBar from "./components/ItemsSideDrawer/ItemsSideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
 import Settings from "./components/Settings/Settings";
