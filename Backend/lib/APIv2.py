@@ -4,6 +4,8 @@ from random import randint
 
 from flask import Blueprint, request, jsonify, abort
 
+from .errors import NodeNotFoundException
+
 TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 def expect_params(required:dict, optional:dict):
@@ -47,7 +49,7 @@ def load(app, db, models):
     def data(token, temperature=None, humidity=None, brightness=None):
         dev = models.Node.query.filter_by(token=token).first()
         if not dev:
-            return abort(440)
+            return abort(NodeNotFoundException())
 
         datum = models.Data(dev_id=dev.dev_id,
                             room_number=dev.room_number,
@@ -70,20 +72,26 @@ def load(app, db, models):
         if not level:
             level = "UNKNOWN"
 
+        dev_id = None
         if not token:
             token = "UNKNOWN"
+        else:
+            dev = models.Node.query.filter_by(token=token).first()
+            if dev:
+                dev_id = dev.dev_id
 
         if not error:
             error = "UNKNOWN"
 
         log = models.Log(time=datetime.now(),
-                         dev_id=id,
+                         dev_id=dev_id,
                          message="[{token} @ {ip}][{level}] {msg}".format(token=token,
                                                                           level=level,
-                                                                          msg=err,
+                                                                          msg=error,
                                                                           ip=ip))
         db.session.add(log)
         db.session.commit()
+        return jsonify({"status": "ok"})
 
 
     @bp.route("/view", methods=["POST"])
@@ -101,11 +109,11 @@ def load(app, db, models):
                                         models.Data.time.between(time_from, time_to)).all()
 
         if not data:
-            return abort(440)
+            return abort(NodeNotFoundException())
         else:
             return jsonify(status="ok",
                            room=room,
-                           data=[{"time": datum.time,
+                           data=[{"time": datum.time.strftime(TIME_FMT),
                                   "temperature": datum.temperature,
                                   "humidity": datum.humidity,
                                   "brightness": datum.brightness}

@@ -15,9 +15,6 @@ import yaml
 from flask import Flask, request, abort, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-from lib.helper import prefer_https_user
-from lib import api_manager as v1_manager
-
 app = Flask(__name__)
 
 with open("config.yml") as f:

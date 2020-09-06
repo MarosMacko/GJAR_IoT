@@ -4,4 +4,4 @@ import sys
 
 sys.path.append("/GJAR_IoT/Backend")
 
-from main import app as application
+from main2 import app as application
