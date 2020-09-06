@@ -1,10 +1,11 @@
 from functools import wraps
 from datetime import datetime
 from random import randint
+from io import BytesIO
 
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, jsonify, abort, send_file
 
-from .errors import NodeNotFoundException
+from .errors import *
 
 TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
@@ -35,7 +36,6 @@ def expect_params(required:dict, optional:dict):
 
         return wrapper
     return decorator
-                    
 
 
 def load(app, db, models):
@@ -109,7 +109,7 @@ def load(app, db, models):
                                         models.Data.time.between(time_from, time_to)).all()
 
         if not data:
-            return abort(NodeNotFoundException())
+            return abort(RoomNotFoundException())
         else:
             return jsonify(status="ok",
                            room=room,

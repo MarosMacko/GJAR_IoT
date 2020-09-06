@@ -1,13 +1,16 @@
 from functools import wraps
 from flask import request, redirect
 
+
 def API_error(description):
     """Create an API error message."""
     return {"status": "error", "error": description}
 
+
 def API_fatal(description):
     """Create an API fatal error message."""
     return {"status": "fatal", "error": description}
+
 
 def API_response(*args, **kwargs):
     """Create an API response using provided arguments.
@@ -24,6 +27,7 @@ def API_response(*args, **kwargs):
     if kwargs:
         r.update(kwargs)
     return r
+
 
 def prefer_https_user(f):
     @wraps(f)
