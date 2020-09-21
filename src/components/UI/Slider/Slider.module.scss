@@ -5,7 +5,12 @@
     padding: 0 20px;
     box-sizing: border-box;
     margin-top: 20px;
-    div {
+    .HeaderWrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
         span {
             font-weight: bold;
             color: $custom-blue;
