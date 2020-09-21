@@ -9,13 +9,8 @@ $nice-dates-font-size-big: 16px;
     display: none
 }
 
-@import 'react-nice-dates/src/style.scss';
+@import "react-nice-dates/src/style.scss";
 
-.Wrapper {
-    position: relative;
-    margin: 20px;
-    box-sizing: border-box;
-}
 .DatePickerInput {
     padding: 4px 7px;
     text-align: center;

@@ -2,7 +2,9 @@ import moment from "moment";
 
 export const getActiveWeather = () => {
     return new Promise((resolve, reject) => {
-        fetch("https://api.openweathermap.org/data/2.5/weather?q=Presov,sk&appid=80e7c80dad7e044aeb900596347bf3f5&units=metric")
+        fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=Presov,sk&appid=${process.env.REACT_APP_OPEN_WEATHER_APP_TOKEN}&units=metric`
+        )
             .then((res) => res.json())
             .then((body) => {
                 resolve(body);
@@ -11,7 +13,7 @@ export const getActiveWeather = () => {
     });
 };
 
-export const fetchActualRoomData = (id) => {
+export const fetchActualRoomData = (id, signal) => {
     return new Promise((resolve, reject) => {
         fetch("https://iot.gjar-po.sk/api/v1/view", {
             method: "POST",
@@ -22,6 +24,7 @@ export const fetchActualRoomData = (id) => {
             body: JSON.stringify({
                 room: +id,
             }),
+            signal: signal,
         })
             .then((res) => res.json())
             .then((body) => {
@@ -31,7 +34,7 @@ export const fetchActualRoomData = (id) => {
     });
 };
 
-export const fetchDataFromTimeInterval = (timeFrom, timeTo, roomId) => {
+export const fetchDataFromTimeInterval = (timeFrom, timeTo, roomId, signal) => {
     return new Promise((resolve, reject) => {
         const parseData = {
             room: parseInt(roomId),
@@ -48,6 +51,7 @@ export const fetchDataFromTimeInterval = (timeFrom, timeTo, roomId) => {
                 "cache-control": "no-cache",
             },
             body: JSON.stringify(parseData),
+            signal: signal,
         })
             .then((res) => res.json())
             .then((body) => {
