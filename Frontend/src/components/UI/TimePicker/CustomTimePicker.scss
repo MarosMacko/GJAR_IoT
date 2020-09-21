@@ -1,85 +1,90 @@
-@import "../../../constants/colors.scss";
+@import '../../../constants/colors.scss';
 
 .MainWrapper {
-    margin: 20px;
+	margin: 20px;
+	position: relative;
 }
 .HeaderWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 5px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 5px;
 }
 .Label {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 .InputWrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
 }
 .rc-time-picker-panel-narrow {
-    max-width: 125px;
+	max-width: 125px;
+}
+.rc-time-picker-panel {
+	position: fixed !important;
 }
 .TimePicker {
-    max-width: 125px !important;
-    .rc-time-picker-panel-select-option-selected {
-        background-color: $secondary-white;
-        font-weight: normal;
-    }
+	max-width: 125px !important;
+	.rc-time-picker-panel-select-option-selected {
+		background-color: $secondary-white;
+		font-weight: normal;
+	}
 
-    .rc-time-picker-clear,
-    .rc-time-picker-clear-icon:after {
-        display: none;
-    }
+	.rc-time-picker-clear,
+	.rc-time-picker-clear-icon:after {
+		display: none;
+	}
 
-    .rc-time-picker-input {
-        height: 42px;
-    }
+	.rc-time-picker-input {
+		height: 42px;
+	}
 
-    .rc-time-picker-panel-input-wrap {
-        padding: 4px 7px;
-    }
+	.rc-time-picker-panel-input-wrap {
+		padding: 4px 7px;
+	}
 
-    .rc-time-picker-panel {
-        width: 125px;
-    }
+	.rc-time-picker-panel {
+		width: 125px;
+	}
 
-    .rc-time-picker-panel-inner {
-        box-shadow: none;
-    }
+	.rc-time-picker-panel-inner {
+		box-shadow: none;
+	}
 
-    .rc-time-picker-panel-select,
-    .rc-time-picker-input,
-    .rc-time-picker-panel-input {
-        font-family: "Consolas", sans-serif;
-        font-size: 22px;
-        width: 100%;
-        cursor: text;
-        text-align: center;
-        color: $custom-blue;
-        outline: none;
+	.rc-time-picker-panel-select,
+	.rc-time-picker-input,
+	.rc-time-picker-panel-input {
+		font-family: 'Consolas', sans-serif;
+		font-size: 22px;
+		width: 100%;
+		cursor: text;
+		text-align: center;
+		color: $custom-blue;
+		outline: none;
 
-        li {
-            text-align: center;
-            padding: 4px 0;
-            height: auto;
-            opacity: 0.8;
-            font-size: 19px;
-            color: $secondary-black;
-        }
-    }
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: $custom-blue;
-        border-radius: 5px;
-    }
+		li {
+			text-align: center;
+			padding: 4px 0;
+			height: auto;
+			opacity: 0.8;
+			font-size: 19px;
+			color: $secondary-black;
+		}
+	}
+	::-webkit-scrollbar {
+		width: 6px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: $custom-blue;
+		border-radius: 5px;
+	}
 }
 .OpenDialogButton {
-    cursor: pointer;
-    transition: 0.2s all ease-in-out;
-    &:hover {
-        opacity: 0.5;
-    }
+	cursor: pointer;
+	transition: 0.2s all ease-in-out;
+	&:hover {
+		opacity: 0.5;
+	}
 }
