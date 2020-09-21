@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./About.module.scss";
 import PcMockup from "../../assets/pc_mockup.png";
 import AboutUsItem from "./AboutUsItem/AboutUsItem";
 import moment from "moment";
+import { motion } from "framer-motion";
 
 const aboutUsInfo = [
     {
@@ -40,14 +41,15 @@ const aboutUsInfo = [
 ];
 
 const About = () => {
+    const [animate, setCanAnimate] = useState(false);
     return (
-        <div className={classes.Wrapper}>
+        <motion.div initial={{ opacity: 0 }} animate={animate ? { opacity: 1 } : {}} className={classes.Wrapper}>
             <div className={classes.Heading}>
                 <h1>O projekte</h1>
             </div>
             <div className={classes.MainContent}>
                 <div className={classes.ImageWrapper}>
-                    <img src={PcMockup} alt="pc mockup" />
+                    <img onLoad={() => setCanAnimate(true)} onError={() => setCanAnimate(true)} src={PcMockup} alt="pc mockup" />
                 </div>
                 <div className={classes.InfoWrapper}>
                     <p>
@@ -70,7 +72,7 @@ const About = () => {
                     <AboutUsItem role={info.role} name={info.name} text={info.text} key={index} />
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 };
 
