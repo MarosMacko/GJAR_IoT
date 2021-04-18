@@ -1,0 +1,22 @@
+@import "../../../constants/colors.scss";
+
+.Button {
+    background-color: $primary-white;
+    outline: none;
+    color: $custom-blue;
+    font-weight: 400;
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.full-width {
+        width: 100%
+    }
+}

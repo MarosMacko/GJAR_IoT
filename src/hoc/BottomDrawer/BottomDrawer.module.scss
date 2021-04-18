@@ -1,0 +1,12 @@
+@import "../../constants/colors";
+
+.Wrapper {
+    position: fixed;
+    bottom: 0;
+    max-height: 95vh;
+    height: 550px;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 501;
+    background-color: $secondary-black;
+}

@@ -1,0 +1,15 @@
+@import "../../../constants/colors";
+
+.Backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $primary-white;
+    z-index: 99;
+    cursor: pointer;
+    &.Top {
+        z-index: 500;
+    }
+}

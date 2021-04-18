@@ -1,0 +1,17 @@
+@import "../../../constants/colors.scss";
+
+.Button {
+    outline: none;
+    border: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+    background: transparent;
+    height: 23px;
+    transition: all ease-in-out 0.2s;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
