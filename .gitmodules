@@ -1,3 +1,6 @@
 [submodule "Backend"]
 	path = Backend
-	url = git@github.com:GJAR-IoT/GJAR-IoT-Backend.git
+	url = https://github.com/GJAR-IoT/GJAR-IoT-Backend.git
+[submodule "Hardware"]
+	path = Hardware
+	url = https://github.com/GJAR-IoT/GJAR-IoT-Node.git
