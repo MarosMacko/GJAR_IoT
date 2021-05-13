@@ -4,3 +4,6 @@
 [submodule "Hardware"]
 	path = Hardware
 	url = https://github.com/GJAR-IoT/GJAR-IoT-Node.git
+[submodule "Frontend"]
+	path = Frontend
+	url = https://github.com/GJAR-IoT/GJAR-IoT-Frontend.git
